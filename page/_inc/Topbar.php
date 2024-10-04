@@ -1,4 +1,4 @@
-        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <nav class="sb-topnav navbar navbar-expand navbar-light bg-light">
             <!-- Navbar Brand-->
             <a class="navbar-brand ps-3" href="index.php"><?= APP_NAME ?></a>
             <!-- Sidebar Toggle-->
