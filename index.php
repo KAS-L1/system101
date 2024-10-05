@@ -1,4 +1,6 @@
-<?php require("app/init.php"); ?>
+<?php require("app/init.php") ?>
+<?php require("api/auth/auth.php") ?>
+
 <?php $PAGE = GET(0) ?>
 
 
