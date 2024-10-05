@@ -17,14 +17,14 @@
                         <div class="collapse" id="collapseProcurement" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
                                 <a class="nav-link" href="/purchase-orders">Purchase Order</a>
-                                <a class="nav-link" href="suppliers.php">Suppliers</a>
-                                <a class="nav-link" href="reports.php">Reports</a>
-                                <a class="nav-link" href="purchase_requisition.php">Purchase Requisition</a>
-                                <a class="nav-link" href="request_for_quote.php">Request for Quote</a>
-                                <a class="nav-link" href="contract_management.php">Contract Management</a>
-                                <a class="nav-link" href="invoice.php">Invoice</a>
-                                <a class="nav-link" href="vendor_management.php">Vendor Management</a>
-                                <a class="nav-link" href="budget_approval.php">Budget Approval</a>
+                                <a class="nav-link" href="/suppliers">Suppliers</a>
+                                <a class="nav-link" href="/reports">Reports</a>
+                                <a class="nav-link" href="/purchase-requistion">Purchase Requisition</a>
+                                <a class="nav-link" href="/request-for-qoute">Request for Quote</a>
+                                <a class="nav-link" href="/contract-management">Contract Management</a>
+                                <a class="nav-link" href="/invoice-payment-management">Invoice</a>
+                                <a class="nav-link" href="/vendor-management">Vendor Management</a>
+                                <a class="nav-link" href="/budget-approval">Budget Approval</a>
                             </nav>
                         </div>
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseAudit" aria-expanded="false" aria-controls="collapseAudit">
