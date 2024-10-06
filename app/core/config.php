@@ -5,7 +5,7 @@
 **/
 
 // ROOTH PATH
-define("ROOT","https://".$_SERVER["SERVER_NAME"]);	
+define("ROOT",value: "".$_SERVER["SERVER_NAME"]);	
 
 // DATE TIMEZONE
 date_default_timezone_set("Asia/Manila");

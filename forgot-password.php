@@ -18,44 +18,36 @@
     <body class="bg-primary">
         <div id="layoutAuthentication">
             <div id="layoutAuthentication_content">
-                <main>
+            <main>
                     <div class="container">
                         <div class="row justify-content-center">
                             <div class="col-lg-5">
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
-                                    <div class="card-header"><h3 class="text-center font-weight-light my-4">Login to <?=APP_NAME?></h3></div>
+                                    <div class="card-header"><h3 class="text-center font-weight-light my-4">Password Recovery</h3></div>
                                     <div class="card-body">
                                         <div id="response" class="small"></div>
-                                        <form id="formLogin">
+                                        <div class="small mb-3 text-muted">Enter your email address and we will send you a link to reset your password.</div>
+                                        <form id="formForgotPassword">
                                             <div class="form-floating mb-3">
-                                                <input type="text" id="username" name="username" class="form-control" />
-                                                <label for="inputEmail">Username</label>
+                                                <input type="email" id="email" name="email" class="form-control" placeholder="your email" />
+                                                <label for="email">Email</label>
                                             </div>
-                                            <div class="form-floating mb-3">
-                                                <input type="password" id="password" name="password" class="form-control" />
-                                                <label for="inputPassword">Password</label>
-                                            </div>
-                                            <div class="form-check mb-3">
-                                                <input type="checkbox" class="form-check-input" id="remember" name="remember"/>
-                                                <label class="form-check-label" for="remember">Remember Password</label>
-                                            </div>
-                                            
                                             <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                                                <a class="small" href="forgot-password">Forgot Password?</a>
-                                                <button class="btn btn-primary">Login</button>
+                                                <a class="small" href="login.php">Return to login</a>
+                                                <button type="submit" class="btn btn-primary">Reset Password</button>
                                             </div>
                                         </form>
-                
+
                                         <script>
-                                            $('#formLogin').submit(function(e){
+                                            $('#formForgotPassword').submit(function(e){
                                                 e.preventDefault();
                                                 var formData = $(this).serialize();
-                                                $.post("api/auth/login.php", formData, function(response){
+                                                $.post("api/auth/forgot-password.php", formData, function(response){
                                                     $('#response').html(response);
                                                 });                                       
                                             });
                                         </script>
-                                        
+
                                     </div>
                                 </div>
                             </div>

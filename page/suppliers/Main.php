@@ -126,7 +126,8 @@
 </div>
 
 <!-- Responsive Table for Orders -->
-<div class="table-responsive mt-4">
+<div class="conttainer-fluid">
+    <div class="table-responsive mt-4">
         <table class="table table-bordered table-hover table-sm shadow-sm">
             <thead class="thead-light">
                 <tr>
@@ -174,10 +175,11 @@
                             <?php }else{ ?>
                                 <button class="btn btn-sm btn-danger" disabled>Reject</button>
                             <?php } ?>
-                            <a href="track_order?id=<?=$order['id']?>" class="btn btn-sm btn-info">Track</a>
+                            <a href="track_order?id=<?=$order['id']?>" class="btn btn-sm btn-warning">Remove</a>
                         </td>
                     </tr>
                 <?php } ?>
             </tbody>
         </table>
     </div>
+</div>
