@@ -41,18 +41,15 @@
     </div>
 </div>
 
+<div id="responseModal"></div>
+
 <!-- JavaScript for Handling the Form Submission -->
 <script>
     $('#formAddSupplier').submit(function(e) {
         e.preventDefault(); // Prevent default form submission
-
         var formData = $(this).serialize();
         $.post("api/supplier/create.php", formData, function(response) {
             $('#responseModal').html(response); // Display response in the modal
-            if (response.includes('success')) {
-                $('#addSupplierModal').modal('hide'); // Hide modal if successful
-                location.reload(); // Reload page to reflect changes
-            }
         });
     });
 </script>
