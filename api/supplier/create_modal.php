@@ -16,10 +16,6 @@
                         <input type="text" id="supplierName" name="name" class="form-control" required>
                     </div>
                     <div class="mb-3">
-                        <label for="supplierContactPerson" class="form-label">Contact Person:</label>
-                        <input type="text" id="supplierContactPerson" name="contact_person" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
                         <label for="supplierContactNumber" class="form-label">Contact Number:</label>
                         <input type="text" id="supplierContactNumber" name="contact_number" class="form-control" required>
                     </div>
@@ -30,6 +26,10 @@
                     <div class="mb-3">
                         <label for="supplierAddress" class="form-label">Address:</label>
                         <input type="text" id="supplierAddress" name="address" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="supplierContract" class="form-label">Contract:</label>
+                        <input type="text" id="supplierContract" name="contract" class="form-control" required>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

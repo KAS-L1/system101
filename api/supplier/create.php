@@ -6,10 +6,10 @@ require("../../app/init.php");
     $data = array(
         "id" => rand(),
         "name" => $DB->ESCAPE($_POST['name']),
-        "contact_person" => $DB->ESCAPE($_POST['contact_person']),
         "contact_number" => $DB->ESCAPE($_POST['contact_number']),
         "email" => $DB->ESCAPE($_POST['email']),
         "address" => $DB->ESCAPE($_POST['address']),
+        "contract" => $DB->ESCAPE($_POST['contract']),
         "status" => "Pending"  // Default status when created
     );
 

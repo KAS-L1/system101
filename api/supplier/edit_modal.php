@@ -1,68 +1,78 @@
 <?php require("../../app/init.php") ?>
 
-
-
 <?php 
+    $id = $_POST['id'];
+    $where = array("id" => $id);
+    $supplier = $DB->SELECT_ONE_WHERE("suppliers", "*", $where); 
 
-    $order_id = $_POST['order_id'];
-    $where = array("id" => $order_id);
-    $order = $DB->SELECT_ONE_WHERE("orders", "*", $where); 
-
+    if (!$supplier) {
+        echo "<div class='alert alert-danger'>Supplier not found. Please check the ID.</div>";
+        exit; 
+    }
 ?>
 
-
-<div class="modal fade" id="editOrderModal" tabindex="-1" aria-labelledby="createOrderModalLabel" aria-hidden="true">
+<!-- Modal for Editing Supplier Profile -->
+<div class="modal fade" id="editSupplierModal" tabindex="-1" aria-labelledby="editSupplierModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="createOrderModalLabel">Edit Order</h5>
+                <h5 class="modal-title" id="editSupplierModalLabel">Edit Supplier Profile</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                
-          <!-- Edit Order Form -->
-                <form id="formEditOrder">
-                    <input type="hidden" name="order_id" value="<?=$order['id']?>">
+                <!-- Edit Supplier Profile Form -->
+                <form id="formEditSupplier">
+                    <input type="hidden" name="id" value="<?=$supplier['id']?>">
                     <div class="mb-3">
-                        <label for="orderSupplier" class="form-label">Supplier</label>
-                        <select id="orderSupplier" name="supplier" class="form-select" required>
-                            <option selected><?=$order['supplier']?></option>
-                            <option value="Supplier 1">Supplier 1</option>
-                            <option value="Supplier 2">Supplier 2</option>
-                            <option value="Supplier 3">Supplier 3</option>
-                        </select>
+                        <label for="supplierName" class="form-label">Supplier Name:</label>
+                        <input type="text" id="supplierName" name="name" class="form-control"
+                            value="<?=$supplier['name']?>" required>
                     </div>
                     <div class="mb-3">
-                        <label for="orderDate" class="form-label">Order Date</label>
-                        <input type="date" id="order_date" name="order_date" class="form-control" value="<?=$order['order_date']?>" required>
+                        <label for="supplierContactNumber" class="form-label">Contact Number:</label>
+                        <input type="text" id="supplierContactNumber" name="contact_number" class="form-control"
+                            value="<?=$supplier['contact_number']?>" required>
                     </div>
                     <div class="mb-3">
-                        <label for="orderTotal" class="form-label">Total Amount</label>
-                        <input type="number" id="total_amount" name="total_amount" class="form-control" value="<?=$order['total_amount']?>" required>
+                        <label for="supplierEmail" class="form-label">Email:</label>
+                        <input type="email" id="supplierEmail" name="email" class="form-control"
+                            value="<?=$supplier['email']?>" required>
                     </div>
                     <div class="mb-3">
-                        <label for="orderNotes" class="form-label">Additional Notes</label>
-                        <textarea name="notes" class="form-control" rows="3" placeholder="Optional notes for the order"><?=$order['notes']?></textarea>
-                    </div>       
+                        <label for="supplierAddress" class="form-label">Address:</label>
+                        <input type="text" id="supplierAddress" name="address" class="form-control"
+                            value="<?=$supplier['address']?>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="supplierContract" class="form-label">Contract:</label>
+                        <input type="text" id="supplierContract" name="contract" class="form-control"
+                            value="<?=$supplier['contract']?>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="supplierPerformance" class="form-label">Supplier Performance:</label>
+                        <input type="text" id="supplierPerformance" name="performance_score" class="form-control"
+                            value="<?=$supplier['performance_score']?>" required>
+                    </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success">Update Order</button>
+                        <button type="submit" class="btn btn-success">Update Supplier</button>
                     </div>
                 </form>
-
-                <div id="responseModal"></div>
-
-                <script>
-                    $('#formEditOrder').submit(function(e){
-                        e.preventDefault();
-                        var formData = $(this).serialize();
-                        $.post("api/purchase/update.php", formData, function(response){
-                            $('#responseModal').html(response);
-                        });                                       
-                    });
-                </script>
-
             </div>
         </div>
     </div>
 </div>
+
+<div id="responseModal"></div>
+
+<!-- JavaScript for Handling the Form Submission -->
+<script>
+$('#formEditSupplier').submit(function(e) {
+    e.preventDefault();
+    var formData = $(this).serialize();
+    $.post("api/supplier/update.php", formData, function(response) {
+        $('#responseModal').html(response);
+    });
+});
+</script>
