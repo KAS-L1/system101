@@ -1,22 +1,12 @@
-<?php
-require("app/init.php");
+<?php require("app/init.php"); ?>
 
-// Get the token from the URL parameter
-$token = isset($_GET['token']) ? htmlspecialchars($_GET['token']) : '';
+<?php 
 
-// Check if the token is present in the URL
-if (empty($token)) {
-    echo alert("danger", "Invalid or missing token. Please request a new password reset link.");
-    exit;
-}
-
-// Verify if the token exists in the database
-$user = $DB->SELECT_ONE_WHERE("users", "*", array("forgot_token" => $token));
-if (empty($user)) {
-    // If no matching user is found for the token, redirect to login page with error message
-    header("Location: login.php?res=403&action=1");
-    exit;
-}
+    if(isset($_GET['token']) OR !empty($_GET['token'])){
+        $where = array('forgot_token' => $_GET['token']);
+        $user = $DB->SELECT_ONE_WHERE("users", "*", $where);
+    }
+        
 ?>
 
 <!DOCTYPE html>
@@ -51,41 +41,57 @@ if (empty($user)) {
                         <h3 class="text-center font-weight-light my-4">Reset Your Password</h3>
                     </div>
                     <div class="card-body">
-                        <!-- Display any error or success messages here -->
-                        <div id="response" class="mb-3"></div>
 
-                        <!-- Password Reset Form -->
-                        <form id="formResetPassword">
-                            <!-- Hidden field for the token passed via URL -->
+                        <?php if(!isset($_GET['token']) OR empty($_GET['token'])){ ?>
 
-                            <!-- New Password Field -->
-                            <div class="form-floating mb-3">
-                                <input type="password" id="newPassword" name="newPassword" class="form-control" placeholder="New Password" required />
-                                <label for="newPassword">New Password</label>
+                            <div class="alert alert-danger text-center">
+                                Token is required please check your url
                             </div>
 
-                            <!-- Confirm Password Field -->
-                            <div class="form-floating mb-3">
-                                <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" placeholder="Confirm Password" required />
-                                <label for="confirmPassword">Confirm Password</label>
+                        <?php }else if(empty($user)){ ?>
+                            
+                            <div class="alert alert-warning text-center">
+                                Token is invalid please check your url
                             </div>
 
-                            <!-- Password Requirements -->
-                            <div class="requirements mb-3">
-                                Password must contain:
-                                <ul>
-                                    <li id="minLength" class="invalid">At least 8 characters</li>
-                                    <li id="uppercase" class="invalid">At least 1 uppercase letter</li>
-                                    <li id="lowercase" class="invalid">At least 1 lowercase letter</li>
-                                    <li id="number" class="invalid">At least 1 number</li>
-                                    <li id="special" class="invalid">At least 1 special character (e.g., !@#$%^&*)</li>
-                                </ul>
-                            </div>
+                        <?php }else{ ?>
 
-                            <!-- Submit Button -->
-                            <button type="submit" class="btn btn-primary w-100" id="submitBtn" disabled>Reset Password</button>
-                        </form>
-                             <script>
+                            <!-- Display any error or success messages here -->
+                            <div id="response" class="mb-3"></div>
+
+                            <!-- Password Reset Form -->
+                            <form id="formResetPassword">
+                                <!-- Hidden field for the token passed via URL -->
+                                <input type="hidden" name="token" value="<?=CHARS($_GET['token'])?>" />
+
+                                <!-- New Password Field -->
+                                <div class="form-floating mb-3">
+                                    <input type="password" id="newPassword" name="newPassword" class="form-control" placeholder="New Password" required />
+                                    <label for="newPassword">New Password</label>
+                                </div>
+
+                                <!-- Confirm Password Field -->
+                                <div class="form-floating mb-3">
+                                    <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" placeholder="Confirm Password" required />
+                                    <label for="confirmPassword">Confirm Password</label>
+                                </div>
+
+                                <!-- Password Requirements -->
+                                <div class="requirements mb-3">
+                                    Password must contain:
+                                    <ul>
+                                        <li id="minLength" class="invalid">At least 8 characters</li>
+                                        <li id="uppercase" class="invalid">At least 1 uppercase letter</li>
+                                        <li id="lowercase" class="invalid">At least 1 lowercase letter</li>
+                                        <li id="number" class="invalid">At least 1 number</li>
+                                        <li id="special" class="invalid">At least 1 special character (e.g., !@#$%^&*)</li>
+                                    </ul>
+                                </div>
+
+                                <!-- Submit Button -->
+                                <button type="submit" class="btn btn-primary w-100" id="submitBtn" disabled>Reset Password</button>
+                            </form>
+                            <script>
                                 $('#formResetPassword').submit(function(e){
                                     e.preventDefault();
                                     var formData = $(this).serialize();
@@ -94,6 +100,9 @@ if (empty($user)) {
                                     });                                       
                                 });
                             </script>
+
+                        <?php } ?>
+
                     </div>
                 </div>
             </div>

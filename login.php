@@ -25,6 +25,13 @@
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
                                     <div class="card-header"><h3 class="text-center font-weight-light my-4">Login to <?=APP_NAME?></h3></div>
                                     <div class="card-body">
+
+                                        <?php if(isset($_GET['res']) AND $_GET['res'] == "password-reset"){ ?>
+                                            <div class="alert alert-success">
+                                                Password successfully reset try to login your new password.
+                                            </div>
+                                        <?php } ?>
+
                                         <div id="response" class="small"></div>
                                         <form id="formLogin">
                                             <div class="form-floating mb-3">

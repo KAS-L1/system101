@@ -2,7 +2,8 @@
 require("../../app/init.php");
 
 // Check if the form is submitted and the token is provided
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['token'])) {
+
+if (isset($_POST['token'])) {
     // Escape and sanitize the inputs to prevent SQL Injection and XSS
     $token = CHARS($DB->ESCAPE($_POST['token']));
     $newPassword = CHARS($DB->ESCAPE($_POST['newPassword']));
@@ -10,16 +11,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['token'])) {
 
     // Validate the input fields to ensure they are not empty
     if (empty($newPassword) || empty($confirmPassword)) {
-        echo alert("warning", "Both password fields are required.");
-        exit;
+        die(alert("warning", "Both password fields are required."));
     }
 
     // Check if the passwords match
-    if ($newPassword !== $confirmPassword) {
-        echo alert("warning", "Passwords do not match. Please try again.");
-        exit;
+    if ($newPassword != $confirmPassword) {
+        die(alert("warning", "Passwords do not match. Please try again."));
     }
-    pre_die($newPassword);
+    
     // Password strength validation
     if (
         !preg_match('/.{8,}/', $newPassword) ||         // At least 8 characters
@@ -28,37 +27,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['token'])) {
         !preg_match('/[0-9]/', $newPassword) ||         // At least one number
         !preg_match('/[!@#$%^&*(),.?":{}|<>]/', $newPassword)  // At least one special character
     ) {
-        echo alert("warning", "Password must meet the following criteria: At least 8 characters long, include uppercase and lowercase letters, contain at least one number, and one special character.");
-        exit;
+        die(alert("warning", "Password must meet the following criteria: At least 8 characters long, include uppercase and lowercase letters, contain at least one number, and one special character."));
     }
 
-    // Verify the token and get the associated user
-    $user = $DB->SELECT_ONE_WHERE("users", "*", array("forgot_token" => $token));
-    if (empty($user)) {
-        echo alert("danger", "Invalid or expired token. Please request a new password reset link.");
-        header("Location: ../login.php?res=403&action=1");
-        exit;
-    }
 
     // Hash the new password using password_hash() for better security
-    $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT); // Use password_hash instead of md5
+    $hashedPassword = md5($newPassword); // Use password_hash instead of md5
 
     // Update the user's password and clear the forgot_token field
-    $where = array("user_id" => $user['user_id']);
-    $update_data = array("password" => $hashedPassword, "forgot_token" => NULL);
+    $where = array("forgot_token" => $token);
+    $data = array("password" => $hashedPassword, "forgot_token" => NULL, "forgot_token_updated" => DATE_TIME);
 
-    try {
-        if ($DB->UPDATE("users", $update_data, $where)) {
-            echo alert("success", "Your password has been successfully reset. You will be redirected to the login page in 3 seconds.");
-            header("refresh:3;url=../login.php"); // Redirect to login page after 3 seconds
-            exit();
-        } else {
-            throw new Exception("Failed to update your password. Please try again.");
-        }
-    } catch (Exception $e) {
-        echo alert("danger", $e->getMessage());
-    }
+    
+    $update_user = $DB->UPDATE("users", $data, $where);
+    if($update_user != "success") die(alert("danger", $update_user['error']));
+
+    alert("success", "Your password has been successfully reset. You will be redirected to the login page in 3 seconds.");
+    redirectUrlTimeout("/login.php?res=password-reset", 3000);
+    die();
+    
 } else {
-    header("Location: ../login.php");
     exit();
 }
