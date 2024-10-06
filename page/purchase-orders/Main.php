@@ -70,11 +70,11 @@
                                 ?>
                                 <tr>
                                     <td><?= $i++; ?></td>
-                                    <td><?= htmlspecialchars($order['id']); ?></td>
-                                    <td><?= htmlspecialchars($order['order_date']); ?></td>
-                                    <td><?= htmlspecialchars($order['supplier']); ?></td>
-                                    <td><?= htmlspecialchars($order['total_amount']); ?></td>
-                                    <td><?= htmlspecialchars($order['status']); ?></td>
+                                    <td><?= CHARS($order['id']); ?></td>
+                                    <td><?= CHARS($order['order_date']); ?></td>
+                                    <td><?= CHARS($order['supplier']); ?></td>
+                                    <td><?= CHARS($order['total_amount']); ?></td>
+                                    <td><?= CHARS($order['status']); ?></td>
                                 </tr>
                                 <?php
                             }
