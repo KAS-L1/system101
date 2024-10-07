@@ -180,18 +180,24 @@
                     <td class="text-center">
                         <button class="btn btn-sm btn-primary addSupplier"
                             data-id="<?= $supplier['id'] ?>">Edit</button>
-                        <?php if($supplier['status'] != "Approve"){ ?>
+
+                        <?php if($supplier['status'] != "Active"){ ?>
                         <button class="btn btn-sm btn-success selectActive"
                             data-id="<?=$supplier['id']?>">Active</button>
                         <?php }else{ ?>
                         <button class="btn btn-sm btn-success" disabled>Active</button>
                         <?php } ?>
-                        <?php if($supplier['status'] != "Reject"){ ?>
+
+                        <?php if($supplier['status'] != "Inactive"){ ?>
                         <button class="btn btn-sm btn-danger selectInactive"
                             data-id="<?=$supplier['id']?>">Inactive</button>
                         <?php }else{ ?>
                         <button class="btn btn-sm btn-danger" disabled>Inactive</button>
                         <?php } ?>
+
+                        <!-- Remove Button -->
+                        <button class="btn btn-sm btn-warning selectRemove"
+                            data-id="<?=$supplier['id']?>">Remove</button>
                     </td>
                 </tr>
                 <?php } ?>
@@ -202,6 +208,7 @@
 
 <!-- Modal Container for Dynamic Modals -->
 <div id="responseModal"></div>
+<div id="response"></div>
 
 <!-- JavaScript for Handling Modals and AJAX Requests -->
 <script>
@@ -235,6 +242,15 @@ $('.selectActive').click(function() {
 $('.selectInactive').click(function() {
     const id = $(this).data('id');
     $.post('api/supplier/inactive.php', {
+        id: id
+    }, function(res) {
+        $('#response').html(res);
+    });
+});
+
+$('.selectRemove').click(function() {
+    const id = $(this).data('id');
+    $.post('api/supplier/remove.php', {
         id: id
     }, function(res) {
         $('#response').html(res);
