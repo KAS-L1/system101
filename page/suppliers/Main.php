@@ -138,7 +138,7 @@
 <!-- Responsive Table for Suppliers -->
 <div class="container">
     <div class="table-responsive mt-4">
-        <table class="table table-bordered table-hover table-sm shadow-sm">
+        <table id="dataTable" class="table table-bordered table-hover table-sm shadow-sm table-nowrap">
             <thead class="thead-light">
                 <tr>
                     <th>#</th>
@@ -177,27 +177,31 @@
                         <?php } ?>
                     </td>
                     <td><?= $supplier['updated_at'] ?></td>
-                    <td class="text-center">
-                        <button class="btn btn-sm btn-primary addSupplier"
-                            data-id="<?= $supplier['id'] ?>">Edit</button>
+                    <td>
+                        <div class="d-flex gap-2">
 
-                        <?php if($supplier['status'] != "Active"){ ?>
-                        <button class="btn btn-sm btn-success selectActive"
-                            data-id="<?=$supplier['id']?>">Active</button>
-                        <?php }else{ ?>
-                        <button class="btn btn-sm btn-success" disabled>Active</button>
-                        <?php } ?>
+                            <button class="btn btn-sm btn-primary addSupplier"
+                                data-id="<?= $supplier['id'] ?>">Edit</button>
 
-                        <?php if($supplier['status'] != "Inactive"){ ?>
-                        <button class="btn btn-sm btn-danger selectInactive"
-                            data-id="<?=$supplier['id']?>">Inactive</button>
-                        <?php }else{ ?>
-                        <button class="btn btn-sm btn-danger" disabled>Inactive</button>
-                        <?php } ?>
+                            <?php if($supplier['status'] != "Active"){ ?>
+                            <button class="btn btn-sm btn-success selectActive"
+                                data-id="<?=$supplier['id']?>">Active</button>
+                            <?php }else{ ?>
+                            <button class="btn btn-sm btn-success" disabled>Active</button>
+                            <?php } ?>
 
-                        <!-- Remove Button -->
-                        <button class="btn btn-sm btn-warning selectRemove"
-                            data-id="<?=$supplier['id']?>">Remove</button>
+                            <?php if($supplier['status'] != "Inactive"){ ?>
+                            <button class="btn btn-sm btn-danger selectInactive"
+                                data-id="<?=$supplier['id']?>">Inactive</button>
+                            <?php }else{ ?>
+                            <button class="btn btn-sm btn-danger" disabled>Inactive</button>
+                            <?php } ?>
+
+                            <!-- Remove Button -->
+                            <button class="btn btn-sm btn-warning selectRemove"
+                                data-id="<?=$supplier['id']?>">Remove</button>
+
+                        </div>
                     </td>
                 </tr>
                 <?php } ?>

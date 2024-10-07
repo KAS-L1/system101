@@ -119,7 +119,7 @@
 
     <!-- Responsive Table for Orders -->
     <div class="table-responsive mt-4">
-        <table class="table table-bordered table-hover table-sm shadow-sm">
+        <table id="dataTable" class="table table-bordered table-hover table-sm shadow-sm">
             <thead class="thead-light">
                 <tr>
                     <th>#</th>

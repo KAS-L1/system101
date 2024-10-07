@@ -9,12 +9,15 @@
                             Dashboard
                         </a>
                         <div class="sb-sidenav-menu-heading">Modules</div>
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseProcurement" aria-expanded="false" aria-controls="collapseProcurement">
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapseProcurement" aria-expanded="false"
+                            aria-controls="collapseProcurement">
                             <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart"></i></div>
                             Procurement
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
-                        <div class="collapse" id="collapseProcurement" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                        <div class="collapse" id="collapseProcurement" aria-labelledby="headingOne"
+                            data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
                                 <a class="nav-link" href="/purchase-orders">Purchase Order</a>
                                 <a class="nav-link" href="/suppliers">Suppliers</a>
@@ -27,12 +30,14 @@
                                 <a class="nav-link" href="/budget-approval">Budget Approval</a>
                             </nav>
                         </div>
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseAudit" aria-expanded="false" aria-controls="collapseAudit">
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseAudit"
+                            aria-expanded="false" aria-controls="collapseAudit">
                             <div class="sb-nav-link-icon"><i class="fas fa-file-alt"></i></div>
                             Audit Management
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
-                        <div class="collapse" id="collapseAudit" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+                        <div class="collapse" id="collapseAudit" aria-labelledby="headingTwo"
+                            data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
                                 <a class="nav-link" href="layout-static.html">Audit Reports</a>
                                 <a class="nav-link" href="layout-sidenav-light.html">Audit Schedules</a>
@@ -41,12 +46,14 @@
                                 <a class="nav-link" href="layout-sidenav-light.html">Audit Implementation</a>
                             </nav>
                         </div>
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseDocument" aria-expanded="false" aria-controls="collapseDocument">
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapseDocument" aria-expanded="false" aria-controls="collapseDocument">
                             <div class="sb-nav-link-icon"><i class="fas fa-file"></i></div>
                             Document Tracking
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
-                        <div class="collapse" id="collapseDocument" aria-labelledby="headingThree" data-bs-parent="#sidenavAccordion">
+                        <div class="collapse" id="collapseDocument" aria-labelledby="headingThree"
+                            data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
                                 <a class="nav-link" href="layout-static.html">Document Upload</a>
                                 <a class="nav-link" href="layout-sidenav-light.html">Document Approval</a>
@@ -64,6 +71,24 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-utensils"></i></div>
                             Food & Beverage Management
                         </a>
+
+                        <?php if(AUTH_USER['role'] == "ADMIN"){ ?>
+                        <div class="sb-sidenav-menu-heading">ADMIN ACCESS</div>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseAdmin"
+                            aria-expanded="false" aria-controls="collapseAudit">
+                            <div class="sb-nav-link-icon"><i class="fas fa-file-alt"></i></div>
+                            Management
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapseAdmin" aria-labelledby="headingTwo"
+                            data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="/user-management">User Accounts</a>
+
+                            </nav>
+                        </div>
+                        <?php } ?>
+
                     </div>
                 </div>
                 <div class="sb-sidenav-footer">
