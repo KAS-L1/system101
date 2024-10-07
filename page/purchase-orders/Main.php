@@ -143,7 +143,7 @@
                     <td><?=$order['id']; ?></td>
                     <td><?=$order['order_date'] ?></td>
                     <td><?=$order['supplier'] ?></td>
-                    <td><?=$order['total_amount'] ?></td>
+                    <td><?= NUMBER_PHP($order['total_amount']) ?></td>
                     <td>
                         <?php if($order['status'] == "Pending"){ ?>
                         <span class="badge bg-secondary">Pending</span>

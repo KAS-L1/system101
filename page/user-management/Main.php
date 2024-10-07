@@ -9,8 +9,7 @@
                     <h6 class="card-title">Add User</h6>
                     <p class="card-text text-muted small">Add new user information, including contact details and
                         role.</p>
-                    <button id="btnAddUser" class="btn btn-sm btn-info" data-bs-toggle="modal"
-                        data-bs-target="#addUserModal">Add User</button>
+                    <button id="btnAddUser" class="btn btn-sm btn-info">Add User</button>
                 </div>
             </div>
         </div>
@@ -45,55 +44,7 @@
     </div>
 </div>
 
-<!-- Modal: Add User -->
-<div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addUserModalLabel">Add User</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <!-- Add User Form -->
-                <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-                    <div class="form-group mb-3">
-                        <label for="username">Username:</label>
-                        <input type="text" class="form-control" id="username" name="username">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="firstname">First Name:</label>
-                        <input type="text" class="form-control" id="firstname" name="firstname">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="lastname">Last Name:</label>
-                        <input type="text" class="form-control" id="lastname" name="lastname">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="email">Email:</label>
-                        <input type="email" class="form-control" id="email" name="email">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="user_contact">Contact Number:</label>
-                        <input type="text" class="form-control" id="user_contact" name="user_contact">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="user_role">User Role:</label>
-                        <select class="form-control" id="user_role" name="user_role">
-                            <option value="ADMIN">Admin</option>
-                            <option value="LOGISTIC">Logistic</option>
-                            <option value="FINANCE">Finance</option>
-                            <option value="STAFF">Staff</option>
-                        </select>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary" name="add_user">Add User</button>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 <!-- Responsive Table for Users -->
 <div class="container">
@@ -102,7 +53,7 @@
             <thead class="thead-light">
                 <tr>
                     <th>#</th>
-                    <th>ID</th>
+                    <th>USER ID</th>
                     <th>Username</th>
                     <th>First Name</th>
                     <th>Last Name</th>
@@ -121,7 +72,7 @@
                     ?>
                 <tr>
                     <td><?= $i++; ?></td>
-                    <td><?= $user['id']; ?></td>
+                    <td><?= $user['user_id']; ?></td>
                     <td><?= $user['username']; ?></td>
                     <td><?= $user['firstname']; ?></td>
                     <td><?= $user['lastname']; ?></td>
@@ -139,7 +90,8 @@
                     </td>
                     <td>
                         <div class="d-flex gap-2">
-                            <button class="btn btn-sm btn-primary editUser" data-id="<?= $user['id'] ?>">Edit</button>
+                            <button class="btn btn-sm btn-primary addUser"
+                                data-user_id="<?= $user['user_id'] ?>">Edit</button>
                             <button class="btn btn-sm btn-success activateUser"
                                 data-id="<?=$user['id']?>">Activate</button>
                             <button class="btn btn-sm btn-danger deactivateUser"
@@ -154,6 +106,9 @@
     </div>
 </div>
 
+
+<!-- Modal Container for Dynamic Modals -->
+<div id="responseModal"></div>
 <!-- JavaScript for Handling Modals and AJAX Requests -->
 <script>
 // Open Add User Modal
@@ -165,10 +120,10 @@ $('#btnAddUser').click(function() {
 });
 
 // Edit User Modal
-$('.editUser').click(function() {
-    const id = $(this).data('id');
+$('.addUser').click(function() {
+    const user_id = $(this).data('user_id');
     $.post('api/user/edit_modal.php', {
-        id: id
+        user_id: user_id
     }, function(res) {
         $('#responseModal').html(res);
         $('#editUserModal').modal('show');

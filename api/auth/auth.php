@@ -23,4 +23,3 @@ if(isset($_COOKIE['_usertoken'])){
 }else{
     die(redirectUrl("../../login.php?res=403&action=1"));
 }
-

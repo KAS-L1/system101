@@ -18,4 +18,3 @@ require("../../app/init.php");
 
     swalAlert("success", "Order Created");
     refreshUrlTimeout(2000);
-

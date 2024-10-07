@@ -8,7 +8,7 @@
     $data = array(
         "supplier" => $_POST['supplier'],
         "order_date" => $_POST['order_date'],
-        "total_amount" => $_POST['total_amount'],
+        // "total_amount" => $_POST['total_amount'],
         "notes" => $_POST['notes']
     );
     $where = array("id" => $order_id);

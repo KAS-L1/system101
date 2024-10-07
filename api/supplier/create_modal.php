@@ -1,4 +1,4 @@
-<?php require("../../app/init.php"); ?>
+w<?php require("../../app/init.php"); ?>
 
 <!-- Modal for Adding Supplier -->
 <div class="modal fade" id="addSupplierModal" tabindex="-1" aria-labelledby="addSupplierModalLabel" aria-hidden="true">
@@ -17,7 +17,8 @@
                     </div>
                     <div class="mb-3">
                         <label for="supplierContactNumber" class="form-label">Contact Number:</label>
-                        <input type="text" id="supplierContactNumber" name="contact_number" class="form-control" required>
+                        <input type="text" id="supplierContactNumber" name="contact_number" class="form-control"
+                            required>
                     </div>
                     <div class="mb-3">
                         <label for="supplierEmail" class="form-label">Email:</label>
@@ -45,11 +46,11 @@
 
 <!-- JavaScript for Handling the Form Submission -->
 <script>
-    $('#formAddSupplier').submit(function(e) {
-        e.preventDefault(); // Prevent default form submission
-        var formData = $(this).serialize();
-        $.post("api/supplier/create.php", formData, function(response) {
-            $('#responseModal').html(response); // Display response in the modal
-        });
+$('#formAddSupplier').submit(function(e) {
+    e.preventDefault(); // Prevent default form submission
+    var formData = $(this).serialize();
+    $.post("api/supplier/create.php", formData, function(response) {
+        $('#responseModal').html(response); // Display response in the modal
     });
+});
 </script>
