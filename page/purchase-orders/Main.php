@@ -54,8 +54,8 @@
                 </div>
                 <div class="modal-body">
                     <!-- Active Orders List -->
-                    <table class="table table-hover table-sm">
-                        <thead>
+                    <table id="dataTable" class="table table-hover table-sm">
+                        <thead class="table text-success">
                             <tr>
                                 <th>#</th>
                                 <th>Order ID</th>
@@ -120,7 +120,7 @@
     <!-- Responsive Table for Orders -->
     <div class="table-responsive mt-4">
         <table id="dataTable" class="table table-bordered table-hover table-sm shadow-sm">
-            <thead class="thead-light">
+            <thead class="thead-light text-success">
                 <tr>
                     <th>#</th>
                     <th>Order ID</th>
@@ -155,19 +155,20 @@
                     </td>
                     <td><?=$order['updated_at']?></td>
                     <td class="text-center">
-                        <button class="btn btn-sm btn-light shadow-sm selectOrder" data-order_id="<?=$order['id']?>"><i
-                                class="bi bi-pencil"></i></button>
+                        <button class="btn btn-sm btn-light shadow-sm shadow-sm selectOrder"
+                            data-order_id="<?=$order['id']?>"><i class="bi bi-pencil-square"></i></button>
                         <?php if($order['status'] != "Approve"){ ?>
-                        <button class="btn btn-sm btn-success selectApprove" data-order_id="<?=$order['id']?>"><i
-                                class="bi bi-check-circle"></i></button>
+                        <button class="btn btn-sm btn-success shadow-sm selectApprove"
+                            data-order_id="<?=$order['id']?>"><i class="bi bi-check-circle"></i></button>
                         <?php }else{ ?>
-                        <button class="btn btn-sm btn-success" disabled><i class="bi bi-check-circle"></i></button>
+                        <button class="btn btn-sm btn-success shadow-sm" disabled><i
+                                class="bi bi-check-circle"></i></button>
                         <?php } ?>
                         <?php if($order['status'] != "Reject"){ ?>
-                        <button class="btn btn-sm btn-danger selectReject" data-order_id="<?=$order['id']?>"><i
-                                class="bi bi-x-circle"></i></button>
+                        <button class="btn btn-sm btn-danger shadow-sm selectReject"
+                            data-order_id="<?=$order['id']?>"><i class="bi bi-x-circle"></i></button>
                         <?php }else{ ?>
-                        <button class="btn btn-sm btn-danger" disabled><i class="bi bi-x-circle"></i></button>
+                        <button class="btn btn-sm btn-danger shadow-sm" disabled><i class="bi bi-x-circle"></i></button>
                         <?php } ?>
                         <a href="track_order?id=<?=$order['id']?>" class="btn btn-sm btn-secondary"><i
                                 class="bi bi-truck"></i></a>

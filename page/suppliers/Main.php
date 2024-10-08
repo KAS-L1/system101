@@ -4,11 +4,11 @@
         <div class="col-md-4 mb-3">
             <div class="card border-0 shadow-sm h-100">
                 <div class="card-body">
-                    <i class="fas fa-user-tie fa-2x text-info mb-3"></i>
+                    <i class="fas fa-user-tie fa-2x text-success mb-3"></i>
                     <h6 class="card-title">Add Supplier</h6>
                     <p class="card-text text-muted small">Add new supplier information, including contact details,
                         terms, and contracts.</p>
-                    <button id="btnAddSupplier" class="btn btn-sm btn-info" data-bs-toggle="modal"
+                    <button id="btnAddSupplier" class="btn btn-sm btn-success" data-bs-toggle="modal"
                         data-bs-target="#addSupplierModal">Add Supplier</button>
                 </div>
             </div>
@@ -18,11 +18,11 @@
         <div class="col-md-4 mb-3">
             <div class="card border-0 shadow-sm h-100">
                 <div class="card-body">
-                    <i class="fas fa-id-badge fa-2x text-info mb-3"></i>
+                    <i class="fas fa-id-badge fa-2x text-success mb-3"></i>
                     <h6 class="card-title">View Supplier Profile</h6>
                     <p class="card-text text-muted small">Access detailed supplier information, including performance
                         metrics and contract terms.</p>
-                    <button class="btn btn-sm btn-info" data-bs-toggle="modal"
+                    <button class="btn btn-sm btn-success" data-bs-toggle="modal"
                         data-bs-target="#viewSupplierProfileModal">View Supplier Profile</button>
                 </div>
             </div>
@@ -72,7 +72,7 @@
                         <label for="supplier_email">Supplier Email:</label>
                         <input type="email" class="form-control" id="supplier_email" name="supplier_email">
                     </div>
-                    <button type="submit" class="btn btn-primary" name="add_supplier">Add Supplier</button>
+                    <button type="submit" class="btn btn-sucess" name="add_supplier">Add Supplier</button>
                 </form>
             </div>
             <div class="modal-footer">
@@ -94,8 +94,8 @@
             <div class="modal-body">
                 <!-- Supplier Profile Table -->
                 <div class="table-responsive mt-4">
-                    <table class="table table-bordered table-hover table-sm">
-                        <thead>
+                    <table id="dataTable" class="table table-bordered table-hover table-sm">
+                        <thead class="table text-success">
                             <tr>
                                 <th>#</th>
                                 <th>Supplier ID</th>
@@ -139,7 +139,7 @@
 <div class="container">
     <div class="table-responsive mt-4">
         <table id="dataTable" class="table table-bordered table-hover table-sm shadow-sm table-nowrap">
-            <thead class="thead-light">
+            <thead class="thead-light text-success">
                 <tr>
                     <th>#</th>
                     <th>ID</th>
@@ -180,26 +180,28 @@
                     <td>
                         <div class="d-flex gap-2">
 
-                            <button class="btn btn-sm btn-primary addSupplier"
-                                data-id="<?= $supplier['id'] ?>">Edit</button>
+                            <button class="btn btn-sm btn-light shadow-sm addSupplier"
+                                data-id="<?= $supplier['id'] ?>"><i class="bi bi-pencil-square"></i></button>
 
                             <?php if($supplier['status'] != "Active"){ ?>
-                            <button class="btn btn-sm btn-success selectActive"
-                                data-id="<?=$supplier['id']?>">Active</button>
+                            <button class="btn btn-sm btn-success sshadow-sm electActive"
+                                data-id="<?=$supplier['id']?>"><i class="bi bi-check-circle"></i></button>
                             <?php }else{ ?>
-                            <button class="btn btn-sm btn-success" disabled>Active</button>
+                            <button class="btn btn-sm shadow-sm btn-success" disabled><i
+                                    class="bi bi-check-circle"></i></button>
                             <?php } ?>
 
                             <?php if($supplier['status'] != "Inactive"){ ?>
-                            <button class="btn btn-sm btn-danger selectInactive"
-                                data-id="<?=$supplier['id']?>">Inactive</button>
+                            <button class="btn btn-sm btn-danger shadow-sm selectInactive"
+                                data-id="<?=$supplier['id']?>"><i class="bi bi-x-circle"></i></button>
                             <?php }else{ ?>
-                            <button class="btn btn-sm btn-danger" disabled>Inactive</button>
+                            <button class="btn btn-sm shadow-sm btn-danger" disabled><i
+                                    class="bi bi-x-circle"></i></button>
                             <?php } ?>
 
                             <!-- Remove Button -->
-                            <button class="btn btn-sm btn-warning selectRemove"
-                                data-id="<?=$supplier['id']?>">Remove</button>
+                            <button class="btn btn-sm btn-warning shadow-sm selectRemove"
+                                data-id="<?=$supplier['id']?>"><i class="bi bi-trash"></i></button>
 
                         </div>
                     </td>
