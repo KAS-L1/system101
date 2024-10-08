@@ -54,7 +54,7 @@
                 </div>
                 <div class="modal-body">
                     <!-- Active Orders List -->
-                    <table id="dataTable" class="table table-hover table-sm">
+                    <table d="dataTable1" class="table table-hover table-sm">
                         <thead class="table text-success">
                             <tr>
                                 <th>#</th>
@@ -119,7 +119,7 @@
 
     <!-- Responsive Table for Orders -->
     <div class="table-responsive mt-4">
-        <table id="dataTable" class="table table-bordered table-hover table-sm shadow-sm">
+        <table id="dataTable2" class="table table-bordered table-hover table-sm shadow-sm">
             <thead class="thead-light text-success">
                 <tr>
                     <th>#</th>

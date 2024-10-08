@@ -26,7 +26,8 @@
                 <script src="assets/demo/chart-bar-demo.js"></script>
 
                 <script>
-let table = new DataTable('#dataTable');
+let table1 = new DataTable('#dataTable1'); // Initialize first table
+let table2 = new DataTable('#dataTable2'); // Initialize second table
                 </script>
 
                 </body>

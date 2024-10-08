@@ -94,7 +94,7 @@
             <div class="modal-body">
                 <!-- Supplier Profile Table -->
                 <div class="table-responsive mt-4">
-                    <table id="dataTable" class="table table-bordered table-hover table-sm">
+                    <table id="dataTable1" class="table table-bordered table-hover table-sm">
                         <thead class="table text-success">
                             <tr>
                                 <th>#</th>
@@ -138,7 +138,7 @@
 <!-- Responsive Table for Suppliers -->
 <div class="container">
     <div class="table-responsive mt-4">
-        <table id="dataTable" class="table table-bordered table-hover table-sm shadow-sm table-nowrap">
+        <table id="dataTable2" class="table table-bordered table-hover table-sm shadow-sm table-nowrap">
             <thead class="thead-light text-success">
                 <tr>
                     <th>#</th>
