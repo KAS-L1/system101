@@ -17,11 +17,11 @@
         <div class="col-md-4 mb-3">
             <div class="card border-0 shadow-sm h-100">
                 <div class="card-body">
-                    <i class="fas fa-eye fa-2x text-primary mb-3"></i>
+                    <i class="fas fa-eye fa-2x text-success mb-3"></i>
                     <h6 class="card-title">View Active Orders</h6>
                     <p class="card-text text-muted small">Monitor and manage active purchase orders.</p>
                     <!-- Button to Open Modal -->
-                    <a href="#" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                    <a href="#" class="btn btn-sm btn-success" data-bs-toggle="modal"
                         data-bs-target="#viewOrdersModal">View Orders</a>
                 </div>
             </div>
@@ -31,11 +31,11 @@
         <div class="col-md-4 mb-3">
             <div class="card border-0 shadow-sm h-100">
                 <div class="card-body">
-                    <i class="fas fa-user-tie fa-2x text-info mb-3"></i>
+                    <i class="fas fa-user-tie fa-2x text-success mb-3"></i>
                     <h6 class="card-title">Check Supplier Status</h6>
                     <p class="card-text text-muted small">Access supplier directory and view performance.</p>
                     <!-- Button to Open Modal -->
-                    <a href="#" class="btn btn-sm btn-info" data-bs-toggle="modal"
+                    <a href="#" class="btn btn-sm btn-success" data-bs-toggle="modal"
                         data-bs-target="#supplierStatusModal">Check Status</a>
                 </div>
             </div>
@@ -155,21 +155,22 @@
                     </td>
                     <td><?=$order['updated_at']?></td>
                     <td class="text-center">
-                        <button class="btn btn-sm btn-primary selectOrder"
-                            data-order_id="<?=$order['id']?>">Edit</button>
+                        <button class="btn btn-sm btn-light shadow-sm selectOrder" data-order_id="<?=$order['id']?>"><i
+                                class="bi bi-pencil"></i></button>
                         <?php if($order['status'] != "Approve"){ ?>
-                        <button class="btn btn-sm btn-success selectApprove"
-                            data-order_id="<?=$order['id']?>">Approve</button>
+                        <button class="btn btn-sm btn-success selectApprove" data-order_id="<?=$order['id']?>"><i
+                                class="bi bi-check-circle"></i></button>
                         <?php }else{ ?>
-                        <button class="btn btn-sm btn-success" disabled>Approve</button>
+                        <button class="btn btn-sm btn-success" disabled><i class="bi bi-check-circle"></i></button>
                         <?php } ?>
                         <?php if($order['status'] != "Reject"){ ?>
-                        <button class="btn btn-sm btn-danger selectReject"
-                            data-order_id="<?=$order['id']?>">Reject</button>
+                        <button class="btn btn-sm btn-danger selectReject" data-order_id="<?=$order['id']?>"><i
+                                class="bi bi-x-circle"></i></button>
                         <?php }else{ ?>
-                        <button class="btn btn-sm btn-danger" disabled>Reject</button>
+                        <button class="btn btn-sm btn-danger" disabled><i class="bi bi-x-circle"></i></button>
                         <?php } ?>
-                        <a href="track_order?id=<?=$order['id']?>" class="btn btn-sm btn-info">Track</a>
+                        <a href="track_order?id=<?=$order['id']?>" class="btn btn-sm btn-secondary"><i
+                                class="bi bi-truck"></i></a>
                     </td>
                 </tr>
                 <?php } ?>

@@ -48,6 +48,7 @@
                         <button type="submit" class="btn btn-primary" name="add_user">Add User</button>
                     </div>
                 </form>
+                <div id="responseCreateUser"></div>
             </div>
         </div>
     </div>
@@ -59,7 +60,7 @@ $('#formAddUser').submit(function(e) {
     e.preventDefault(); // Prevent default form submission
     var formData = $(this).serialize();
     $.post("api/user/create.php", formData, function(response) {
-        $('#responseModal').html(response); // Display response in the modal
+        $('#responseCreateUser').html(response); // Display response in the modal
     });
 });
 </script>

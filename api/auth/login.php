@@ -28,6 +28,9 @@ if(isset($_POST['username']) AND isset($_POST['password'])){
     // If no user is found, display a warning message
     if(empty($user)) 
         die(alert("warning", "Invalid account credentials. Check your username and password."));
+
+    if($user['status'] != "Active") 
+        die(alert("warning", "Account is <b>".UPPER_CASE($user['status'])."</b> please contact the administrator."));
     
     // Create an access token for the user
     $user_id = $user['user_id'];

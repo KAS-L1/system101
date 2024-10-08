@@ -5,11 +5,11 @@
         <div class="col-md-4 mb-3">
             <div class="card border-0 shadow-sm h-100">
                 <div class="card-body">
-                    <i class="fas fa-user-plus fa-2x text-info mb-3"></i>
+                    <i class="fas fa-user-plus fa-2x text-success mb-3"></i>
                     <h6 class="card-title">Add User</h6>
                     <p class="card-text text-muted small">Add new user information, including contact details and
                         role.</p>
-                    <button id="btnAddUser" class="btn btn-sm btn-info">Add User</button>
+                    <button id="btnAddUser" class="btn btn-sm btn-success">Add User</button>
                 </div>
             </div>
         </div>
@@ -18,11 +18,11 @@
         <div class="col-md-4 mb-3">
             <div class="card border-0 shadow-sm h-100">
                 <div class="card-body">
-                    <i class="fas fa-id-card fa-2x text-info mb-3"></i>
+                    <i class="fas fa-id-card fa-2x text-success mb-3"></i>
                     <h6 class="card-title">View User Profiles</h6>
                     <p class="card-text text-muted small">Access detailed user information, including contact
                         details and roles.</p>
-                    <button class="btn btn-sm btn-info" data-bs-toggle="modal"
+                    <button class="btn btn-sm btn-success" data-bs-toggle="modal"
                         data-bs-target="#viewUserProfileModal">View Profiles</button>
                 </div>
             </div>
@@ -90,8 +90,8 @@
                     </td>
                     <td>
                         <div class="d-flex gap-2">
-                            <button class="btn btn-sm btn-primary addUser"
-                                data-user_id="<?= $user['user_id'] ?>">Edit</button>
+                            <button class="btn btn-sm btn-primary btnEditUser"
+                                data-user_id=" <?= $user['user_id'] ?>">Edit</button>
                             <button class="btn btn-sm btn-success activateUser"
                                 data-id="<?=$user['id']?>">Activate</button>
                             <button class="btn btn-sm btn-danger deactivateUser"
@@ -109,6 +109,7 @@
 
 <!-- Modal Container for Dynamic Modals -->
 <div id="responseModal"></div>
+
 <!-- JavaScript for Handling Modals and AJAX Requests -->
 <script>
 // Open Add User Modal
@@ -119,8 +120,7 @@ $('#btnAddUser').click(function() {
     });
 });
 
-// Edit User Modal
-$('.addUser').click(function() {
+$('.btnEditUser').click(function() {
     const user_id = $(this).data('user_id');
     $.post('api/user/edit_modal.php', {
         user_id: user_id
@@ -128,7 +128,9 @@ $('.addUser').click(function() {
         $('#responseModal').html(res);
         $('#editUserModal').modal('show');
     });
-});
+});;
+
+
 
 // Activate User
 $('.activateUser').click(function() {
