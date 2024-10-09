@@ -68,7 +68,7 @@
                 DataTable Example
             </div>
             <div class="card-body">
-                <table id="dataTable">
+                <table id="dataTable1">
                     <thead>
                         <tr>
                             <th>Name</th>

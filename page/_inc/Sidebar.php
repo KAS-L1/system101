@@ -19,7 +19,6 @@
                         <div class="collapse" id="collapseProcurement" aria-labelledby="headingOne"
                             data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link text-success" href="/purchase-requistion">Purchase Requisition</a>
                                 <a class="nav-link text-success" href="/purchase-orders">Purchase Order</a>
                                 <a class="nav-link text-success" href="/suppliers">Suppliers</a>
                                 <a class="nav-link text-success" href="/reports">Reports</a>

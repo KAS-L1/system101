@@ -54,7 +54,7 @@
                 </div>
                 <div class="modal-body">
                     <!-- Active Orders List -->
-                    <table d="dataTable1" class="table table-hover table-sm">
+                    <table id="dataTable1" class="table table-hover table-sm">
                         <thead class="table text-success">
                             <tr>
                                 <th>#</th>
