@@ -1,4 +1,4 @@
-w<?php require("../../app/init.php"); ?>
+<?php require("../../app/init.php"); ?>
 
 <!-- Modal for Adding Supplier -->
 <div class="modal fade" id="addSupplierModal" tabindex="-1" aria-labelledby="addSupplierModalLabel" aria-hidden="true">

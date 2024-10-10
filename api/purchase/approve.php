@@ -8,7 +8,6 @@
     // UPDATE DATA
     $data = array(
         "status" => "Approve",
-        "updated_at" => DATE_TIME,
     );
     $where = array("id" => $order_id);
     $order = $DB->UPDATE("orders", $data, $where);

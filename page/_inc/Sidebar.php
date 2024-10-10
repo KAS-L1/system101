@@ -18,15 +18,16 @@
                     <div class="collapse" id="collapseProcurement" aria-labelledby="headingOne"
                         data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link text-dark" href="/purchase-orders">Purchase Order</a>
-                            <a class="nav-link text-dark" href="/suppliers">Suppliers</a>
-                            <a class="nav-link text-dark" href="/reports">Reports</a>
                             <a class="nav-link text-dark" href="/purchase-requistion">Purchase Requisition</a>
-                            <a class="nav-link text-dark" href="/request-for-qoute">Request for Quote</a>
+                            <a class="nav-link text-dark" href="/budget-approval">Budget Approval</a>
+                            <a class="nav-link text-dark" href="/purchase-orders">Purchase Order</a>
+                            <!-- <a class="nav-link text-dark" href="/suppliers">Suppliers</a> -->
+                            <a class="nav-link text-dark" href="/contract-management">Contract Management</a>
+                            <a class="nav-link text-dark" href="/vendor-request-for-qoute">Vendor Management & Request
+                                for
+                                Quote</a>
                             <a class="nav-link text-dark" href="/contract-management">Contract Management</a>
                             <a class="nav-link text-dark" href="/invoice-payment-management">Invoice</a>
-                            <a class="nav-link text-dark" href="/vendor-management">Vendor Management</a>
-                            <a class="nav-link text-dark" href="/budget-approval">Budget Approval</a>
                         </nav>
                     </div>
                     <a class="nav-link collapsed text-dark" href="#" data-bs-toggle="collapse"
