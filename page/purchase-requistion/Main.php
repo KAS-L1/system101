@@ -75,7 +75,7 @@
                         <tbody>
                             <?php
                                 $i = 1;
-                                $requisitions = $DB->SELECT('purchaserequisition', '*', "WHERE status = 'Approve' OR status = 'Pending'");
+                                $requisitions = $DB->SELECT('purchaserequisition', '*');
                                 foreach ($requisitions as $requisition) {
                             ?>
                             <tr>
@@ -113,7 +113,8 @@
 <!-- Purchase Requisition Table -->
 <div class="container mt-4">
     <div class="table-responsive">
-        <table id="dataTable1" class="table table-bordered table-hover table-sm shadow-sm table-nowrap">
+        <table id="dataTable1" class="table table-bordered table-hover table-sm shadow-sm table-nowrap
+">
             <thead class="thead-light text-success">
                 <tr>
                     <th>#</th>
@@ -160,7 +161,7 @@
                         <div class="d-flex gap-2">
                             <!-- Edit Button -->
                             <button class="btn btn-sm btn-light shadow-sm editRequisition"
-                                data-id="<?= $requisition['requisition_id']; ?>">
+                                data-requisition_id="<?= $requisition['requisition_id']; ?>">
                                 <i class="bi bi-pencil-square"></i>
                             </button>
                             <!-- Approve Button -->
@@ -176,7 +177,7 @@
                             <!-- Reject Button -->
                             <?php if($requisition['status'] != "Decline"){ ?>
                             <button class="btn btn-sm btn-danger shadow-sm declineRequisition"
-                                data-requisition_id="<?=$requisition['requisition_id']; ?>">
+                                data-requisition_id="<?= $requisition['requisition_id']; ?>">
                                 <i class="bi bi-x-circle"></i>
                             </button>
                             <?php } else { ?>
@@ -212,9 +213,9 @@ $('#btnAddPurchaseRequisition').click(function() {
 
 // Edit Requisition Button Click Event
 $('.editRequisition').click(function() {
-    const id = $(this).data('id');
+    const requisition_id = $(this).data('requisition_id');
     $.post('api/requisition/edit_modal.php', {
-        id: id
+        requisition_id: requisition_id
     }, function(res) {
         $('#responseModal').html(res);
         $('#editRequisitionModal').modal('show');
@@ -233,9 +234,9 @@ $('.approveRequisition').click(function() {
 
 // Reject Requisition Button Click Event
 $('.declineRequisition').click(function() {
-    const id = $(this).data('id');
-    $.post('api/requisition/reject.php', {
-        id: id
+    const requisition_id = $(this).data('requisition_id');
+    $.post('api/requisition/decline.php', {
+        requisition_id: requisition_id
     }, function(res) {
         $('#response').html(res);
     });
@@ -243,9 +244,9 @@ $('.declineRequisition').click(function() {
 
 // Remove Requisition Button Click Event
 $('.removeRequisition').click(function() {
-    const id = $(this).data('id');
+    const requisition_id = $(this).data('requisition_id');
     $.post('api/requisition/remove.php', {
-        id: id
+        requisition_id: requisition_id
     }, function(res) {
         $('#response').html(res);
     });

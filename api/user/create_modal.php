@@ -45,7 +45,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" name="add_user">Add User</button>
+                        <button type="submit" class="btn btn-success" name="add_user">Add User</button>
                     </div>
                 </form>
                 <div id="responseCreateUser"></div>

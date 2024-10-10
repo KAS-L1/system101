@@ -26,6 +26,72 @@
 let table1 = new DataTable('#dataTable1'); // Initialize first table
 let table2 = new DataTable('#dataTable2'); // Initialize second table
                 </script>
+                <script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Bar Chart Configuration with success colors
+    var barCtx = document.getElementById('barChart').getContext('2d');
+    var barChart = new Chart(barCtx, {
+        type: 'bar',
+        data: {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+            datasets: [{
+                label: 'Sales ($)',
+                data: [1200, 1900, 3000, 500, 2000, 3000],
+                backgroundColor: [
+                    'rgba(40, 167, 69, 0.2)', // Light green (Bootstrap success)
+                    'rgba(40, 167, 69, 0.2)',
+                    'rgba(40, 167, 69, 0.2)',
+                    'rgba(40, 167, 69, 0.2)',
+                    'rgba(40, 167, 69, 0.2)',
+                    'rgba(40, 167, 69, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(40, 167, 69, 1)', // Dark green (Bootstrap success)
+                    'rgba(40, 167, 69, 1)',
+                    'rgba(40, 167, 69, 1)',
+                    'rgba(40, 167, 69, 1)',
+                    'rgba(40, 167, 69, 1)',
+                    'rgba(40, 167, 69, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // Line Chart Configuration with success colors
+    var lineCtx = document.getElementById('lineChart').getContext('2d');
+    var lineChart = new Chart(lineCtx, {
+        type: 'line',
+        data: {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+            datasets: [{
+                label: 'Visitors',
+                data: [300, 500, 400, 700, 600, 800],
+                borderColor: 'rgba(40, 167, 69, 1)', // Green (Bootstrap success)
+                backgroundColor: 'rgba(40, 167, 69, 0.2)', // Light green (Bootstrap success)
+                fill: true,
+                tension: 0.3
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+});
+                </script>
 
                 </body>
 

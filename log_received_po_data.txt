@@ -1,0 +1,19 @@
+Array
+(
+    [po_id] => 1158885236
+    [vendor_name] => Sheila
+    [items] => 54d5a4das
+    [quantity] => 64
+    [unit_price] => 65468.00
+    [total_cost] => 4189952.00
+    [order_date] => 0464-04-06
+    [delivery_date] => 0564-06-06
+    [status] => Ordered
+    [remarks] => kupal
+    [created_at] => 2024-10-10 15:14:31
+    [updated_at] => 2024-10-10 18:48:26
+    [sync_status] => Failed
+    [sync_attempts] => 51
+    [vendor_response] => Invalid JSON response from vendor portal.
+    [last_sync_attempt] => 2024-10-10 18:48:26
+)

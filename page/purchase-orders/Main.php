@@ -1,177 +1,186 @@
+<?php
+
+
+// Retrieve all Purchase Orders from the `purchaseorder` table
+$purchaseOrders = $DB->SELECT("purchaseorder", "*", "ORDER BY po_id DESC");
+?>
+
+<!-- Purchase Order Section -->
 <div class="container mt-4 py-5">
     <div class="row text-center">
-        <!-- Card 1: Create New Order -->
-        <div class="col-md-4 mb-3">
+        <!-- Card: Add Purchase Order -->
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
             <div class="card border-0 shadow-sm h-100">
                 <div class="card-body">
-                    <i class="fas fa-file-invoice fa-2x text-success mb-3"></i>
-                    <h6 class="card-title">Create New Order</h6>
-                    <p class="card-text text-muted small">Quick access to create a purchase order.</p>
-                    <!-- Button to Open Modal -->
-                    <button id="btnCreateOrder" class="btn btn-sm btn-success">Create Order</button>
+                    <i class="fas fa-file-alt fa-2x text-success mb-3"></i>
+                    <h6 class="card-title">Create Purchase Order</h6>
+                    <p class="card-text text-muted small">Create a new purchase order for the approved requisition.</p>
+                    <button id="btnAddPurchaseOrder" class="btn btn-sm btn-success" data-bs-toggle="modal"
+                        data-bs-target="#addPurchaseOrderModal">Create PO</button>
                 </div>
             </div>
         </div>
 
-        <!-- Card 2: View Active Orders -->
-        <div class="col-md-4 mb-3">
+        <!-- Card: View Active Purchase Orders -->
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
             <div class="card border-0 shadow-sm h-100">
                 <div class="card-body">
                     <i class="fas fa-eye fa-2x text-success mb-3"></i>
-                    <h6 class="card-title">View Active Orders</h6>
+                    <h6 class="card-title">View Active Purchase Orders</h6>
                     <p class="card-text text-muted small">Monitor and manage active purchase orders.</p>
-                    <!-- Button to Open Modal -->
-                    <a href="#" class="btn btn-sm btn-success" data-bs-toggle="modal"
-                        data-bs-target="#viewOrdersModal">View Orders</a>
+                    <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#viewPOModal">View
+                        Purchase Orders</button>
                 </div>
             </div>
         </div>
 
-        <!-- Card 3: Check Supplier Status -->
-        <div class="col-md-4 mb-3">
+        <!-- Card: Generate Purchase Order Report -->
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
             <div class="card border-0 shadow-sm h-100">
                 <div class="card-body">
-                    <i class="fas fa-user-tie fa-2x text-success mb-3"></i>
-                    <h6 class="card-title">Check Supplier Status</h6>
-                    <p class="card-text text-muted small">Access supplier directory and view performance.</p>
-                    <!-- Button to Open Modal -->
-                    <a href="#" class="btn btn-sm btn-success" data-bs-toggle="modal"
-                        data-bs-target="#supplierStatusModal">Check Status</a>
+                    <i class="fas fa-chart-bar fa-2x text-success mb-3"></i>
+                    <h6 class="card-title">Generate Purchase Order Report</h6>
+                    <p class="card-text text-muted small">Generate reports based on purchase order statuses and details.
+                    </p>
+                    <button class="btn btn-sm btn-success" data-bs-toggle="modal"
+                        data-bs-target="#poReportModal">Generate Report</button>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-
-    <!-- Modal 2: View Active Orders -->
-    <div class="modal fade" id="viewOrdersModal" tabindex="-1" aria-labelledby="viewOrdersModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="viewOrdersModalLabel">Active Purchase Orders</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <!-- Active Orders List -->
-                    <table id="dataTable1" class="table table-hover table-sm">
+<!-- Modal: View Active Purchase Orders -->
+<div class="modal fade" id="viewPOModal" tabindex="-1" aria-labelledby="viewPOModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewPOModalLabel">Active Purchase Orders</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Active Purchase Orders Table -->
+                <div class="table-responsive">
+                    <table id="dataTable2" class="table table-hover table-sm">
                         <thead class="table text-success">
                             <tr>
                                 <th>#</th>
-                                <th>Order ID</th>
+                                <th>PO ID</th>
+                                <th>Vendor Name</th>
+                                <th>Items</th>
+                                <th>Quantity</th>
+                                <th>Unit Price</th>
+                                <th>Total Cost</th>
                                 <th>Order Date</th>
-                                <th>Supplier</th>
-                                <th>Total</th>
+                                <th>Delivery Date</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                            $i = 1; 
-                            $orders = $DB->SELECT('orders', '*'); 
-                            foreach ($orders as $order) {
+                                $i = 1;
+                                foreach ($purchaseOrders as $order) {
                             ?>
                             <tr>
                                 <td><?= $i++; ?></td>
-                                <td><?= CHARS($order['id']); ?></td>
+                                <td><?= CHARS($order['po_id']); ?></td>
+                                <td><?= CHARS($order['vendor_name']); ?></td>
+                                <td><?= CHARS($order['items']); ?></td>
+                                <td><?= CHARS($order['quantity']); ?></td>
+                                <td><?= number_format($order['unit_price'], 2); ?></td>
+                                <td><?= number_format($order['total_cost'], 2); ?></td>
                                 <td><?= CHARS($order['order_date']); ?></td>
-                                <td><?= CHARS($order['supplier']); ?></td>
-                                <td><?= CHARS($order['total_amount']); ?></td>
-                                <td><?= CHARS($order['status']); ?></td>
+                                <td><?= CHARS($order['delivery_date']); ?></td>
+                                <td>
+                                    <?php if ($order['status'] == 'Delivered') { ?>
+                                    <span class="badge bg-success">Delivered</span>
+                                    <?php } elseif ($order['status'] == 'Cancelled') { ?>
+                                    <span class="badge bg-danger">Cancelled</span>
+                                    <?php } else { ?>
+                                    <span class="badge bg-secondary">Ordered</span>
+                                    <?php } ?>
+                                </td>
                             </tr>
-                            <?php
-                            }
-                            ?>
+                            <?php } ?>
                         </tbody>
                     </table>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Modal 3: Check Supplier Status -->
-    <div class="modal fade" id="supplierStatusModal" tabindex="-1" aria-labelledby="supplierStatusModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="supplierStatusModalLabel">Supplier Status</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <!-- Supplier Status Content -->
-                    <p class="text-muted">Supplier performance data:</p>
-                    <ul>
-                        <li><strong>Supplier 1:</strong> Excellent (100% on-time deliveries)</li>
-                        <li><strong>Supplier 2:</strong> Good (90% on-time deliveries)</li>
-                        <li><strong>Supplier 3:</strong> Average (75% on-time deliveries)</li>
-                    </ul>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Responsive Table for Orders -->
-    <div class="table-responsive mt-4">
-        <table id="dataTable2" class="table table-bordered table-hover table-sm shadow-sm">
+<!-- Purchase Orders Table -->
+<div class="container mt-4">
+    <div class="table-responsive">
+        <table id="dataTable1" class="table table-bordered table-hover table-sm shadow-sm table-nowrap">
             <thead class="thead-light text-success">
                 <tr>
                     <th>#</th>
-                    <th>Order ID</th>
+                    <th>PO ID</th>
+                    <th>Vendor Name</th>
+                    <th>Items</th>
+                    <th>Quantity</th>
+                    <th>Unit Price</th>
+                    <th>Total Cost</th>
                     <th>Order Date</th>
-                    <th>Supplier</th>
-                    <th>Total</th>
+                    <th>Delivery Date</th>
                     <th>Status</th>
-                    <th>Updated</th>
-                    <th>Actions</th>
+                    <th>Remarks</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                $i = 1; 
-                $orders = $DB->SELECT("orders", "*", "ORDER BY id DESC"); 
-                foreach ($orders as $order) {
-                    ?>
+                $i = 1;
+                foreach ($purchaseOrders as $order) {
+                ?>
                 <tr>
                     <td><?= $i++; ?></td>
-                    <td><?=$order['id']; ?></td>
-                    <td><?=$order['order_date'] ?></td>
-                    <td><?=$order['supplier'] ?></td>
-                    <td><?= NUMBER_PHP($order['total_amount']) ?></td>
+                    <td><?= CHARS($order['po_id']); ?></td>
+                    <td><?= CHARS($order['vendor_name']); ?></td>
+                    <td><?= CHARS($order['items']); ?></td>
+                    <td><?= CHARS($order['quantity']); ?></td>
+                    <td><?= number_format($order['unit_price'], 2); ?></td>
+                    <td><?= number_format($order['total_cost'], 2); ?></td>
+                    <td><?= CHARS($order['order_date']); ?></td>
+                    <td><?= CHARS($order['delivery_date']); ?></td>
                     <td>
-                        <?php if($order['status'] == "Pending"){ ?>
-                        <span class="badge bg-secondary">Pending</span>
-                        <?php }else if($order['status'] == "Approve"){ ?>
-                        <span class="badge bg-success">Approve</span>
-                        <?php }else if($order['status'] == "Reject"){ ?>
-                        <span class="badge bg-danger">Rejected</span>
+                        <?php if ($order['status'] == 'Delivered') { ?>
+                        <span class="badge bg-success">Delivered</span>
+                        <?php } elseif ($order['status'] == 'Cancelled') { ?>
+                        <span class="badge bg-danger">Cancelled</span>
+                        <?php } else { ?>
+                        <span class="badge bg-secondary">Ordered</span>
                         <?php } ?>
                     </td>
-                    <td><?=$order['updated_at']?></td>
-                    <td class="text-center">
-                        <button class="btn btn-sm btn-light shadow-sm shadow-sm selectOrder"
-                            data-order_id="<?=$order['id']?>"><i class="bi bi-pencil-square"></i></button>
-                        <?php if($order['status'] != "Approve"){ ?>
-                        <button class="btn btn-sm btn-success shadow-sm selectApprove"
-                            data-order_id="<?=$order['id']?>"><i class="bi bi-check-circle"></i></button>
-                        <?php }else{ ?>
-                        <button class="btn btn-sm btn-success shadow-sm" disabled><i
-                                class="bi bi-check-circle"></i></button>
-                        <?php } ?>
-                        <?php if($order['status'] != "Reject"){ ?>
-                        <button class="btn btn-sm btn-danger shadow-sm selectReject"
-                            data-order_id="<?=$order['id']?>"><i class="bi bi-x-circle"></i></button>
-                        <?php }else{ ?>
-                        <button class="btn btn-sm btn-danger shadow-sm" disabled><i class="bi bi-x-circle"></i></button>
-                        <?php } ?>
-                        <a href="track_order?id=<?=$order['id']?>" class="btn btn-sm btn-secondary"><i
-                                class="bi bi-truck"></i></a>
+                    <td><?= CHARS($order['remarks']); ?></td>
+                    <td>
+                        <div class="d-flex gap-2">
+                            <!-- Edit Button -->
+                            <button class="btn btn-sm btn-light shadow-sm editOrder"
+                                data-po_id="<?= $order['po_id']; ?>">
+                                <i class="bi bi-pencil-square"></i>
+                            </button>
+                            <!-- Cancel Button -->
+                            <?php if ($order['status'] != "Cancelled") { ?>
+                            <button class="btn btn-sm btn-danger shadow-sm cancelOrder"
+                                data-po_id="<?= $order['po_id']; ?>">
+                                <i class="bi bi-x-circle"></i>
+                            </button>
+                            <?php } else { ?>
+                            <button class="btn btn-sm btn-danger shadow-sm" disabled><i
+                                    class="bi bi-x-circle"></i></button>
+                            <?php } ?>
+                            <!-- Sync to Vendor Button -->
+                            <button class="btn btn-sm btn-primary shadow-sm syncOrder"
+                                data-po_id="<?= $order['po_id']; ?>">
+                                <i class="bi bi-upload"></i> Sync to Vendor
+                            </button>
+                        </div>
                     </td>
                 </tr>
                 <?php } ?>
@@ -180,41 +189,50 @@
     </div>
 </div>
 
+<!-- Modal Container for Dynamic Modals -->
+<div id="responseModal"></div>
 <div id="response"></div>
 
+<!-- JavaScript for Handling Modals and AJAX Requests -->
 <script>
-$('#btnCreateOrder').click(function() {
+// Create Purchase Order Button Click Event
+$('#btnAddPurchaseOrder').click(function() {
     $.post('api/purchase/create_modal.php', function(res) {
-        $('#response').html(res);
-        $('#createOrderModal').modal('show');
+        $('#responseModal').html(res);
+        $('#addPurchaseOrderModal').modal('show');
     });
 });
 
-$('.selectOrder').click(function() {
-    const order_id = $(this).data('order_id');
+// Edit Purchase Order Button Click Event
+$('.editOrder').click(function() {
+    const po_id = $(this).data('po_id');
     $.post('api/purchase/edit_modal.php', {
-        order_id: order_id
+        po_id: po_id
     }, function(res) {
-        $('#response').html(res);
-        $('#editOrderModal').modal('show');
+        $('#responseModal').html(res);
+        $('#editPOModal').modal('show');
     });
 });
 
-$('.selectApprove').click(function() {
-    const order_id = $(this).data('order_id');
-    $.post('api/purchase/approve.php', {
-        order_id: order_id
+// Cancel Purchase Order Button Click Event
+$('.cancelOrder').click(function() {
+    const po_id = $(this).data('po_id');
+    $.post('api/purchase/cancel.php', {
+        po_id: po_id
     }, function(res) {
         $('#response').html(res);
     });
 });
 
-$('.selectReject').click(function() {
-    const order_id = $(this).data('order_id');
-    $.post('api/purchase/reject.php', {
-        order_id: order_id
+// Sync Purchase Order Button Click Event
+$('.syncOrder').click(function() {
+    const po_id = $(this).data('po_id');
+    $.post('api/purchase/sync_to_vendor.php', {
+        po_id: po_id
     }, function(res) {
-        $('#response').html(res);
+        const response = JSON.parse(res);
+        const alertClass = response.status === 'Synced' ? 'alert-success' : 'alert-danger';
+        $('#response').html(`<div class="alert ${alertClass}">${response.message}</div>`);
     });
 });
 </script>

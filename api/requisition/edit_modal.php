@@ -1,11 +1,10 @@
 <?php require("../../app/init.php"); ?>
 
 <?php 
-
-    $requisition_id = $_POST['id'];
+    // Retrieve the requisition data based on the ID provided via POST request
+    $requisition_id = $_POST['requisition_id'];
     $where = array("requisition_id" => $requisition_id);
     $requisition = $DB->SELECT_ONE_WHERE("purchaserequisition", "*", $where);
-
 ?>
 
 <!-- Edit Requisition Modal -->
@@ -18,85 +17,94 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-
                 <!-- Edit Requisition Form -->
                 <form id="formEditRequisition">
                     <!-- Hidden field for Requisition ID -->
                     <input type="hidden" name="requisition_id" value="<?= $requisition['requisition_id'] ?>">
 
-                    <!-- Department Field -->
-                    <div class="mb-3">
-                        <label for="department" class="form-label">Department</label>
-                        <input type="text" id="department" name="department" class="form-control"
-                            value="<?= $requisition['department'] ?>" required>
+                    <!-- Row 1: Department, Item Description, Quantity, Unit of Measure -->
+                    <div class="row">
+                        <!-- Department Field -->
+                        <div class="col-md-6 mb-3">
+                            <label for="department" class="form-label">Department</label>
+                            <input type="text" id="department" name="department" class="form-control"
+                                value="<?= $requisition['department'] ?>" required>
+                        </div>
+
+                        <!-- Item Description Field -->
+                        <div class="col-md-6 mb-3">
+                            <label for="item_description" class="form-label">Item Description</label>
+                            <input type="text" id="item_description" name="item_description" class="form-control"
+                                value="<?= $requisition['item_description'] ?>" required>
+                        </div>
                     </div>
 
-                    <!-- Item Description Field -->
-                    <div class="mb-3">
-                        <label for="item_description" class="form-label">Item Description</label>
-                        <input type="text" id="item_description" name="item_description" class="form-control"
-                            value="<?= $requisition['item_description'] ?>" required>
+                    <div class="row">
+                        <!-- Quantity Field -->
+                        <div class="col-md-4 mb-3">
+                            <label for="quantity" class="form-label">Quantity</label>
+                            <input type="number" id="quantity" name="quantity" class="form-control"
+                                value="<?= $requisition['quantity'] ?>" required>
+                        </div>
+
+                        <!-- Unit of Measure Field -->
+                        <div class="col-md-4 mb-3">
+                            <label for="unit_of_measure" class="form-label">Unit of Measure</label>
+                            <input type="text" id="unit_of_measure" name="unit_of_measure" class="form-control"
+                                value="<?= $requisition['unit_of_measure'] ?>" required>
+                        </div>
+
+                        <!-- Priority Level Field -->
+                        <div class="col-md-4 mb-3">
+                            <label for="priority_level" class="form-label">Priority Level</label>
+                            <select id="priority_level" name="priority_level" class="form-select" required>
+                                <option value="Low" <?= $requisition['priority_level'] == 'Low' ? 'selected' : '' ?>>Low
+                                </option>
+                                <option value="Medium"
+                                    <?= $requisition['priority_level'] == 'Medium' ? 'selected' : '' ?>>Medium</option>
+                                <option value="High" <?= $requisition['priority_level'] == 'High' ? 'selected' : '' ?>>
+                                    High</option>
+                            </select>
+                        </div>
                     </div>
 
-                    <!-- Quantity Field -->
-                    <div class="mb-3">
-                        <label for="quantity" class="form-label">Quantity</label>
-                        <input type="number" id="quantity" name="quantity" class="form-control"
-                            value="<?= $requisition['quantity'] ?>" required>
+                    <!-- Row 2: Requested Date, Required Date, Status, Remarks -->
+                    <div class="row">
+                        <!-- Requested Date Field -->
+                        <div class="col-md-4 mb-3">
+                            <label for="requested_date" class="form-label">Requested Date</label>
+                            <input type="date" id="requested_date" name="requested_date" class="form-control"
+                                value="<?= $requisition['requested_date'] ?>" required>
+                        </div>
+
+                        <!-- Required Date Field -->
+                        <div class="col-md-4 mb-3">
+                            <label for="required_date" class="form-label">Required Date</label>
+                            <input type="date" id="required_date" name="required_date" class="form-control"
+                                value="<?= $requisition['required_date'] ?>" required>
+                        </div>
+
+                        <!-- Status Field -->
+                        <div class="col-md-4 mb-3">
+                            <label for="status" class="form-label">Status</label>
+                            <select id="status" name="status" class="form-select" required>
+                                <option value="Pending" <?= $requisition['status'] == 'Pending' ? 'selected' : '' ?>>
+                                    Pending</option>
+                                <option value="Approve" <?= $requisition['status'] == 'Approve' ? 'selected' : '' ?>>
+                                    Approve</option>
+                                <option value="Decline" <?= $requisition['status'] == 'Decline' ? 'selected' : '' ?>>
+                                    Decline</option>
+                            </select>
+                        </div>
                     </div>
 
-                    <!-- Unit of Measure Field -->
-                    <div class="mb-3">
-                        <label for="unit_of_measure" class="form-label">Unit of Measure</label>
-                        <input type="text" id="unit_of_measure" name="unit_of_measure" class="form-control"
-                            value="<?= $requisition['unit_of_measure'] ?>" required>
-                    </div>
-
-                    <!-- Priority Level Field -->
-                    <div class="mb-3">
-                        <label for="priority_level" class="form-label">Priority Level</label>
-                        <select id="priority_level" name="priority_level" class="form-select" required>
-                            <option value="Low" <?= $requisition['priority_level'] == 'Low' ? 'selected' : '' ?>>Low
-                            </option>
-                            <option value="Medium" <?= $requisition['priority_level'] == 'Medium' ? 'selected' : '' ?>>
-                                Medium</option>
-                            <option value="High" <?= $requisition['priority_level'] == 'High' ? 'selected' : '' ?>>High
-                            </option>
-                        </select>
-                    </div>
-
-                    <!-- Requested Date Field -->
-                    <div class="mb-3">
-                        <label for="requested_date" class="form-label">Requested Date</label>
-                        <input type="date" id="requested_date" name="requested_date" class="form-control"
-                            value="<?= $requisition['requested_date'] ?>" required>
-                    </div>
-
-                    <!-- Required Date Field -->
-                    <div class="mb-3">
-                        <label for="required_date" class="form-label">Required Date</label>
-                        <input type="date" id="required_date" name="required_date" class="form-control"
-                            value="<?= $requisition['required_date'] ?>" required>
-                    </div>
-
-                    <!-- Status Field -->
-                    <div class="mb-3">
-                        <label for="status" class="form-label">Status</label>
-                        <select id="status" name="status" class="form-select" required>
-                            <option value="Pending" <?= $requisition['status'] == 'Pending' ? 'selected' : '' ?>>Pending
-                            </option>
-                            <option value="Approve" <?= $requisition['status'] == 'Approve' ? 'selected' : '' ?>>
-                                Approve</option>
-                            <option value="Decline" <?= $requisition['status'] == 'Decline' ? 'selected' : '' ?>>
-                                Decline</option>
-                        </select>
-                    </div>
-
-                    <!-- Remarks Field -->
-                    <div class="mb-3">
-                        <label for="remarks" class="form-label">Remarks</label>
-                        <textarea id="remarks" name="remarks" class="form-control" rows="3"
-                            placeholder="Optional remarks"><?= $requisition['remarks'] ?></textarea>
+                    <!-- Remarks Field (Full Width) -->
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label for="remarks" class="form-label">Remarks</label>
+                            <textarea id="remarks" name="remarks" class="form-control" rows="3"
+                                placeholder="Optional remarks"><?= $requisition['remarks'] ?></textarea>
+                        </div>
                     </div>
 
                     <!-- Modal Footer with Buttons -->
