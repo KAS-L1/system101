@@ -4,6 +4,7 @@
 <?php 
     
     $requisition_id = $_POST['requisition_id'];
+    
 
     // UPDATE DATA
     $data = array(

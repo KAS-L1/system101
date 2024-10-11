@@ -59,10 +59,11 @@
 <!-- JavaScript for Handling the Form Submission -->
 <script>
 $('#formAddProduct').submit(function(e) {
-    e.preventDefault(); // Prevent default form submission
     var formData = $(this).serialize();
     $.post("api/vendor-rfq/create_product.php", formData, function(response) {
         $('#responseModal').html(response); // Display response in the modal
+        $('#formAddProduct')[0].reset(); // Reset form fields
+        $('#createProductModal').modal('hide'); // Hide the modal
     });
 });
 </script>

@@ -57,10 +57,11 @@
 <!-- JavaScript for Handling the Form Submission -->
 <script>
 $('#formAddVendor').submit(function(e) {
-    e.preventDefault(); // Prevent default form submission
     var formData = $(this).serialize();
     $.post("api/vendor-rfq/create_vendor.php", formData, function(response) {
-        $('#responseModal').html(response); // Display response in the modal
+        $('#responseModal').html(response); // Display the server's response
+        $('#formAddVendor')[0].reset(); // Reset form fields
+        $('#createVendorModal').modal('hide'); // Hide the modal
     });
 });
 </script>

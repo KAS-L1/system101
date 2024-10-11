@@ -5,7 +5,6 @@ require("../../app/init.php");
 if ($_POST) {
     // Retrieve the user ID from the POST data
     $user_id = $_POST['user_id'];
-
     // Escape and sanitize the input data
     $data = array(
         "username" => $DB->ESCAPE($_POST['username']),

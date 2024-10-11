@@ -21,9 +21,8 @@ $rfqs = $DB->SELECT("rfq", "*");
                     <i class="fas fa-users fa-2x text-success mb-3"></i>
                     <h5 class="card-title">Vendor Management</h5>
                     <p class="card-text text-muted small">Manage vendors, contracts, and vendor ratings.</p>
-                    <button id="createVendorModal" class="btn btn-success" data-bs-toggle="modal"
-                        data-bs-target="#createVendorModal">Create
-                        Vendor</button>
+                    <button id="openCreateVendorModalButton" class="btn btn-success" data-bs-toggle="modal"
+                        data-bs-target="#createVendorModal">Create Vendor</button>
                 </div>
             </div>
         </div>
@@ -35,7 +34,8 @@ $rfqs = $DB->SELECT("rfq", "*");
                     <i class="fas fa-boxes fa-2x text-success mb-3"></i>
                     <h5 class="card-title">Product Catalog Management</h5>
                     <p class="card-text text-muted small">Manage product catalog, descriptions, and prices.</p>
-                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createProductModal">Create
+                    <button id="openCreateProductModalButton" class="btn btn-success" data-bs-toggle="modal"
+                        data-bs-target="#createProductModal">Create
                         Product</button>
                 </div>
             </div>
@@ -48,7 +48,8 @@ $rfqs = $DB->SELECT("rfq", "*");
                     <i class="fas fa-file-signature fa-2x text-success mb-3"></i>
                     <h5 class="card-title">RFQ Management</h5>
                     <p class="card-text text-muted small">Create and manage Requests for Quotations (RFQs).</p>
-                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createRFQModal">Create
+                    <button id="openCreateRFQModalButton" class="btn btn-success" data-bs-toggle="modal"
+                        data-bs-target="#createRFQModal">Create
                         RFQ</button>
                 </div>
             </div>
@@ -227,12 +228,13 @@ $rfqs = $DB->SELECT("rfq", "*");
 <!-- JavaScript for Handling Modals and AJAX Requests -->
 <script>
 // Vendor Modals and Actions
-$('#createVendorModal').click(function() {
+$('#openCreateVendorModalButton').click(function() {
     $.post('api/vendor-rfq/create_vendor_modal.php', function(res) {
         $('#responseModal').html(res);
         $('#createVendorModal').modal('show');
     });
 });
+
 
 
 $('.editVendor').click(function() {
@@ -258,15 +260,15 @@ $('.removeVendor').click(function() {
 });
 
 // Product Modals and Actions
-$('#createProductModal').on('submit', '#formAddProduct', function(e) {
-    e.preventDefault();
-    const formData = $(this).serialize();
-    $.post('api/product/create.php', formData, function(response) {
-        $('#responseModal').html(response);
-        $('#createProductModal').modal('hide');
-        location.reload();
+
+$('#openCreateProductModalButton').click(function() {
+    $.post('api/vendor-rfq/create_product_modal.php', function(res) {
+        $('#responseModal').html(res);
+        $('#createProductModal').modal('show');
     });
 });
+
+
 
 $('.editProduct').click(function() {
     const product_id = $(this).data('product_id');
@@ -291,13 +293,12 @@ $('.removeProduct').click(function() {
 });
 
 // RFQ Modals and Actions
-$('#createRFQModal').on('submit', '#formAddRFQ', function(e) {
-    e.preventDefault();
-    const formData = $(this).serialize();
-    $.post('api/rfq/create.php', formData, function(response) {
-        $('#responseModal').html(response);
-        $('#createRFQModal').modal('hide');
-        location.reload();
+
+
+$('#openCreateRFQModalButton').click(function() {
+    $.post('api/vendor-rfq/create_rfq_modal.php', function(res) {
+        $('#responseModal').html(res);
+        $('#createRFQModal').modal('show');
     });
 });
 

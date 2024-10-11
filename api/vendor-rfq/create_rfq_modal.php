@@ -56,11 +56,13 @@
 
 <!-- JavaScript for Handling the Form Submission -->
 <script>
-$('#formAddRfq').submit(function(e) {
-    e.preventDefault(); // Prevent default form submission
+$('#formAddRFQ').submit(function(e) {
     var formData = $(this).serialize();
     $.post("api/vendor-rfq/create_rfq.php", formData, function(response) {
         $('#responseModal').html(response); // Display response in the modal
+        $('#responseModal').html(response); // Display the server's response
+        $('#formAddRFQ')[0].reset(); // Reset form fields
+        $('#createRFQModal').modal('hide'); // Hide the modal
     });
 });
 </script>

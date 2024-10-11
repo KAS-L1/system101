@@ -10,17 +10,15 @@ $data = array(
     "contract_status" => $DB->ESCAPE($_POST['contract_status']),
 );
 
-pre_die($vendor);
-
 // Insert the vendor into the database
 $vendor = $DB->INSERT("vendors", $data);
 
 if ($vendor) {
     // Display success alert and refresh the page
-    swalAlert('success', 'Vendor Created Successfully');
-    refreshUrlTimeout(2000);
+    echo '<script>swalAlert("success", "Vendor Created Successfully");</script>';
+    echo '<script>refreshUrlTimeout(2000);</script>';
 } else {
     // Display error alert if something goes wrong
-    swalAlert('error', 'Failed to Create Vendor');
+    echo '<script>swalAlert("error", "Failed to Create Vendor");</script>';
 }
 ?>
