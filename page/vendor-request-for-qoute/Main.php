@@ -1,208 +1,325 @@
-<!-- RFQ and Supplier Selection UI -->
-<div class="container mt-4 py-5">
-    <div class="row text-center">
-        <div class="col-md-3 mb-3">
+<?php
+
+// Retrieve all vendors from the `vendors` table
+$vendors = $DB->SELECT("vendors", "*");
+
+// Retrieve all products from the `product_catalog` table
+$products = $DB->SELECT("product_catalog", "*");
+
+// Retrieve all RFQs from the `rfq` table
+$rfqs = $DB->SELECT("rfq", "*");
+?>
+
+<!-- Container for Page Content -->
+<div class="container mt-5">
+    <!-- Row for Cards -->
+    <div class="row g-4">
+        <!-- Vendor Management Card -->
+        <div class="col-lg-4 col-md-6 col-sm-12">
             <div class="card border-0 shadow-sm h-100">
-                <div class="card-body">
-                    <i class="fas fa-file-alt fa-2x text-primary mb-3"></i>
-                    <h6 class="card-title">Create RFQ</h6>
-                    <p class="card-text text-muted small">Create a request for quote for specific items.</p>
-                    <a href="#" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#createRFQModal">Create RFQ</a>
+                <div class="card-body text-center">
+                    <i class="fas fa-users fa-2x text-success mb-3"></i>
+                    <h5 class="card-title">Vendor Management</h5>
+                    <p class="card-text text-muted small">Manage vendors, contracts, and vendor ratings.</p>
+                    <button id="createVendorModal" class="btn btn-success" data-bs-toggle="modal"
+                        data-bs-target="#createVendorModal">Create
+                        Vendor</button>
                 </div>
             </div>
         </div>
-        <div class="col-md-3 mb-3">
+
+        <!-- Product Catalog Management Card -->
+        <div class="col-lg-4 col-md-6 col-sm-12">
             <div class="card border-0 shadow-sm h-100">
-                <div class="card-body">
-                    <i class="fas fa-file-alt fa-2x text-primary mb-3"></i>
-                    <h6 class="card-title">View RFQs</h6>
-                    <p class="card-text text-muted small">View all sent RFQs and track responses from suppliers.</p>
-                    <a href="#" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#viewRFQsModal">View RFQs</a>
+                <div class="card-body text-center">
+                    <i class="fas fa-boxes fa-2x text-success mb-3"></i>
+                    <h5 class="card-title">Product Catalog Management</h5>
+                    <p class="card-text text-muted small">Manage product catalog, descriptions, and prices.</p>
+                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createProductModal">Create
+                        Product</button>
                 </div>
             </div>
         </div>
-        <div class="col-md-3 mb-3">
+
+        <!-- RFQ Management Card -->
+        <div class="col-lg-4 col-md-6 col-sm-12">
             <div class="card border-0 shadow-sm h-100">
-                <div class="card-body">
-                    <i class="fas fa-file-alt fa-2x text-primary mb-3"></i>
-                    <h6 class="card-title">Submit RFQ Response</h6>
-                    <p class="card-text text-muted small">Submit a quote response to an RFQ.</p>
-                    <a href="#" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#submitRFQResponseModal">Submit RFQ Response</a>
+                <div class="card-body text-center">
+                    <i class="fas fa-file-signature fa-2x text-success mb-3"></i>
+                    <h5 class="card-title">RFQ Management</h5>
+                    <p class="card-text text-muted small">Create and manage Requests for Quotations (RFQs).</p>
+                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createRFQModal">Create
+                        RFQ</button>
                 </div>
             </div>
         </div>
-        <div class="col-md-3 mb-3">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-body">
-                    <i class="fas fa-file-alt fa-2x text-primary mb-3"></i>
-                    <h6 class="card-title">Evaluate RFQ</h6>
-                    <p class="card-text text-muted small">Evaluate and compare quotes from suppliers.</p>
-                    <a href="#" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#evaluateRFQModal">Evaluate RFQ</a>
+    </div>
+
+    <!-- Vendor Management Table Card -->
+    <div class="container mt-4">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-light text-success">
+                <h5 class="mb-0">Vendor Management</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="vendorTable" class="table table-bordered table-hover table-sm mb-0 shadow-sm">
+                        <thead class="table-success">
+                            <tr>
+                                <th>#</th>
+                                <th>Vendor ID</th>
+                                <th>Vendor Name</th>
+                                <th>Contact Information</th>
+                                <th>Vendor Rating</th>
+                                <th>Preferred Status</th>
+                                <th>Contract Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php $i = 1; foreach ($vendors as $vendor): ?>
+                            <tr>
+                                <td><?= $i++; ?></td>
+                                <td><?= $vendor['vendor_id']; ?></td>
+                                <td><?= $vendor['vendor_name']; ?></td>
+                                <td><?= $vendor['contact_info']; ?></td>
+                                <td><?= $vendor['vendor_rating']; ?></td>
+                                <td><?= $vendor['preferred_status']; ?></td>
+                                <td><?= $vendor['contract_status']; ?></td>
+                                <td>
+                                    <div class="d-flex gap-2">
+                                        <!-- Edit Vendor Button -->
+                                        <button class="btn btn-sm btn-light shadow-sm editVendor"
+                                            data-vendor_id="<?= $vendor['vendor_id']; ?>">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </button>
+                                        <!-- Remove Vendor Button -->
+                                        <button class="btn btn-sm btn-danger shadow-sm removeVendor"
+                                            data-vendor_id="<?= $vendor['vendor_id']; ?>">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Catalog Management Table Card -->
+    <div class="container mt-4">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-light text-success">
+                <h5 class="mb-0">Product Catalog Management</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="productTable" class="table table-bordered table-hover table-sm mb-0 shadow-sm">
+                        <thead class="table-success">
+                            <tr>
+                                <th>#</th>
+                                <th>Product ID</th>
+                                <th>Vendor ID</th>
+                                <th>Product Name</th>
+                                <th>Description</th>
+                                <th>Unit Price</th>
+                                <th>Availability</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php $i = 1; foreach ($products as $product): ?>
+                            <tr>
+                                <td><?= $i++; ?></td>
+                                <td><?= $product['product_id']; ?></td>
+                                <td><?= $product['vendor_id']; ?></td>
+                                <td><?= $product['product_name']; ?></td>
+                                <td><?= $product['description']; ?></td>
+                                <td><?= number_format($product['unit_price'], 2); ?></td>
+                                <td><?= $product['availability']; ?></td>
+                                <td>
+                                    <div class="d-flex gap-2">
+                                        <!-- Edit Product Button -->
+                                        <button class="btn btn-sm btn-light shadow-sm editProduct"
+                                            data-product_id="<?= $product['product_id']; ?>">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </button>
+                                        <!-- Remove Product Button -->
+                                        <button class="btn btn-sm btn-danger shadow-sm removeProduct"
+                                            data-product_id="<?= $product['product_id']; ?>">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- RFQ Management Table Card -->
+    <div class="container mt-4">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-light text-success">
+                <h5 class="mb-0">RFQ Management and Status</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="rfqTable" class="table table-bordered table-hover table-sm mb-0 shadow-sm">
+                        <thead class="table-success">
+                            <tr>
+                                <th>#</th>
+                                <th>RFQ ID</th>
+                                <th>Vendor ID</th>
+                                <th>Product ID</th>
+                                <th>Requested Quantity</th>
+                                <th>Quoted Price</th>
+                                <th>RFQ Status</th>
+                                <th>Response Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php $i = 1; foreach ($rfqs as $rfq): ?>
+                            <tr>
+                                <td><?= $i++; ?></td>
+                                <td><?= $rfq['rfq_id']; ?></td>
+                                <td><?= $rfq['vendor_id']; ?></td>
+                                <td><?= $rfq['product_id']; ?></td>
+                                <td><?= $rfq['requested_quantity']; ?></td>
+                                <td><?= number_format($rfq['quoted_price'], 2); ?></td>
+                                <td><?= $rfq['rfq_status']; ?></td>
+                                <td><?= $rfq['response_date']; ?></td>
+                                <td>
+                                    <div class="d-flex gap-2">
+                                        <!-- Edit RFQ Button -->
+                                        <button class="btn btn-sm btn-light shadow-sm editRFQ"
+                                            data-rfq_id="<?= $rfq['rfq_id']; ?>">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </button>
+                                        <!-- Remove RFQ Button -->
+                                        <button class="btn btn-sm btn-danger shadow-sm removeRFQ"
+                                            data-rfq_id="<?= $rfq['rfq_id']; ?>">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Modal 1: Create RFQ -->
-<div class="modal fade" id="createRFQModal" tabindex="-1" aria-labelledby="createRFQModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="createRFQModalLabel">Create RFQ</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <!-- Create RFQ Form -->
-                <form action="create-rfq.php" method="post">
-                    <div class="mb-3">
-                        <label for="itemDescription" class="form-label">Item Description:</label>
-                        <input type="text" id="itemDescription" name="itemDescription" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="quantity" class="form-label">Quantity:</label>
-                        <input type="number" id="quantity" name="quantity" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="supplierID" class="form-label">Supplier:</label>
-                        <select id="supplierID" name="supplierID" class="form-select" required>
-                            <option value="">Select Supplier</option>
-                            <option value="Supplier 1">Supplier 1</option>
-                            <option value="Supplier 2">Supplier 2</option>
-                            <option value="Supplier 3">Supplier 3</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Create RFQ</button>
-                </form>
-            </div>
-        </div>
-    </div>
- </div>
+<!-- Modal Container for Dynamic Modals -->
+<div id="responseModal"></div>
+<div id="response"></div>
 
-<!-- Modal 2: View RFQs -->
-<div class="modal fade" id="viewRFQsModal" tabindex="-1" aria-labelledby="viewRFQsModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="viewRFQsModalLabel">View RFQs</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <!-- View RFQs Table -->
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">RFQ ID</th>
-                            <th scope="col">Item Description</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Supplier</th>
-                            <th scope="col">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>RFQ-001</td>
-                            <td>Item 1</td>
-                            <td>10</td>
-                            <td>Supplier 1</td>
-                            <td>Pending</td>
-                        </tr>
-                        <tr>
-                            <td>RFQ-002</td>
-                            <td>Item 2</td>
-                            <td>20</td>
-                            <td>Supplier 2</td>
-                            <td>Approved</td>
-                        </tr>
-                        <tr>
-                            <td>RFQ-003</td>
-                            <td>Item 3</td>
-                            <td>30</td>
-                            <td>Supplier 3</td>
-                            <td>Rejected</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
+<!-- JavaScript for Handling Modals and AJAX Requests -->
+<script>
+// Vendor Modals and Actions
+$('#createVendorModal').click(function() {
+    $.post('api/vendor-rfq/create_vendor_modal.php', function(res) {
+        $('#responseModal').html(res);
+        $('#createVendorModal').modal('show');
+    });
+});
 
-<!-- Modal 3: Submit RFQ Response -->
-<div class="modal fade" id="submitRFQResponseModal" tabindex="-1" aria-labelledby="submitRFQResponseModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="submitRFQResponseModalLabel">Submit RFQ Response</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <!-- Submit RFQ Response Form -->
-                <form action="submit-rfq-response.php" method="post">
-                    <div class="mb-3">
-                        <label for="rfqID" class="form-label">RFQ ID:</label>
-                        <input type="text" id="rfqID" name="rfqID" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="quote" class="form-label">Quote:</label>
-                        <input type="number" id="quote" name="quote" class="form-control" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit RFQ Response</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 
-<!-- Modal 4: Evaluate RFQ -->
-<div class="modal fade" id="evaluateRFQModal" tabindex="-1" aria-labelledby="evaluateRFQModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="evaluateRFQModalLabel">Evaluate RFQ</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <!-- Evaluate RFQ Table -->
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">RFQ ID</th>
-                            <th scope="col">Item Description</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Supplier</th>
-                            <th scope="col">Quote</th>
-                            <th scope="col">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>RFQ-001</td>
-                            <td>Item 1</td>
-                            <td>10</td>
-                            <td>Supplier 1</td>
-                            <td>1000</td>
-                            <td>Pending</td>
-                        </tr>
-                        <tr>
-                            <td>RFQ-002</td>
-                            <td>Item 2</td>
-                            <td>20</td>
-                            <td>Supplier 2</td>
-                            <td>2000</td>
-                            <td>Approved</td>
-                        </tr>
-                        <tr>
-                            <td>RFQ-003</td>
-                            <td>Item 3</td>
-                            <td>30</td>
-                            <td>Supplier 3</td>
-                            <td>3000</td>
-                            <td>Rejected</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
+$('.editVendor').click(function() {
+    const vendor_id = $(this).data('vendor_id');
+    $.post('api/vendor/edit_modal.php', {
+        vendor_id: vendor_id
+    }, function(res) {
+        $('#responseModal').html(res);
+        $('#editVendorModal').modal('show');
+    });
+});
+
+$('.removeVendor').click(function() {
+    const vendor_id = $(this).data('vendor_id');
+    if (confirm("Are you sure you want to delete this vendor?")) {
+        $.post('api/vendor/remove.php', {
+            vendor_id: vendor_id
+        }, function(response) {
+            $('#responseModal').html(response);
+            location.reload();
+        });
+    }
+});
+
+// Product Modals and Actions
+$('#createProductModal').on('submit', '#formAddProduct', function(e) {
+    e.preventDefault();
+    const formData = $(this).serialize();
+    $.post('api/product/create.php', formData, function(response) {
+        $('#responseModal').html(response);
+        $('#createProductModal').modal('hide');
+        location.reload();
+    });
+});
+
+$('.editProduct').click(function() {
+    const product_id = $(this).data('product_id');
+    $.post('api/product/edit_modal.php', {
+        product_id: product_id
+    }, function(res) {
+        $('#responseModal').html(res);
+        $('#editProductModal').modal('show');
+    });
+});
+
+$('.removeProduct').click(function() {
+    const product_id = $(this).data('product_id');
+    if (confirm("Are you sure you want to delete this product?")) {
+        $.post('api/product/remove.php', {
+            product_id: product_id
+        }, function(response) {
+            $('#responseModal').html(response);
+            location.reload();
+        });
+    }
+});
+
+// RFQ Modals and Actions
+$('#createRFQModal').on('submit', '#formAddRFQ', function(e) {
+    e.preventDefault();
+    const formData = $(this).serialize();
+    $.post('api/rfq/create.php', formData, function(response) {
+        $('#responseModal').html(response);
+        $('#createRFQModal').modal('hide');
+        location.reload();
+    });
+});
+
+$('.editRFQ').click(function() {
+    const rfq_id = $(this).data('rfq_id');
+    $.post('api/rfq/edit_modal.php', {
+        rfq_id: rfq_id
+    }, function(res) {
+        $('#responseModal').html(res);
+        $('#editRFQModal').modal('show');
+    });
+});
+
+$('.removeRFQ').click(function() {
+    const rfq_id = $(this).data('rfq_id');
+    if (confirm("Are you sure you want to delete this RFQ?")) {
+        $.post('api/rfq/remove.php', {
+            rfq_id: rfq_id
+        }, function(response) {
+            $('#responseModal').html(response);
+            location.reload();
+        });
+    }
+});
+</script>

@@ -55,53 +55,60 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <!-- Active Requisitions Table -->
-                <div class="table-responsive">
-                    <table id="dataTable2" class="table table-hover table-sm">
-                        <thead class="table text-success">
-                            <tr>
-                                <th>#</th>
-                                <th>Requisition ID</th>
-                                <th>Department</th>
-                                <th>Item Description</th>
-                                <th>Quantity</th>
-                                <th>Unit of Measure</th>
-                                <th>Priority Level</th>
-                                <th>Requested Date</th>
-                                <th>Required Date</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
+                <div class="container mt-4">
+                    <div class="card shadow-sm mb-4">
+                        <!-- Active Requisitions Table -->
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="dataTable2" class="table table-hover table-sm">
+                                    <thead class="table-success">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Requisition ID</th>
+                                            <th>Department</th>
+                                            <th>Item Description</th>
+                                            <th>Quantity</th>
+                                            <th>Unit of Measure</th>
+                                            <th>Priority Level</th>
+                                            <th>Requested Date</th>
+                                            <th>Required Date</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
                                 $i = 1;
                                 $requisitions = $DB->SELECT('purchaserequisition', '*');
                                 foreach ($requisitions as $requisition) {
                             ?>
-                            <tr>
-                                <td><?= $i++; ?></td>
-                                <td><?= CHARS($requisition['requisition_id']); ?></td>
-                                <td><?= CHARS($requisition['department']); ?></td>
-                                <td><?= CHARS($requisition['item_description']); ?></td>
-                                <td><?= CHARS($requisition['quantity']); ?></td>
-                                <td><?= CHARS($requisition['unit_of_measure']); ?></td>
-                                <td><?= CHARS($requisition['priority_level']); ?></td>
-                                <td><?= CHARS($requisition['requested_date']); ?></td>
-                                <td><?= CHARS($requisition['required_date']); ?></td>
-                                <td>
-                                    <?php if ($requisition['status'] == 'Approve') { ?>
-                                    <span class="badge bg-success">Approve</span>
-                                    <?php } elseif ($requisition['status'] == 'Decline') { ?>
-                                    <span class="badge bg-danger">Decline</span>
-                                    <?php } else { ?>
-                                    <span class="badge bg-secondary">Pending</span>
-                                    <?php } ?>
-                                </td>
-                            </tr>
-                            <?php } ?>
-                        </tbody>
-                    </table>
+                                        <tr>
+                                            <td><?= $i++; ?></td>
+                                            <td><?= CHARS($requisition['requisition_id']); ?></td>
+                                            <td><?= CHARS($requisition['department']); ?></td>
+                                            <td><?= CHARS($requisition['item_description']); ?></td>
+                                            <td><?= CHARS($requisition['quantity']); ?></td>
+                                            <td><?= CHARS($requisition['unit_of_measure']); ?></td>
+                                            <td><?= CHARS($requisition['priority_level']); ?></td>
+                                            <td><?= CHARS($requisition['requested_date']); ?></td>
+                                            <td><?= CHARS($requisition['required_date']); ?></td>
+                                            <td>
+                                                <?php if ($requisition['status'] == 'Approve') { ?>
+                                                <span class="badge bg-success">Approve</span>
+                                                <?php } elseif ($requisition['status'] == 'Decline') { ?>
+                                                <span class="badge bg-danger">Decline</span>
+                                                <?php } else { ?>
+                                                <span class="badge bg-secondary">Pending</span>
+                                                <?php } ?>
+                                            </td>
+                                        </tr>
+                                        <?php } ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -112,90 +119,99 @@
 
 <!-- Purchase Requisition Table -->
 <div class="container mt-4">
-    <div class="table-responsive">
-        <table id="dataTable1" class="table table-bordered table-hover table-sm shadow-sm table-nowrap
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-light text-success">
+            <h5 class="mb-0">Purchase Requisitions Management</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="dataTable1" class="table table-bordered table-hover table-sm shadow-sm table-nowrap
 ">
-            <thead class="thead-light text-success">
-                <tr>
-                    <th>#</th>
-                    <th>Requisition ID</th>
-                    <th>Department</th>
-                    <th>Item Description</th>
-                    <th>Quantity</th>
-                    <th>Unit of Measure</th>
-                    <th>Priority Level</th>
-                    <th>Requested Date</th>
-                    <th>Required Date</th>
-                    <th>Status</th>
-                    <th>Remarks</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
+                    <thead class="table-success">
+                        <tr>
+                            <th>#</th>
+                            <th>Requisition ID</th>
+                            <th>Department</th>
+                            <th>Item Description</th>
+                            <th>Quantity</th>
+                            <th>Unit of Measure</th>
+                            <th>Priority Level</th>
+                            <th>Requested Date</th>
+                            <th>Required Date</th>
+                            <th>Status</th>
+                            <th>Remarks</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
                     $i = 1;
                     $requisitions = $DB->SELECT("purchaserequisition", "*", "ORDER BY requisition_id DESC");
                     foreach ($requisitions as $requisition) {
                 ?>
-                <tr>
-                    <td><?= $i++; ?></td>
-                    <td><?= $requisition['requisition_id']; ?></td>
-                    <td><?= $requisition['department']; ?></td>
-                    <td><?= $requisition['item_description']; ?></td>
-                    <td><?= $requisition['quantity']; ?></td>
-                    <td><?= $requisition['unit_of_measure']; ?></td>
-                    <td><?= $requisition['priority_level']; ?></td>
-                    <td><?= $requisition['requested_date']; ?></td>
-                    <td><?= $requisition['required_date']; ?></td>
-                    <td>
-                        <?php if($requisition['status'] == "Approve"){ ?>
-                        <span class="badge bg-success">Approve</span>
-                        <?php } elseif($requisition['status'] == "Decline"){ ?>
-                        <span class="badge bg-danger">Decline</span>
-                        <?php } else { ?>
-                        <span class="badge bg-secondary">Pending</span>
+                        <tr>
+                            <td><?= $i++; ?></td>
+                            <td><?= $requisition['requisition_id']; ?></td>
+                            <td><?= $requisition['department']; ?></td>
+                            <td><?= $requisition['item_description']; ?></td>
+                            <td><?= $requisition['quantity']; ?></td>
+                            <td><?= $requisition['unit_of_measure']; ?></td>
+                            <td><?= $requisition['priority_level']; ?></td>
+                            <td><?= $requisition['requested_date']; ?></td>
+                            <td><?= $requisition['required_date']; ?></td>
+                            <td>
+                                <?php if($requisition['status'] == "Approve"){ ?>
+                                <span class="badge bg-success">Approve</span>
+                                <?php } elseif($requisition['status'] == "Decline"){ ?>
+                                <span class="badge bg-danger">Decline</span>
+                                <?php } else { ?>
+                                <span class="badge bg-secondary">Pending</span>
+                                <?php } ?>
+                            </td>
+                            <td><?= $requisition['remarks']; ?></td>
+                            <td>
+                                <div class="d-flex gap-2">
+                                    <!-- Edit Button -->
+                                    <button class="btn btn-sm btn-light shadow-sm editRequisition"
+                                        data-requisition_id="<?= $requisition['requisition_id']; ?>">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </button>
+                                    <!-- Approve Button -->
+                                    <?php if($requisition['status'] != "Approve"){ ?>
+                                    <button class="btn btn-sm btn-success shadow-sm approveRequisition"
+                                        data-requisition_id="<?=$requisition['requisition_id']; ?>">
+                                        <i class="bi bi-check-circle"></i>
+                                    </button>
+                                    <?php } else { ?>
+                                    <button class="btn btn-sm btn-success shadow-sm" disabled><i
+                                            class="bi bi-check-circle"></i></button>
+                                    <?php } ?>
+                                    <!-- Reject Button -->
+                                    <?php if($requisition['status'] != "Decline"){ ?>
+                                    <button class="btn btn-sm btn-danger shadow-sm declineRequisition"
+                                        data-requisition_id="<?= $requisition['requisition_id']; ?>">
+                                        <i class="bi bi-x-circle"></i>
+                                    </button>
+                                    <?php } else { ?>
+                                    <button class="btn btn-sm btn-danger shadow-sm" disabled><i
+                                            class="bi bi-x-circle"></i></button>
+                                    <?php } ?>
+                                    <!-- Remove Button -->
+                                    <button class="btn btn-sm btn-warning shadow-sm removeRequisition"
+                                        data-requisition_id="<?=$requisition['requisition_id']; ?>">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
                         <?php } ?>
-                    </td>
-                    <td><?= $requisition['remarks']; ?></td>
-                    <td>
-                        <div class="d-flex gap-2">
-                            <!-- Edit Button -->
-                            <button class="btn btn-sm btn-light shadow-sm editRequisition"
-                                data-requisition_id="<?= $requisition['requisition_id']; ?>">
-                                <i class="bi bi-pencil-square"></i>
-                            </button>
-                            <!-- Approve Button -->
-                            <?php if($requisition['status'] != "Approve"){ ?>
-                            <button class="btn btn-sm btn-success shadow-sm approveRequisition"
-                                data-requisition_id="<?=$requisition['requisition_id']; ?>">
-                                <i class="bi bi-check-circle"></i>
-                            </button>
-                            <?php } else { ?>
-                            <button class="btn btn-sm btn-success shadow-sm" disabled><i
-                                    class="bi bi-check-circle"></i></button>
-                            <?php } ?>
-                            <!-- Reject Button -->
-                            <?php if($requisition['status'] != "Decline"){ ?>
-                            <button class="btn btn-sm btn-danger shadow-sm declineRequisition"
-                                data-requisition_id="<?= $requisition['requisition_id']; ?>">
-                                <i class="bi bi-x-circle"></i>
-                            </button>
-                            <?php } else { ?>
-                            <button class="btn btn-sm btn-danger shadow-sm" disabled><i
-                                    class="bi bi-x-circle"></i></button>
-                            <?php } ?>
-                            <!-- Remove Button -->
-                            <button class="btn btn-sm btn-warning shadow-sm removeRequisition"
-                                data-requisition_id="<?=$requisition['requisition_id']; ?>">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-                <?php } ?>
-            </tbody>
-        </table>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
     </div>
+
 </div>
 
 <!-- Modal Container for Dynamic Modals -->

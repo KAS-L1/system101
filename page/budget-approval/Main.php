@@ -57,39 +57,47 @@ $pendingRequisitions = $DB->SELECT("purchaserequisition", "*", "WHERE status='Pe
 
 <!-- Pending Requisitions Table Section Below the Cards -->
 <div class="container mt-4">
-    <div class="table-responsive">
-        <table id="pendingTable" class="table table-bordered table-hover table-sm shadow-sm">
-            <thead class="thead-light text-success">
-                <tr>
-                    <th>#</th>
-                    <th>Requisition ID</th>
-                    <th>Department</th>
-                    <th>Item Description</th>
-                    <th>Quantity</th>
-                    <th>Estimated Cost</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-light text-success">
+            <h5 class="card-title">Pending Requisitions</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="dataTable1" class="table table-bordered table-hover table-sm shadow-sm">
+                    <thead class="table-success">
+                        <tr>
+                            <th>#</th>
+                            <th>Requisition ID</th>
+                            <th>Department</th>
+                            <th>Item Description</th>
+                            <th>Quantity</th>
+                            <th>Estimated Cost</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
                 $i = 1;
                 foreach ($pendingRequisitions as $requisition) {
                     $estimated_cost = isset($requisition['estimated_cost']) ? $requisition['estimated_cost'] : 0;
                 ?>
-                <tr>
-                    <td><?= $i++; ?></td>
-                    <td><?= CHARS($requisition['requisition_id']); ?></td>
-                    <td><?= CHARS($requisition['department']); ?></td>
-                    <td><?= CHARS($requisition['item_description']); ?></td>
-                    <td><?= CHARS($requisition['quantity']); ?></td>
-                    <td><?= number_format($estimated_cost, 2); ?></td>
-                    <td>
-                        <span class="badge bg-secondary"><?= CHARS($requisition['status']); ?></span>
-                    </td>
-                </tr>
-                <?php } ?>
-            </tbody>
-        </table>
+                        <tr>
+                            <td><?= $i++; ?></td>
+                            <td><?= CHARS($requisition['requisition_id']); ?></td>
+                            <td><?= CHARS($requisition['department']); ?></td>
+                            <td><?= CHARS($requisition['item_description']); ?></td>
+                            <td><?= CHARS($requisition['quantity']); ?></td>
+                            <td><?= number_format($estimated_cost, 2); ?></td>
+                            <td>
+                                <span class="badge bg-secondary"><?= CHARS($requisition['status']); ?></span>
+                            </td>
+                        </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
     </div>
 </div>
 
@@ -102,41 +110,48 @@ $pendingRequisitions = $DB->SELECT("purchaserequisition", "*", "WHERE status='Pe
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <!-- Pending Requisitions Table without Action Column -->
-                <div class="table-responsive">
-                    <table id="modalPendingTable" class="table table-hover table-sm">
-                        <thead class="table text-success">
-                            <tr>
-                                <th>#</th>
-                                <th>Requisition ID</th>
-                                <th>Department</th>
-                                <th>Item Description</th>
-                                <th>Quantity</th>
-                                <th>Estimated Cost</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body">
+                        <!-- Pending Requisitions Table without Action Column -->
+                        <div class="table-responsive">
+                            <table id="dataTable2" class="table table-hover table-sm">
+                                <thead class="table-success">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Requisition ID</th>
+                                        <th>Department</th>
+                                        <th>Item Description</th>
+                                        <th>Quantity</th>
+                                        <th>Estimated Cost</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
                             $i = 1;
                             foreach ($pendingRequisitions as $requisition) {
                                 $estimated_cost = isset($requisition['estimated_cost']) ? $requisition['estimated_cost'] : 0;
                             ?>
-                            <tr>
-                                <td><?= $i++; ?></td>
-                                <td><?= CHARS($requisition['requisition_id']); ?></td>
-                                <td><?= CHARS($requisition['department']); ?></td>
-                                <td><?= CHARS($requisition['item_description']); ?></td>
-                                <td><?= CHARS($requisition['quantity']); ?></td>
-                                <td><?= number_format($estimated_cost, 2); ?></td>
-                                <td>
-                                    <span class="badge bg-secondary"><?= CHARS($requisition['status']); ?></span>
-                                </td>
-                            </tr>
-                            <?php } ?>
-                        </tbody>
-                    </table>
+                                    <tr>
+                                        <td><?= $i++; ?></td>
+                                        <td><?= CHARS($requisition['requisition_id']); ?></td>
+                                        <td><?= CHARS($requisition['department']); ?></td>
+                                        <td><?= CHARS($requisition['item_description']); ?></td>
+                                        <td><?= CHARS($requisition['quantity']); ?></td>
+                                        <td><?= number_format($estimated_cost, 2); ?></td>
+                                        <td>
+                                            <span
+                                                class="badge bg-secondary"><?= CHARS($requisition['status']); ?></span>
+                                        </td>
+                                    </tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
                 </div>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

@@ -60,51 +60,58 @@ $purchaseOrders = $DB->SELECT("purchaseorder", "*", "ORDER BY po_id DESC");
             </div>
             <div class="modal-body">
                 <!-- Active Purchase Orders Table -->
-                <div class="table-responsive">
-                    <table id="dataTable2" class="table table-hover table-sm">
-                        <thead class="table text-success">
-                            <tr>
-                                <th>#</th>
-                                <th>PO ID</th>
-                                <th>Vendor Name</th>
-                                <th>Items</th>
-                                <th>Quantity</th>
-                                <th>Unit Price</th>
-                                <th>Total Cost</th>
-                                <th>Order Date</th>
-                                <th>Delivery Date</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="dataTable2" class="table table-hover table-sm shadow-sm">
+                                <thead class="table-success">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>PO ID</th>
+                                        <th>Vendor Name</th>
+                                        <th>Items</th>
+                                        <th>Quantity</th>
+                                        <th>Unit Price</th>
+                                        <th>Total Cost</th>
+                                        <th>Order Date</th>
+                                        <th>Delivery Date</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
                                 $i = 1;
                                 foreach ($purchaseOrders as $order) {
                             ?>
-                            <tr>
-                                <td><?= $i++; ?></td>
-                                <td><?= CHARS($order['po_id']); ?></td>
-                                <td><?= CHARS($order['vendor_name']); ?></td>
-                                <td><?= CHARS($order['items']); ?></td>
-                                <td><?= CHARS($order['quantity']); ?></td>
-                                <td><?= number_format($order['unit_price'], 2); ?></td>
-                                <td><?= number_format($order['total_cost'], 2); ?></td>
-                                <td><?= CHARS($order['order_date']); ?></td>
-                                <td><?= CHARS($order['delivery_date']); ?></td>
-                                <td>
-                                    <?php if ($order['status'] == 'Delivered') { ?>
-                                    <span class="badge bg-success">Delivered</span>
-                                    <?php } elseif ($order['status'] == 'Cancelled') { ?>
-                                    <span class="badge bg-danger">Cancelled</span>
-                                    <?php } else { ?>
-                                    <span class="badge bg-secondary">Ordered</span>
+                                    <tr>
+                                        <td><?= $i++; ?></td>
+                                        <td><?= CHARS($order['po_id']); ?></td>
+                                        <td><?= CHARS($order['vendor_name']); ?></td>
+                                        <td><?= CHARS($order['items']); ?></td>
+                                        <td><?= CHARS($order['quantity']); ?></td>
+                                        <td><?= number_format($order['unit_price'], 2); ?></td>
+                                        <td><?= number_format($order['total_cost'], 2); ?></td>
+                                        <td><?= CHARS($order['order_date']); ?></td>
+                                        <td><?= CHARS($order['delivery_date']); ?></td>
+                                        <td>
+                                            <?php if ($order['status'] == 'Delivered') { ?>
+                                            <span class="badge bg-success">Delivered</span>
+                                            <?php } elseif ($order['status'] == 'Cancelled') { ?>
+                                            <span class="badge bg-danger">Cancelled</span>
+                                            <?php } else { ?>
+                                            <span class="badge bg-secondary">Ordered</span>
+                                            <?php } ?>
+                                        </td>
+                                    </tr>
                                     <?php } ?>
-                                </td>
-                            </tr>
-                            <?php } ?>
-                        </tbody>
-                    </table>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
                 </div>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -115,124 +122,131 @@ $purchaseOrders = $DB->SELECT("purchaseorder", "*", "ORDER BY po_id DESC");
 
 <!-- Purchase Orders Table -->
 <div class="container mt-4">
-    <div class="table-responsive">
-        <table id="dataTable1" class="table table-bordered table-hover table-sm shadow-sm table-nowrap">
-            <thead class="thead-light text-success">
-                <tr>
-                    <th>#</th>
-                    <th>PO ID</th>
-                    <th>Vendor Name</th>
-                    <th>Items</th>
-                    <th>Quantity</th>
-                    <th>Unit Price</th>
-                    <th>Total Cost</th>
-                    <th>Order Date</th>
-                    <th>Delivery Date</th>
-                    <th>Status</th>
-                    <th>Remarks</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-light text-success">
+            <h5 class="mb-0">Purchase Order Management</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="dataTable1" class="table table-bordered table-hover table-sm mb-0 shadow-sm table-nowrap">
+                    <thead class="table-success">
+                        <tr>
+                            <th>#</th>
+                            <th>PO ID</th>
+                            <th>Vendor Name</th>
+                            <th>Items</th>
+                            <th>Quantity</th>
+                            <th>Unit Price</th>
+                            <th>Total Cost</th>
+                            <th>Order Date</th>
+                            <th>Delivery Date</th>
+                            <th>Status</th>
+                            <th>Remarks</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
                 $i = 1;
                 foreach ($purchaseOrders as $order) {
                 ?>
-                <tr>
-                    <td><?= $i++; ?></td>
-                    <td><?= CHARS($order['po_id']); ?></td>
-                    <td><?= CHARS($order['vendor_name']); ?></td>
-                    <td><?= CHARS($order['items']); ?></td>
-                    <td><?= CHARS($order['quantity']); ?></td>
-                    <td><?= number_format($order['unit_price'], 2); ?></td>
-                    <td><?= number_format($order['total_cost'], 2); ?></td>
-                    <td><?= CHARS($order['order_date']); ?></td>
-                    <td><?= CHARS($order['delivery_date']); ?></td>
-                    <td>
-                        <?php if ($order['status'] == 'Delivered') { ?>
-                        <span class="badge bg-success">Delivered</span>
-                        <?php } elseif ($order['status'] == 'Cancelled') { ?>
-                        <span class="badge bg-danger">Cancelled</span>
-                        <?php } else { ?>
-                        <span class="badge bg-secondary">Ordered</span>
+                        <tr>
+                            <td><?= $i++; ?></td>
+                            <td><?= CHARS($order['po_id']); ?></td>
+                            <td><?= CHARS($order['vendor_name']); ?></td>
+                            <td><?= CHARS($order['items']); ?></td>
+                            <td><?= CHARS($order['quantity']); ?></td>
+                            <td><?= number_format($order['unit_price'], 2); ?></td>
+                            <td><?= number_format($order['total_cost'], 2); ?></td>
+                            <td><?= CHARS($order['order_date']); ?></td>
+                            <td><?= CHARS($order['delivery_date']); ?></td>
+                            <td>
+                                <?php if ($order['status'] == 'Delivered') { ?>
+                                <span class="badge bg-success">Delivered</span>
+                                <?php } elseif ($order['status'] == 'Cancelled') { ?>
+                                <span class="badge bg-danger">Cancelled</span>
+                                <?php } else { ?>
+                                <span class="badge bg-secondary">Ordered</span>
+                                <?php } ?>
+                            </td>
+                            <td><?= CHARS($order['remarks']); ?></td>
+                            <td>
+                                <div class="d-flex gap-2">
+                                    <!-- Edit Button -->
+                                    <button class="btn btn-sm btn-light shadow-sm editOrder"
+                                        data-po_id="<?= $order['po_id']; ?>">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </button>
+                                    <!-- Cancel Button -->
+                                    <?php if ($order['status'] != "Cancelled") { ?>
+                                    <button class="btn btn-sm btn-danger shadow-sm cancelOrder"
+                                        data-po_id="<?= $order['po_id']; ?>">
+                                        <i class="bi bi-x-circle"></i>
+                                    </button>
+                                    <?php } else { ?>
+                                    <button class="btn btn-sm btn-danger shadow-sm" disabled><i
+                                            class="bi bi-x-circle"></i></button>
+                                    <?php } ?>
+                                    <!-- Sync to Vendor Button -->
+                                    <button class="btn btn-sm btn-primary shadow-sm syncOrder"
+                                        data-po_id="<?= $order['po_id']; ?>">
+                                        <i class="bi bi-upload"></i> Sync to Vendor
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
                         <?php } ?>
-                    </td>
-                    <td><?= CHARS($order['remarks']); ?></td>
-                    <td>
-                        <div class="d-flex gap-2">
-                            <!-- Edit Button -->
-                            <button class="btn btn-sm btn-light shadow-sm editOrder"
-                                data-po_id="<?= $order['po_id']; ?>">
-                                <i class="bi bi-pencil-square"></i>
-                            </button>
-                            <!-- Cancel Button -->
-                            <?php if ($order['status'] != "Cancelled") { ?>
-                            <button class="btn btn-sm btn-danger shadow-sm cancelOrder"
-                                data-po_id="<?= $order['po_id']; ?>">
-                                <i class="bi bi-x-circle"></i>
-                            </button>
-                            <?php } else { ?>
-                            <button class="btn btn-sm btn-danger shadow-sm" disabled><i
-                                    class="bi bi-x-circle"></i></button>
-                            <?php } ?>
-                            <!-- Sync to Vendor Button -->
-                            <button class="btn btn-sm btn-primary shadow-sm syncOrder"
-                                data-po_id="<?= $order['po_id']; ?>">
-                                <i class="bi bi-upload"></i> Sync to Vendor
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-                <?php } ?>
-            </tbody>
-        </table>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
     </div>
-</div>
 
-<!-- Modal Container for Dynamic Modals -->
-<div id="responseModal"></div>
-<div id="response"></div>
+    <!-- Modal Container for Dynamic Modals -->
+    <div id="responseModal"></div>
+    <div id="response"></div>
 
-<!-- JavaScript for Handling Modals and AJAX Requests -->
-<script>
-// Create Purchase Order Button Click Event
-$('#btnAddPurchaseOrder').click(function() {
-    $.post('api/purchase/create_modal.php', function(res) {
-        $('#responseModal').html(res);
-        $('#addPurchaseOrderModal').modal('show');
+    <!-- JavaScript for Handling Modals and AJAX Requests -->
+    <script>
+    // Create Purchase Order Button Click Event
+    $('#btnAddPurchaseOrder').click(function() {
+        $.post('api/purchase/create_modal.php', function(res) {
+            $('#responseModal').html(res);
+            $('#addPurchaseOrderModal').modal('show');
+        });
     });
-});
 
-// Edit Purchase Order Button Click Event
-$('.editOrder').click(function() {
-    const po_id = $(this).data('po_id');
-    $.post('api/purchase/edit_modal.php', {
-        po_id: po_id
-    }, function(res) {
-        $('#responseModal').html(res);
-        $('#editPOModal').modal('show');
+    // Edit Purchase Order Button Click Event
+    $('.editOrder').click(function() {
+        const po_id = $(this).data('po_id');
+        $.post('api/purchase/edit_modal.php', {
+            po_id: po_id
+        }, function(res) {
+            $('#responseModal').html(res);
+            $('#editPOModal').modal('show');
+        });
     });
-});
 
-// Cancel Purchase Order Button Click Event
-$('.cancelOrder').click(function() {
-    const po_id = $(this).data('po_id');
-    $.post('api/purchase/cancel.php', {
-        po_id: po_id
-    }, function(res) {
-        $('#response').html(res);
+    // Cancel Purchase Order Button Click Event
+    $('.cancelOrder').click(function() {
+        const po_id = $(this).data('po_id');
+        $.post('api/purchase/cancel.php', {
+            po_id: po_id
+        }, function(res) {
+            $('#response').html(res);
+        });
     });
-});
 
-// Sync Purchase Order Button Click Event
-$('.syncOrder').click(function() {
-    const po_id = $(this).data('po_id');
-    $.post('api/purchase/sync_to_vendor.php', {
-        po_id: po_id
-    }, function(res) {
-        const response = JSON.parse(res);
-        const alertClass = response.status === 'Synced' ? 'alert-success' : 'alert-danger';
-        $('#response').html(`<div class="alert ${alertClass}">${response.message}</div>`);
+    // Sync Purchase Order Button Click Event
+    $('.syncOrder').click(function() {
+        const po_id = $(this).data('po_id');
+        $.post('api/purchase/sync_to_vendor.php', {
+            po_id: po_id
+        }, function(res) {
+            const response = JSON.parse(res);
+            const alertClass = response.status === 'Synced' ? 'alert-success' : 'alert-danger';
+            $('#response').html(`<div class="alert ${alertClass}">${response.message}</div>`);
+        });
     });
-});
-</script>
+    </script>

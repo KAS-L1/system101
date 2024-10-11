@@ -22,7 +22,6 @@
                             <a class="nav-link text-dark" href="/budget-approval">Budget Approval</a>
                             <a class="nav-link text-dark" href="/purchase-orders">Purchase Order</a>
                             <!-- <a class="nav-link text-dark" href="/suppliers">Suppliers</a> -->
-                            <a class="nav-link text-dark" href="/contract-management">Contract Management</a>
                             <a class="nav-link text-dark" href="/vendor-request-for-qoute">Vendor Management & Request
                                 for
                                 Quote</a>
