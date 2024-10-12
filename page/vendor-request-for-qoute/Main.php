@@ -3,11 +3,11 @@
 // Retrieve all vendors from the `vendors` table
 $vendors = $DB->SELECT("vendors", "*");
 
-// Retrieve all products from the `product_catalog` table
-$products = $DB->SELECT("product_catalog", "*");
+// Retrieve all products from the `vendor_products` table
+$products = $DB->SELECT("vendor_products", "*");
 
-// Retrieve all RFQs from the `rfq` table
-$rfqs = $DB->SELECT("rfq", "*");
+// Retrieve all RFQs from the `rfqs` table
+$rfqs = $DB->SELECT("rfqs", "*");
 ?>
 
 <!-- Container for Page Content -->
@@ -248,7 +248,7 @@ $('.btnEditVendor').click(function() {
 $('.removeVendor').click(function() {
     const vendor_id = $(this).data('vendor_id');
     if (confirm("Are you sure you want to delete this vendor?")) {
-        $.post('api/vendor/remove.php', {
+        $.post('api/vendor/remove_vendor.php', {
             vendor_id: vendor_id
         }, function(response) {
             $('#responseModal').html(response);
@@ -266,11 +266,9 @@ $('#openCreateProductModalButton').click(function() {
     });
 });
 
-
-
 $('.editProduct').click(function() {
     const product_id = $(this).data('product_id');
-    $.post('api/product/edit_modal.php', {
+    $.post('api/product/edit_product_modal.php', {
         product_id: product_id
     }, function(res) {
         $('#responseModal').html(res);
@@ -281,7 +279,7 @@ $('.editProduct').click(function() {
 $('.removeProduct').click(function() {
     const product_id = $(this).data('product_id');
     if (confirm("Are you sure you want to delete this product?")) {
-        $.post('api/product/remove.php', {
+        $.post('api/product/remove_product.php', {
             product_id: product_id
         }, function(response) {
             $('#responseModal').html(response);
@@ -292,7 +290,6 @@ $('.removeProduct').click(function() {
 
 // RFQ Modals and Actions
 
-
 $('#openCreateRFQModalButton').click(function() {
     $.post('api/vendor-rfq/create_rfq_modal.php', function(res) {
         $('#responseModal').html(res);
@@ -302,7 +299,7 @@ $('#openCreateRFQModalButton').click(function() {
 
 $('.editRFQ').click(function() {
     const rfq_id = $(this).data('rfq_id');
-    $.post('api/rfq/edit_modal.php', {
+    $.post('api/rfq/edit_rfq_modal.php', {
         rfq_id: rfq_id
     }, function(res) {
         $('#responseModal').html(res);
@@ -313,7 +310,7 @@ $('.editRFQ').click(function() {
 $('.removeRFQ').click(function() {
     const rfq_id = $(this).data('rfq_id');
     if (confirm("Are you sure you want to delete this RFQ?")) {
-        $.post('api/rfq/remove.php', {
+        $.post('api/rfq/remove_rfq.php', {
             rfq_id: rfq_id
         }, function(response) {
             $('#responseModal').html(response);
