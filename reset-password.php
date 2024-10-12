@@ -37,8 +37,9 @@
         <div class="row justify-content-center">
             <div class="col-lg-5">
                 <div class="card shadow-lg border-0 rounded-lg mt-5">
-                    <div class="card-header">
-                        <h3 class="text-center font-weight-light my-4">Reset Your Password</h3>
+                    <div class="card-header d-flex align-items-center justify-content-start"">
+                        <img src="<?= APP_LOGO ?>" alt="Logo" class="ms-5" style="height: 40px;">
+                        <h3 class="my-0 ms-3">Reset Your Password</h3>
                     </div>
                     <div class="card-body">
 
