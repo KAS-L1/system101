@@ -54,6 +54,10 @@ if(isset($_POST['username']) AND isset($_POST['password'])){
                 redirectUrl("/purchase-orders");
             }else if($user['role'] == "FINANCE"){
                 redirectUrl("/audit-management");
+            }else if($user['role'] == "VENDOR"){
+                redirectUrl("/vendor-portal");
+            }else if($user['role'] == "KITCHEN"){
+                redirectUrl("/kitchen-portal");
             }
             
         }else{

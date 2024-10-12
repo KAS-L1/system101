@@ -90,7 +90,7 @@ $rfqs = $DB->SELECT("rfq", "*");
                                 <td>
                                     <div class="d-flex gap-2">
                                         <!-- Edit Vendor Button -->
-                                        <button class="btn btn-sm btn-light shadow-sm editVendor"
+                                        <button class="btn btn-sm btn-light shadow-sm btnEditVendor"
                                             data-vendor_id="<?= $vendor['vendor_id']; ?>">
                                             <i class="bi bi-pencil-square"></i>
                                         </button>
@@ -235,11 +235,9 @@ $('#openCreateVendorModalButton').click(function() {
     });
 });
 
-
-
-$('.editVendor').click(function() {
+$('.btnEditVendor').click(function() {
     const vendor_id = $(this).data('vendor_id');
-    $.post('api/vendor/edit_modal.php', {
+    $.post('api/vendor-rfq/edit_vendor_modal.php', {
         vendor_id: vendor_id
     }, function(res) {
         $('#responseModal').html(res);

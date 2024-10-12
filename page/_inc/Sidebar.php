@@ -61,16 +61,7 @@
                             <a class="nav-link text-dark" href="layout-sidenav-light.html">Document Disposal</a>
                         </nav>
                     </div>
-                    <div class="sb-sidenav-menu-heading text-muted">APPS</div>
-                    <a class="nav-link text-dark" href="vendor_portal.php">
-                        <div class="sb-nav-link-icon text-success"><i class="fas fa-store"></i></div>
-                        Vendor Portal
-                    </a>
-                    <a class="nav-link text-dark" href="food_beverage_management.php">
-                        <div class="sb-nav-link-icon text-success"><i class="fas fa-utensils"></i></div>
-                        Food & Beverage Management
-                    </a>
-
+              
                     <?php if(AUTH_USER['role'] == "ADMIN"){ ?>
                     <div class="sb-sidenav-menu-heading text-muted">ADMIN ACCESS</div>
                     <a class="nav-link collapsed text-dark" href="#" data-bs-toggle="collapse"

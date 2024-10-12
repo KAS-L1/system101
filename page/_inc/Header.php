@@ -27,4 +27,14 @@
 
     <?php include('page/_inc/topbar.php');?>
 
-    <?php include('page/_inc/sidebar.php');?>
+    
+    <?php 
+    
+    if(AUTH_USER['role'] == "VENDOR"){
+    include('page/_inc/sidebar_vendor.php');
+    }else if(AUTH_USER['role'] == "KITCHEN"){
+    include('page/_inc/sidebar_kitchen.php');
+    }else {
+        include('page/_inc/sidebar.php');
+    }
+    ?>
