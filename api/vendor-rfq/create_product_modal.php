@@ -16,7 +16,7 @@ $vendors = $DB->SELECT("vendors", "*", "ORDER BY vendor_id ASC");
             <div class="modal-body">
                 <form id="createProductForm">
                     <div class="mb-3">
-                        <label for="vendorId" class="form-label">Vendor ID</label>
+                        <label for="vendorId" class="form-label">Vendor Name</label>
                         <select class="form-select" id="vendorId" name="vendor_id" required>
                             <option value="">Select Vendor</option>
                             <?php foreach ($vendors as $vendor): ?>

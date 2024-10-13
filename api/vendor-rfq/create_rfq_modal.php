@@ -18,7 +18,7 @@
                     <form id="createRFQForm">
                         <!-- Vendor Selection -->
                         <div class="mb-3">
-                            <label for="vendorId" class="form-label">Vendor ID</label>
+                            <label for="vendorId" class="form-label">Vendor Name</label>
                             <select class="form-select" id="vendorId" name="vendor_id" required>
                                 <?php foreach ($vendors as $vendor): ?>
                                     <option value="<?= $vendor['vendor_id']; ?>"><?= $vendor['vendor_name']; ?></option>
@@ -28,7 +28,7 @@
 
                         <!-- Product Selection -->
                         <div class="mb-3">
-                            <label for="productId" class="form-label">Product ID</label>
+                            <label for="productId" class="form-label">Product Name</label>
                             <select class="form-select" id="productId" name="product_id" required>
                                 <?php foreach ($products as $product): ?>
                                     <option value="<?= $product['product_id']; ?>"><?= $product['product_name']; ?></option>

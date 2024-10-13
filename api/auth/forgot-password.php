@@ -15,14 +15,14 @@ if (isset($_POST['email'])) {
         echo alert("warning", "A valid email is required to reset the password.");
         exit;
     }
-    
+
     // Check if the email exists in the users table
     $user = $DB->SELECT_ONE_WHERE("users", "*", array("email" => $email));
     if (empty($user)) {
         echo alert("warning", "Email not found in our records. Please check your email address.");
         exit;
     }
-    
+
     // Generate a unique and secure forgot password token using random_bytes()
     $token = bin2hex(random_bytes(32));  // Generates a 64-character secure token
 
@@ -33,7 +33,7 @@ if (isset($_POST['email'])) {
 
     if ($token_update == "success") {
         // Construct the password reset link with the token
-        $resetLink = "http://".$_SERVER['HTTP_HOST']."/reset-password.php?token=".$token;
+        $resetLink = "http://" . $_SERVER['HTTP_HOST'] . "/reset-password.php?token=" . $token;
 
         // Load PHPMailer classes
         require("../phpmailer/vendor/autoload.php");
@@ -42,15 +42,15 @@ if (isset($_POST['email'])) {
         $mail = new PHPMailer(true);
         try {
             $mail->isSMTP();
-            $mail->Host = 'smtp.gmail.com'; 
+            $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth = true;
-            $mail->Username = 'kasl.54370906@gmail.com'; 
+            $mail->Username = 'kasl.54370906@gmail.com';
             $mail->Password = 'lgrg mpma cwzo uhdv';
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; 
-            $mail->Port = 587; 
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port = 587;
 
             // Sender and recipient
-            $mail->setFrom('kasl.54370906@gmail.com', 'Logistic Paradise'); 
+            $mail->setFrom('kasl.54370906@gmail.com', 'Logistic Paradise');
             $mail->addAddress($email);
 
             // Email Content
@@ -69,8 +69,7 @@ if (isset($_POST['email'])) {
         } catch (Exception $e) {
             echo alert("danger", "Message could not be sent. Mailer Error: {$mail->ErrorInfo}");
         }
-        
-    } else { 
+    } else {
         echo alert("danger", "Failed to generate password reset link. Please try again.");
     }
-} 
+}
