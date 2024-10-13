@@ -1,9 +1,6 @@
 <?php require("app/init.php") ?>
 <?php if (isset($_COOKIE['_usertoken'])) redirectUrl("/dashboard?res=redirect-login") ?>
 
-<?php $csrf_token = generate_csrf_token(); // Call the function to generate CSRF token
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -39,8 +36,6 @@
 
                     <!-- Login Form with CSRF token -->
                     <form id="formLogin">
-                        <!-- Hidden field for CSRF token -->
-                        <input type="hidden" name="csrf_token" value="<?= $csrf_token; ?>">
 
                         <div class="form-floating mb-3">
                             <input type="text" id="username" name="username" class="form-control" placeholder="Username" />
