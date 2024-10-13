@@ -137,7 +137,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Product ID</th>
-                                        <th>Vendor ID</th>
+                                        <th>Vendor Name</th>
                                         <th>Product Name</th>
                                         <th>Description</th>
                                         <th>Unit Price</th>
@@ -147,11 +147,17 @@
                                 </thead>
                                 <tbody>
                                     <?php $i = 1;
+
                                     foreach ($products as $product): ?>
+                                        <?php
+                                        // Selecting on vendors 
+                                        $where = array("vendor_id" => $product['vendor_id']);
+                                        $vendor_name = $DB->SELECT_ONE_WHERE("vendors", "vendor_name", $where);
+                                        ?>
                                         <tr>
                                             <td><?= $i++; ?></td>
                                             <td><?= $product['product_id']; ?></td>
-                                            <td><?= $product['vendor_id']; ?></td>
+                                            <td><?= $vendor_name['vendor_name']; ?></td>
                                             <td><?= $product['product_name']; ?></td>
                                             <td><?= $product['description']; ?></td>
                                             <td><?= NUMBER_PHP_2($product['unit_price']); ?></td>
@@ -192,8 +198,8 @@
                                     <tr>
                                         <th>#</th>
                                         <th>RFQ ID</th>
-                                        <th>Vendor ID</th>
-                                        <th>Product ID</th>
+                                        <th>Vendor Name</th>
+                                        <th>Product Name</th>
                                         <th>Requested Quantity</th>
                                         <th>Quoted Price</th>
                                         <th>RFQ Status</th>
@@ -204,11 +210,17 @@
                                 <tbody>
                                     <?php $i = 1;
                                     foreach ($rfqs as $rfq): ?>
+                                        <?php
+                                        // Selecting on vendors 
+                                        $vendor_name = $DB->SELECT_ONE_WHERE("vendors", "vendor_name", array("vendor_id" => $product['vendor_id']));
+                                        $product_name = $DB->SELECT_ONE_WHERE("vendor_products", "product_name", array("product_id" => $product['product_id']));
+
+                                        ?>
                                         <tr>
                                             <td><?= $i++; ?></td>
                                             <td><?= $rfq['rfq_id']; ?></td>
-                                            <td><?= $rfq['vendor_id']; ?></td>
-                                            <td><?= $rfq['product_id']; ?></td>
+                                            <td><?= $vendor_name['vendor_name']; ?></td>
+                                            <td><?= $product_name['product_name']; ?></td>
                                             <td><?= $rfq['requested_quantity']; ?></td>
                                             <td><?= NUMBER_PHP_2($rfq['quoted_price']); ?></td>
                                             <td>

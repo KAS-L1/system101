@@ -2,7 +2,7 @@
 
 /**
  * FUNCTIONAL COMPONENTS
-**/
+ **/
 
 /**
  * Refreshes the current URL.
@@ -10,10 +10,13 @@
  * This function uses JavaScript to reload the current page.
  * The die() function is used to stop the execution of the script after reloading the page.
  */
-function refreshUrl(){
-    ?>
-        <script>location.reload();</script>
-    <?php
+function refreshUrl()
+{
+?>
+    <script>
+        location.reload();
+    </script>
+<?php
     die();
 }
 
@@ -25,11 +28,15 @@ function refreshUrl(){
  * 
  * @param int $second The number of seconds to wait before reloading the page.
  */
-function refreshUrlTimeout($second){
-    ?>
-        <script>setTimeout(function(){ location.reload() },<?=$second?>);</script>
-    <?php
-    die();
+function refreshUrlTimeout($second)
+{
+?>
+    <script>
+        setTimeout(function() {
+            location.reload()
+        }, <?= $second ?>);
+    </script>
+<?php
 }
 
 /**
@@ -40,11 +47,13 @@ function refreshUrlTimeout($second){
  * 
  * @param string $url The URL to redirect to.
  */
-function redirectUrl($url){
-    ?>
-    <script>window.location.href="<?=$url?>"</script>
-    <?php
-    die();
+function redirectUrl($url)
+{
+?>
+    <script>
+        window.location.href = "<?= $url ?>"
+    </script>
+<?php
 }
 
 /**
@@ -56,12 +65,15 @@ function redirectUrl($url){
  * @param string $url The URL to redirect to.
  * @param int $second The number of seconds to wait before redirecting.
  */
-function redirectUrlTimeout($url, $second){
-    ?>
+function redirectUrlTimeout($url, $second)
+{
+?>
     <script>
-        setTimeout(function(){ location.href='<?=$url?>'; },'<?=$second?>');
+        setTimeout(function() {
+            location.href = '<?= $url ?>';
+        }, '<?= $second ?>');
     </script>
-    <?php
+<?php
     die();
 }
 
@@ -74,10 +86,11 @@ function redirectUrlTimeout($url, $second){
  * @param string $type The type of alert message (e.g., success, error, warning).
  * @param string $message The message to display in the alert.
  */
-function alert($type, $message){
-    ?>
-    <div class="alert alert-<?=$type?> fw-bold py-2"><?=$message?></div>
-    <?php
+function alert($type, $message)
+{
+?>
+    <div class="alert alert-<?= $type ?> fw-bold py-2"><?= $message ?></div>
+<?php
 }
 
 /**
@@ -90,17 +103,18 @@ function alert($type, $message){
  * @param string $header The header of the toast notification.
  * @param string $message The message to display in the toast notification.
  */
-function toastHead($status, $header, $message){
-    ?>
+function toastHead($status, $header, $message)
+{
+?>
     <script>
-        toastr.<?=$status?>('<?=$message?>', '<?=$header?>');
+        toastr.<?= $status ?>('<?= $message ?>', '<?= $header ?>');
         toastr.options = {
             "progressBar": true,
             "positionClass": "toast-top-center",
             "preventDuplicates": false
         }
     </script>
-    <?php
+<?php
 }
 
 /**
@@ -112,8 +126,9 @@ function toastHead($status, $header, $message){
  * @param string $type The type of toast notification (e.g., success, error, warning).
  * @param string $message The message to display in the toast notification.
  */
-function swalToast($type, $message){
-    ?>
+function swalToast($type, $message)
+{
+?>
     <script>
         $(function() {
             var Toast = Swal.mixin({
@@ -123,17 +138,17 @@ function swalToast($type, $message){
                 timer: 3000,
                 timerProgressBar: true,
                 showClass: {
-                    backdrop: 'swal2-noanimation', 
-                    popup: '',                     
+                    backdrop: 'swal2-noanimation',
+                    popup: '',
                 },
             });
             Toast.fire({
-                icon: '<?=$type?>',
-                title: '<?=$message?>'
+                icon: '<?= $type ?>',
+                title: '<?= $message ?>'
             });
         });
     </script>
-    <?php
+<?php
 }
 
 /**
@@ -146,18 +161,19 @@ function swalToast($type, $message){
  * @param string $title The title of the alert message.
  * @param string $message The message to display in the alert.
  */
-function swalAlert($type, $title = null, $message = null){
-    ?>
+function swalAlert($type, $title = null, $message = null)
+{
+?>
     <script>
         Swal.fire({
-            icon:'<?=$type?>',
-            title:'<?=$title?>',
-            text:'<?=$message?>',
+            icon: '<?= $type ?>',
+            title: '<?= $title ?>',
+            text: '<?= $message ?>',
             confirmButtonColor: "#26adf8",
             confirmButtonText: 'Okay'
         });
     </script>
-    <?php
+<?php
 }
 
 /**
@@ -170,19 +186,20 @@ function swalAlert($type, $title = null, $message = null){
  * @param string $title The title of the alert message.
  * @param string $redirect The URL to redirect to after confirmation.
  */
-function swalAlertAction($type, $title, $redirect){
-    ?>
+function swalAlertAction($type, $title, $redirect)
+{
+?>
     <script>
         Swal.fire({
-            icon:'<?=$type?>',
-            title:'<?=$title?>',
+            icon: '<?= $type ?>',
+            title: '<?= $title ?>',
             confirmButtonColor: "#26adf8",
             confirmButtonText: 'Okay'
         }).then((result) => {
             if (result.isConfirmed) {
-                location.href='<?=$redirect?>';
+                location.href = '<?= $redirect ?>';
             }
         });
     </script>
-    <?php
+<?php
 }

@@ -4,10 +4,6 @@
 * Authenticate user and validate user token
 */
 
-// Start session if not already started (necessary for CSRF)
-if (session_status() == PHP_SESSION_NONE) {
-	session_start();
-}
 
 // Check if the '_usertoken' cookie is set
 if (isset($_COOKIE['_usertoken'])) {
