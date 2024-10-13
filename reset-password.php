@@ -1,16 +1,17 @@
 <?php require("app/init.php"); ?>
 
-<?php 
+<?php
 
-    if(isset($_GET['token']) OR !empty($_GET['token'])){
-        $where = array('forgot_token' => $_GET['token']);
-        $user = $DB->SELECT_ONE_WHERE("users", "*", $where);
-    }
-        
+if (isset($_GET['token']) or !empty($_GET['token'])) {
+    $where = array('forgot_token' => $_GET['token']);
+    $user = $DB->SELECT_ONE_WHERE("users", "*", $where);
+}
+
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -24,38 +25,41 @@
             font-size: 0.9em;
             color: #dc3545;
         }
+
         .valid {
             color: #28a745;
         }
+
         .invalid {
             color: #dc3545;
         }
     </style>
 </head>
+
 <body class="bg-primary">
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-lg-5">
                 <div class="card shadow-lg border-0 rounded-lg mt-5">
                     <div class="card-header d-flex align-items-center justify-content-start"">
-                        <img src="<?= APP_LOGO ?>" alt="Logo" class="ms-5" style="height: 40px;">
-                        <h3 class="my-0 ms-3">Reset Your Password</h3>
+                        <img src=" <?= APP_LOGO ?>" alt="Logo" class="" style="height: 40px;">
+                        <h3 class="my-0 ms-1">Reset Your Password</h3>
                     </div>
                     <div class="card-body">
 
-                        <?php if(!isset($_GET['token']) OR empty($_GET['token'])){ ?>
+                        <?php if (!isset($_GET['token']) or empty($_GET['token'])) { ?>
 
                             <div class="alert alert-danger text-center">
                                 Token is required please check your url
                             </div>
 
-                        <?php }else if(empty($user)){ ?>
-                            
+                        <?php } else if (empty($user)) { ?>
+
                             <div class="alert alert-warning text-center">
                                 Token is invalid please check your url
                             </div>
 
-                        <?php }else{ ?>
+                        <?php } else { ?>
 
                             <!-- Display any error or success messages here -->
                             <div id="response" class="mb-3"></div>
@@ -63,7 +67,7 @@
                             <!-- Password Reset Form -->
                             <form id="formResetPassword">
                                 <!-- Hidden field for the token passed via URL -->
-                                <input type="hidden" name="token" value="<?=CHARS($_GET['token'])?>" />
+                                <input type="hidden" name="token" value="<?= CHARS($_GET['token']) ?>" />
 
                                 <!-- New Password Field -->
                                 <div class="form-floating mb-3">
@@ -93,12 +97,12 @@
                                 <button type="submit" class="btn btn-primary w-100" id="submitBtn" disabled>Reset Password</button>
                             </form>
                             <script>
-                                $('#formResetPassword').submit(function(e){
+                                $('#formResetPassword').submit(function(e) {
                                     e.preventDefault();
                                     var formData = $(this).serialize();
-                                    $.post("api/auth/reset-password.php", formData, function(response){
+                                    $.post("api/auth/reset-password.php", formData, function(response) {
                                         $('#response').html(response);
-                                    });                                       
+                                    });
                                 });
                             </script>
 
@@ -194,4 +198,5 @@
         confirmPassword.addEventListener('input', validatePassword);
     </script>
 </body>
+
 </html>
