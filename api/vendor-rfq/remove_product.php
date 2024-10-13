@@ -7,7 +7,8 @@ $where = ["product_id" => $product_id];
 $deleteProduct = $DB->DELETE("vendor_products", $where);
 
 if ($deleteProduct) {
-    swalAlert("Product removed successfully.");
+    swalAlert("success", "Product removed successfully.");
+    refreshUrlTimeout(2000);
 } else {
-    swalAlert("Failed to remove product.");
+    swalAlert("error", "Failed to remove product.");
 }

@@ -5,8 +5,8 @@ $rfq_id = $_POST['rfq_id'];
 $data = [
     "vendor_id" => $DB->ESCAPE($_POST['vendor_id']),
     "product_id" => $DB->ESCAPE($_POST['product_id']),
-    "requested_quantity" => intval($_POST['requested_quantity']),
-    "quoted_price" => floatval($_POST['quoted_price']),
+    "requested_quantity" => $DB->ESCAPE($_POST['requested_quantity']),
+    "quoted_price" => $DB->ESCAPE($_POST['quoted_price']),
     "rfq_status" => $DB->ESCAPE($_POST['rfq_status']),
 ];
 

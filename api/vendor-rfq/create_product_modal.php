@@ -1,3 +1,10 @@
+<?php
+require("../../app/init.php");
+
+// Fetch vendors from the database
+$vendors = $DB->SELECT("vendors", "*", "ORDER BY vendor_id ASC");
+?>
+
 <div class="modal fade" id="createProductModal" tabindex="-1" aria-labelledby="createProductModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -10,6 +17,7 @@
                     <div class="mb-3">
                         <label for="vendorId" class="form-label">Vendor ID</label>
                         <select class="form-select" id="vendorId" name="vendor_id" required>
+                            <option value="">Select Vendor</option>
                             <?php foreach ($vendors as $vendor): ?>
                                 <option value="<?= $vendor['vendor_id']; ?>"><?= $vendor['vendor_name']; ?></option>
                             <?php endforeach; ?>
@@ -33,6 +41,7 @@
                     </div>
                     <button type="submit" class="btn btn-success">Create Product</button>
                 </form>
+                <div id="response"></div>
             </div>
         </div>
     </div>
@@ -40,11 +49,10 @@
 
 <script>
     $('#createProductForm').submit(function(e) {
-        e.preventDefault();
-        $.post('api/product/create.php', $(this).serialize(), function(response) {
-            $('#response').html(response);
-            $('#createProductModal').modal('hide');
-            location.reload();
+        e.preventDefault(); // Prevent default form submission
+        // Send the form data via AJAX
+        $.post('api/vendor-rfq/create_product.php', $(this).serialize(), function(response) {
+            $('#response').html(response); // Display server response
         });
     });
 </script>

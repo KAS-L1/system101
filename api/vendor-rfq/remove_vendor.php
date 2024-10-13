@@ -7,7 +7,8 @@ $where = ["vendor_id" => $vendor_id];
 $deleteVendor = $DB->DELETE("vendors", $where);
 
 if ($deleteVendor) {
-    swalAlert("Vendor removed successfully.");
+    swalAlert("success", "Vendor removed successfully.");
+    refreshUrlTimeout(2000);
 } else {
-    swalAlert("Failed to remove vendor.");
+    swalAlert("error", "Failed to remove vendor.");
 }

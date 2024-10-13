@@ -45,8 +45,6 @@
         e.preventDefault();
         $.post('api/vendor-rfq/create_vendor.php', $(this).serialize(), function(response) {
             $('#response').html(response);
-            $('#createVendorModal').modal('hide');
-            location.reload();
         });
     });
 </script>

@@ -1,5 +1,6 @@
 <?php
 require("../../app/init.php");
+$vendors = $DB->SELECT("vendors", "*", "ORDER BY vendor_id ASC");
 $product_id = $_POST['product_id'];
 $product = $DB->SELECT_ONE_WHERE("vendor_products", "*", ["product_id" => $product_id]);
 ?>
@@ -50,10 +51,8 @@ $product = $DB->SELECT_ONE_WHERE("vendor_products", "*", ["product_id" => $produ
 <script>
     $('#editProductForm').submit(function(e) {
         e.preventDefault();
-        $.post('api/product/update.php', $(this).serialize(), function(response) {
+        $.post('api/vendor-rfq/update_product.php', $(this).serialize(), function(response) {
             $('#response').html(response);
-            $('#editProductModal').modal('hide');
-            location.reload();
         });
     });
 </script>

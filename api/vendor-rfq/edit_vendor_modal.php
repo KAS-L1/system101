@@ -49,10 +49,13 @@ $vendor = $DB->SELECT_ONE_WHERE("vendors", "*", ["vendor_id" => $vendor_id]);
 
 <script>
     $('#editVendorForm').submit(function(e) {
-        e.preventDefault();
+    e.preventDefault(); // Prevent default form submission
+    var formData = $(this).serialize(); // Serialize form data
+    // AJAX request to update requisition data
         $.post('api/vendor-rfq/update_vendor.php', $(this).serialize(), function(response) {
-            $('#response').html(response);
-            $('#editVendorModal').modal('hide');
-        });
+        $('#response').html(response); // Display response in the modal
     });
+});
 </script>
+
+   
