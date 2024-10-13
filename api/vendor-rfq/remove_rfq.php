@@ -7,7 +7,8 @@ $where = ["rfq_id" => $rfq_id];
 $deleteRFQ = $DB->DELETE("rfqs", $where);
 
 if ($deleteRFQ) {
-    swalAlert("RFQ removed successfully.");
+    swalAlert("success", "RFQ removed successfully.");
+    refreshUrlTimeout(2000);
 } else {
-    swalAlert("Failed to remove RFQ.");
+    swalAlert("error", "Failed to remove RFQ.");
 }

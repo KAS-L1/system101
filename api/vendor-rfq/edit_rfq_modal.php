@@ -17,11 +17,11 @@ $rfq = $DB->SELECT_ONE_WHERE("rfqs", "*", ["rfq_id" => $rfq_id]);
                     <input type="hidden" name="rfq_id" value="<?= $rfq['rfq_id']; ?>">
                     <div class="mb-3">
                         <label for="vendor_id" class="form-label">Vendor ID</label>
-                        <input type="text" class="form-control" id="vendor_id" name="vendor_id" value="<?= $rfq['vendor_id']; ?>" required>
+                        <input type="text" class="form-control" id="vendor_id" name="vendor_id" value="<?= $rfq['vendor_id']; ?>" disabled>
                     </div>
                     <div class="mb-3">
                         <label for="product_id" class="form-label">Product ID</label>
-                        <input type="text" class="form-control" id="product_id" name="product_id" value="<?= $rfq['product_id']; ?>" required>
+                        <input type="text" class="form-control" id="product_id" name="product_id" value="<?= $rfq['product_id']; ?>" disabled>
                     </div>
                     <div class="mb-3">
                         <label for="requested_quantity" class="form-label">Requested Quantity</label>
@@ -49,15 +49,14 @@ $rfq = $DB->SELECT_ONE_WHERE("rfqs", "*", ["rfq_id" => $rfq_id]);
 
 
 <script>
-$('#editRFQForm').submit(function(e) {
-    e.preventDefault(); // Prevent default form submission
+    $('#editRFQForm').submit(function(e) {
+        e.preventDefault(); // Prevent default form submission
 
-    // Send an AJAX POST request to update the RFQ details
-    $.post('api/rfq/update.php', $(this).serialize(), function(response) {
-        $('#response').html(response); // Display response message
-        $('#editRFQModal').modal('hide'); // Hide the modal after updating
-        location.reload(); // Refresh the page to reflect the changes
+        // Send an AJAX POST request to update the RFQ details
+        $.post('api/rfq/update.php', $(this).serialize(), function(response) {
+            $('#response').html(response); // Display response message
+            $('#editRFQModal').modal('hide'); // Hide the modal after updating
+            location.reload(); // Refresh the page to reflect the changes
+        });
     });
-});
 </script>
-

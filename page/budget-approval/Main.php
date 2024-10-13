@@ -77,21 +77,21 @@ $pendingRequisitions = $DB->SELECT("purchaserequisition", "*", "WHERE status='Pe
                     </thead>
                     <tbody>
                         <?php
-                $i = 1;
-                foreach ($pendingRequisitions as $requisition) {
-                    $estimated_cost = isset($requisition['estimated_cost']) ? $requisition['estimated_cost'] : 0;
-                ?>
-                        <tr>
-                            <td><?= $i++; ?></td>
-                            <td><?= CHARS($requisition['requisition_id']); ?></td>
-                            <td><?= CHARS($requisition['department']); ?></td>
-                            <td><?= CHARS($requisition['item_description']); ?></td>
-                            <td><?= CHARS($requisition['quantity']); ?></td>
-                            <td><?= number_format($estimated_cost, 2); ?></td>
-                            <td>
-                                <span class="badge bg-secondary"><?= CHARS($requisition['status']); ?></span>
-                            </td>
-                        </tr>
+                        $i = 1;
+                        foreach ($pendingRequisitions as $requisition) {
+                            $estimated_cost = isset($requisition['estimated_cost']) ? $requisition['estimated_cost'] : 0;
+                        ?>
+                            <tr>
+                                <td><?= $i++; ?></td>
+                                <td><?= CHARS($requisition['requisition_id']); ?></td>
+                                <td><?= CHARS($requisition['department']); ?></td>
+                                <td><?= CHARS($requisition['item_description']); ?></td>
+                                <td><?= CHARS($requisition['quantity']); ?></td>
+                                <td><?= NUMBER_PHP_2($estimated_cost); ?></td>
+                                <td>
+                                    <span class="badge bg-secondary"><?= CHARS($requisition['status']); ?></span>
+                                </td>
+                            </tr>
                         <?php } ?>
                     </tbody>
                 </table>
@@ -128,22 +128,22 @@ $pendingRequisitions = $DB->SELECT("purchaserequisition", "*", "WHERE status='Pe
                                 </thead>
                                 <tbody>
                                     <?php
-                            $i = 1;
-                            foreach ($pendingRequisitions as $requisition) {
-                                $estimated_cost = isset($requisition['estimated_cost']) ? $requisition['estimated_cost'] : 0;
-                            ?>
-                                    <tr>
-                                        <td><?= $i++; ?></td>
-                                        <td><?= CHARS($requisition['requisition_id']); ?></td>
-                                        <td><?= CHARS($requisition['department']); ?></td>
-                                        <td><?= CHARS($requisition['item_description']); ?></td>
-                                        <td><?= CHARS($requisition['quantity']); ?></td>
-                                        <td><?= number_format($estimated_cost, 2); ?></td>
-                                        <td>
-                                            <span
-                                                class="badge bg-secondary"><?= CHARS($requisition['status']); ?></span>
-                                        </td>
-                                    </tr>
+                                    $i = 1;
+                                    foreach ($pendingRequisitions as $requisition) {
+                                        $estimated_cost = isset($requisition['estimated_cost']) ? $requisition['estimated_cost'] : 0;
+                                    ?>
+                                        <tr>
+                                            <td><?= $i++; ?></td>
+                                            <td><?= CHARS($requisition['requisition_id']); ?></td>
+                                            <td><?= CHARS($requisition['department']); ?></td>
+                                            <td><?= CHARS($requisition['item_description']); ?></td>
+                                            <td><?= CHARS($requisition['quantity']); ?></td>
+                                            <td><?= NUMBER_PHP_2($estimated_cost); ?></td>
+                                            <td>
+                                                <span
+                                                    class="badge bg-secondary"><?= CHARS($requisition['status']); ?></span>
+                                            </td>
+                                        </tr>
                                     <?php } ?>
                                 </tbody>
                             </table>
@@ -166,10 +166,10 @@ $pendingRequisitions = $DB->SELECT("purchaserequisition", "*", "WHERE status='Pe
 
 <!-- JavaScript for Handling Modals and AJAX Requests -->
 <script>
-$('#btnCreateBudgetApproval').click(function() {
-    $.post('api/budget-approval/create_modal.php', function(res) {
-        $('#responseModal').html(res);
-        $('#createBudgetApprovalModal').modal('show');
+    $('#btnCreateBudgetApproval').click(function() {
+        $.post('api/budget-approval/create_modal.php', function(res) {
+            $('#responseModal').html(res);
+            $('#createBudgetApprovalModal').modal('show');
+        });
     });
-});
 </script>

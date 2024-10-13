@@ -3,6 +3,7 @@ require("../../app/init.php");
 
 // Fetch vendors from the database
 $vendors = $DB->SELECT("vendors", "*", "ORDER BY vendor_id ASC");
+
 ?>
 
 <div class="modal fade" id="createProductModal" tabindex="-1" aria-labelledby="createProductModalLabel" aria-hidden="true">

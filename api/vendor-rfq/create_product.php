@@ -3,6 +3,7 @@ require("../../app/init.php");
 
 // Sanitize and escape the input data
 $data = array(
+    "product_id" => rand(),
     "vendor_id" => $DB->ESCAPE($_POST['vendor_id']), // Ensure vendor_id is an integer
     "product_name" => $DB->ESCAPE($_POST['product_name']),
     "description" => $DB->ESCAPE($_POST['description']),
