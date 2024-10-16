@@ -6,7 +6,7 @@
                     <div class="sb-sidenav-menu-heading text-muted">Core</div>
                     <a class="nav-link text-dark" href="index.php">
                         <div class="sb-nav-link-icon text-success"><i class="fas fa-tachometer-alt"></i></div>
-                        Dashboard
+                        Logistic Dashboard
                     </a>
                     <div class="sb-sidenav-menu-heading text-muted">Modules</div>
                     <a class="nav-link collapsed text-dark" href="#" data-bs-toggle="collapse"
@@ -61,8 +61,7 @@
                             <a class="nav-link text-dark" href="layout-sidenav-light.html">Document Disposal</a>
                         </nav>
                     </div>
-              
-                    <?php if(AUTH_USER['role'] == "ADMIN"){ ?>
+
                     <div class="sb-sidenav-menu-heading text-muted">ADMIN ACCESS</div>
                     <a class="nav-link collapsed text-dark" href="#" data-bs-toggle="collapse"
                         data-bs-target="#collapseAdmin" aria-expanded="false" aria-controls="collapseAdmin">
@@ -76,13 +75,51 @@
                             <a class="nav-link text-dark" href="/user-management">User Accounts</a>
                         </nav>
                     </div>
-                    <?php } ?>
+
+                    <div class="sb-sidenav-menu-heading text-muted">Vendor Portal</div>
+                    <a class="nav-link text-dark" href="vendor_portal.php">
+                        <div class="sb-nav-link-icon text-success"><i class="fas fa-store"></i></div>
+                        Vendor Dashboard
+                    </a>
+                    <a class="nav-link text-dark" href="vendor_portal.php">
+                        <div class="sb-nav-link-icon text-success"><i class="fas fa-store"></i></div>
+                        Payment Method
+                    </a>
+
+                    <a class="nav-link text-dark" href="vendor_portal.php">
+                        <div class="sb-nav-link-icon text-success"><i class="fas fa-store"></i></div>
+                        Invoice
+                    </a>
+
+                    <a class="nav-link text-dark" href="vendor_portal.php">
+                        <div class="sb-nav-link-icon text-success"><i class="fas fa-store"></i></div>
+                        Tracking
+                    </a>
+                    <div class="sb-sidenav-menu-heading text-muted">Food & Beverage</div>
+                    <a class="nav-link text-dark" href="vendor_portal.php">
+                        <div class="sb-nav-link-icon text-success"><i class="fas fa-store"></i></div>
+                        F & B Dashboard
+                    </a>
+                    <a class="nav-link text-dark" href="vendor_portal.php">
+                        <div class="sb-nav-link-icon text-success"><i class="fas fa-store"></i></div>
+                        KOT
+                    </a>
+
+                    <a class="nav-link text-dark" href="vendor_portal.php">
+                        <div class="sb-nav-link-icon text-success"><i class="fas fa-store"></i></div>
+                        Stock
+                    </a>
+
+                    <a class="nav-link text-dark" href="vendor_portal.php">
+                        <div class="sb-nav-link-icon text-success"><i class="fas fa-store"></i></div>
+                        Mangement
+                    </a>
 
                 </div>
             </div>
             <div class="sb-sidenav-footer bg-light text-dark">
                 <div class="small">Logged in as:</div>
-                <div><?=AUTH_USER['role']?></div>
+                <div><?= AUTH_USER['role'] ?></div>
             </div>
         </nav>
     </div>
