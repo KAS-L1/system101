@@ -295,12 +295,29 @@
                 });
             });
 
+            // Remove Vendor
             $('.removeVendor').click(function() {
                 const vendor_id = $(this).data('vendor_id');
-                $.post('api/vendor-rfq/remove_vendor.php', {
-                    vendor_id: vendor_id
-                }, function(response) {
-                    $('#responseModal').html(response);
+
+                Swal.fire({
+                    title: "Are you sure you want to delete this vendor?",
+                    icon: "question",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes, Delete",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Proceed with deletion
+                        $.post('api/vendor-rfq/remove_vendor.php', {
+                            vendor_id: vendor_id
+                        }, function(response) {
+                            $('#responseModal').html(response);
+                            // Call your custom swalAlert after successful deletion
+                            swalAlert('success', 'Vendor has been deleted!');
+                        }).fail(function() {
+                            // Optional: Handle failure case
+                            swalAlert('error', 'Failed to delete vendor. Please try again.');
+                        });
+                    }
                 });
             });
         </script>
@@ -327,15 +344,30 @@
                 });
             });
 
+            // Remove Product
             $('.removeProduct').click(function() {
                 const product_id = $(this).data('product_id');
 
-                $.post('api/vendor-rfq/remove_product.php', {
-                    product_id: product_id
-                }, function(response) {
-                    $('#responseModal').html(response);
+                Swal.fire({
+                    title: "Are you sure you want to delete this product?",
+                    icon: "question",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes, Delete",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Proceed with deletion
+                        $.post('api/vendor-rfq/remove_product.php', {
+                            product_id: product_id
+                        }, function(response) {
+                            $('#responseModal').html(response);
+                            // Call your custom swalAlert after successful deletion
+                            swalAlert('success', 'Product has been deleted!');
+                        }).fail(function() {
+                            // Optional: Handle failure case
+                            swalAlert('error', 'Failed to delete product. Please try again.');
+                        });
+                    }
                 });
-
             });
         </script>
 
@@ -380,12 +412,29 @@
                 });
             });
 
+            // Remove RFQ
             $('.removeRFQ').click(function() {
                 const rfq_id = $(this).data('rfq_id');
-                $.post('api/vendor-rfq/remove_rfq.php', {
-                    rfq_id: rfq_id
-                }, function(response) {
-                    $('#responseModal').html(response);
+
+                Swal.fire({
+                    title: "Are you sure you want to delete this RFQ?",
+                    icon: "question",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes, Delete",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Proceed with deletion
+                        $.post('api/vendor-rfq/remove_rfq.php', {
+                            rfq_id: rfq_id
+                        }, function(response) {
+                            $('#responseModal').html(response);
+                            // Call your custom swalAlert after successful deletion
+                            swalAlert('success', 'RFQ has been deleted!');
+                        }).fail(function() {
+                            // Optional: Handle failure case
+                            swalAlert('error', 'Failed to delete RFQ. Please try again.');
+                        });
+                    }
                 });
             });
         </script>

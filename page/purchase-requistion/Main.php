@@ -265,10 +265,26 @@ include_once('api/middleware/role_access.php');
     // Remove Requisition Button Click Event
     $('.removeRequisition').click(function() {
         const requisition_id = $(this).data('requisition_id');
-        $.post('api/requisition/remove.php', {
-            requisition_id: requisition_id
-        }, function(res) {
-            $('#response').html(res);
+
+        Swal.fire({
+            title: "Are you sure you want to delete this?",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "Yes, Delete",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Proceed with deletion
+                $.post('api/requisition/remove.php', {
+                    requisition_id: requisition_id
+                }, function(res) {
+                    $('#response').html(res);
+                    // Call your custom swalAlert after successful deletion
+                    swalAlert('success', 'Deleted!');
+                }).fail(function() {
+                    // Optional: Handle failure case
+                    swalAlert('error', 'Failed to delete. Please try again.');
+                });
+            }
         });
     });
 </script>

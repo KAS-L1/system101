@@ -159,10 +159,26 @@ include_once('api/middleware/role_access.php');
     // Remove User
     $('.removeUser').click(function() {
         const id = $(this).data('id');
-        $.post('api/user/remove.php', {
-            id: id
-        }, function(res) {
-            $('#response').html(res);
+
+        Swal.fire({
+            title: "Are you sure you want to delete this user?",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "Yes, Delete",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Proceed with deletion
+                $.post('api/user/remove.php', {
+                    id: id
+                }, function(res) {
+                    $('#response').html(res);
+                    // Call your custom swalAlert after successful deletion
+                    swalAlert('success', 'User has been deleted!');
+                }).fail(function() {
+                    // Optional: Handle failure case
+                    swalAlert('error', 'Failed to delete user. Please try again.');
+                });
+            }
         });
     });
 </script>
