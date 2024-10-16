@@ -1,4 +1,5 @@
     <?php
+    include_once('api/middleware/role_access.php');
 
     // Retrieve all vendors from the `vendors` table
     $vendors = $DB->SELECT("vendors", "*");

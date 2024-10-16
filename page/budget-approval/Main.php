@@ -1,4 +1,5 @@
 <?php
+include_once('api/middleware/role_access.php');
 // Retrieve all pending Requisitions from the `purchaserequisition` table
 $pendingRequisitions = $DB->SELECT("purchaserequisition", "*", "WHERE status='Pending' ORDER BY requisition_id DESC");
 

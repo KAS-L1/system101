@@ -1,4 +1,6 @@
 <?php
+include_once('api/middleware/role_access.php');
+
 // Fetch all contracts from the `contracts` table
 $contracts = $DB->SELECT("contracts", "*", "ORDER BY contract_id DESC");
 ?>

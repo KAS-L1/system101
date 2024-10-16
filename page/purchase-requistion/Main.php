@@ -1,3 +1,8 @@
+<?php
+include_once('api/middleware/role_access.php');
+
+?>
+
 <!-- Purchase Requisition Section -->
 <div class="container mt-4 py-5">
     <div class="row text-center">
