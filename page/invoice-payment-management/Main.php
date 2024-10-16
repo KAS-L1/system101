@@ -1,6 +1,5 @@
 <?php
 include_once('api/middleware/role_access.php');
-
 // Fetch all invoices
 $invoices = $DB->SELECT("invoice_payments", "*", "ORDER BY invoice_id DESC");
 
