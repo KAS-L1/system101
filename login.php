@@ -50,7 +50,7 @@
                             <label class="form-check-label" for="remember">Remember Password</label>
                         </div>
                         <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                            <a class="small text-success" href="forgot-password">Forgot Password?</a>
+                            <a class="small text-success" href="forgot-password.php">Forgot Password?</a>
                             <button class="btn btn-success">Login</button>
                         </div>
                     </form>

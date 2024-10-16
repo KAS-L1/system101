@@ -2,10 +2,10 @@
 
 /**
  * CONSTANT GLOBAL CONFIG VARIALBE
-**/
+ **/
 
 // ROOTH PATH
-define("ROOT",value: "".$_SERVER["SERVER_NAME"]);	
+define("ROOT", "https://" . $_SERVER["SERVER_NAME"]);
 
 // DATE TIMEZONE
 date_default_timezone_set("Asia/Manila");
@@ -16,4 +16,3 @@ define("DATE_TIME", date("Y-m-d H:i:s"));
 
 
 require("settings.php");
-

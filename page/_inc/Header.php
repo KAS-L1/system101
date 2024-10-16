@@ -25,16 +25,16 @@
 
 <body class="sb-nav-fixed">
 
-    <?php include('page/_inc/topbar.php');?>
+    <?php include('page/_inc/Topbar.php'); ?>
 
-    
-    <?php 
-    
-    if(AUTH_USER['role'] == "VENDOR"){
-    include('page/_inc/sidebar_vendor.php');
-    }else if(AUTH_USER['role'] == "KITCHEN"){
-    include('page/_inc/sidebar_kitchen.php');
-    }else {
-        include('page/_inc/sidebar.php');
+
+    <?php
+
+    if (AUTH_USER['role'] == "VENDOR") {
+        include('page/_inc/Sidebar_vendor.php');
+    } else if (AUTH_USER['role'] == "KITCHEN") {
+        include('page/_inc/Sidebar_kitchen.php');
+    } else {
+        include('page/_inc/Sidebar.php');
     }
     ?>

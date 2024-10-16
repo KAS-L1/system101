@@ -34,14 +34,15 @@
                 <div class="card-body">
                     <i class="fas fa-chart-line fa-2x text-success mb-3"></i>
                     <h6 class="card-title">User Performance Report</h6>
-                    <p class="card-text text-muted small">Generate user reports based on performance metrics and
-                        role effectiveness.</p>
-                    <button class="btn btn-sm btn-success" data-bs-toggle="modal"
-                        data-bs-target="#userPerformanceReportModal">Generate Report</button>
+                    <p class="card-text text-muted small">
+                        Generate user reports based on performance metrics and role effectiveness.
+                    </p>
+                    <button class="btn btn-sm btn-success" onclick="window.open('/api/user/generate_report.php')">Generate Report</button>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 
 <!-- Modal: View User Profile -->
@@ -73,25 +74,25 @@
                         </thead>
                         <tbody>
                             <?php
-                        $i = 1; 
-                        $users = $DB->SELECT('users', '*'); 
-                        foreach ($users as $user) {
-                        ?>
-                            <tr>
-                                <td><?= $i++; ?></td>
-                                <td><?= $user['user_id']; ?></td>
-                                <td><?= $user['username']; ?></td>
-                                <td><?= $user['firstname']; ?></td>
-                                <td><?= $user['lastname']; ?></td>
-                                <td><?= $user['email']; ?></td>
-                                <td><?= $user['contact']; ?></td>
-                                <td><?= $user['address']; ?></td>
-                                <td><?= $user['role']; ?></td>
-                                <td><?= $user['status']; ?></td>
-                            </tr>
+                            $i = 1;
+                            $users = $DB->SELECT('users', '*');
+                            foreach ($users as $user) {
+                            ?>
+                                <tr>
+                                    <td><?= $i++; ?></td>
+                                    <td><?= $user['user_id']; ?></td>
+                                    <td><?= $user['username']; ?></td>
+                                    <td><?= $user['firstname']; ?></td>
+                                    <td><?= $user['lastname']; ?></td>
+                                    <td><?= $user['email']; ?></td>
+                                    <td><?= $user['contact']; ?></td>
+                                    <td><?= $user['address']; ?></td>
+                                    <td><?= $user['role']; ?></td>
+                                    <td><?= $user['status']; ?></td>
+                                </tr>
                             <?php
-                        }
-                        ?>
+                            }
+                            ?>
                         </tbody>
                     </table>
                 </div>
@@ -123,41 +124,41 @@
             </thead>
             <tbody>
                 <?php
-                    $i = 1;
-                    $users = $DB->SELECT("users", "*", "ORDER BY id DESC");
-                    foreach ($users as $user) {
-                    ?>
-                <tr>
-                    <td><?= $i++; ?></td>
-                    <td><?= $user['user_id']; ?></td>
-                    <td><?= $user['username']; ?></td>
-                    <td><?= $user['firstname']; ?></td>
-                    <td><?= $user['lastname']; ?></td>
-                    <td><?= $user['email']; ?></td>
-                    <td><?= $user['contact']; ?></td>
-                    <td><?= $user['role']; ?></td>
-                    <td>
-                        <?php if($user['status'] == "Active"){ ?>
-                        <span class="badge bg-success">Active</span>
-                        <?php } else if($user['status'] == "Deactivated"){ ?>
-                        <span class="badge bg-danger">Deactivated</span>
-                        <?php } else { ?>
-                        <span class="badge bg-secondary">Pending</span>
-                        <?php } ?>
-                    </td>
-                    <td>
-                        <div class="d-flex gap-2">
-                            <button class="btn btn-sm btn-light shadow-sm btnEditUser"
-                                data-user_id=" <?= $user['user_id'] ?>"><i class="bi bi-pencil-square"></i></button>
-                            <button class="btn btn-sm btn-success shadow-sm btnActivateUser"
-                                data-user_id="<?=$user['user_id']?>"><i class="bi bi-check-circle"></i></button>
-                            <button class="btn btn-sm btn-danger shadow-sm btnDeactivateUser"
-                                data-user_id="<?=$user['user_id']?>"><i class="bi bi-x-circle"></i></button>
-                            <button class="btn btn-sm btn-warning shadow-sm btnRemoveUser"
-                                data-user_id="<?=$user['user_id']?>"><i class="bi bi-trash"></i></button>
-                        </div>
-                    </td>
-                </tr>
+                $i = 1;
+                $users = $DB->SELECT("users", "*", "ORDER BY id DESC");
+                foreach ($users as $user) {
+                ?>
+                    <tr>
+                        <td><?= $i++; ?></td>
+                        <td><?= $user['user_id']; ?></td>
+                        <td><?= $user['username']; ?></td>
+                        <td><?= $user['firstname']; ?></td>
+                        <td><?= $user['lastname']; ?></td>
+                        <td><?= $user['email']; ?></td>
+                        <td><?= $user['contact']; ?></td>
+                        <td><?= $user['role']; ?></td>
+                        <td>
+                            <?php if ($user['status'] == "Active") { ?>
+                                <span class="badge bg-success">Active</span>
+                            <?php } else if ($user['status'] == "Deactivated") { ?>
+                                <span class="badge bg-danger">Deactivated</span>
+                            <?php } else { ?>
+                                <span class="badge bg-secondary">Pending</span>
+                            <?php } ?>
+                        </td>
+                        <td>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-sm btn-light shadow-sm btnEditUser"
+                                    data-user_id=" <?= $user['user_id'] ?>"><i class="bi bi-pencil-square"></i></button>
+                                <button class="btn btn-sm btn-success shadow-sm btnActivateUser"
+                                    data-user_id="<?= $user['user_id'] ?>"><i class="bi bi-check-circle"></i></button>
+                                <button class="btn btn-sm btn-danger shadow-sm btnDeactivateUser"
+                                    data-user_id="<?= $user['user_id'] ?>"><i class="bi bi-x-circle"></i></button>
+                                <button class="btn btn-sm btn-warning shadow-sm btnRemoveUser"
+                                    data-user_id="<?= $user['user_id'] ?>"><i class="bi bi-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
                 <?php } ?>
             </tbody>
         </table>
@@ -171,52 +172,52 @@
 
 <!-- JavaScript for Handling Modals and AJAX Requests -->
 <script>
-// Open Add User Modal
-$('#btnAddUser').click(function() {
-    $.post('api/user/create_modal.php', function(res) {
-        $('#responseModal').html(res);
-        $('#addUserModal').modal('show');
+    // Open Add User Modal
+    $('#btnAddUser').click(function() {
+        $.post('api/user/create_modal.php', function(res) {
+            $('#responseModal').html(res);
+            $('#addUserModal').modal('show');
+        });
     });
-});
 
-$('.btnEditUser').click(function() {
-    const user_id = $(this).data('user_id');
-    $.post('api/user/edit_modal.php', {
-        user_id: user_id
-    }, function(res) {
-        $('#responseModal').html(res);
-        $('#editUserModal').modal('show');
+    $('.btnEditUser').click(function() {
+        const user_id = $(this).data('user_id');
+        $.post('api/user/edit_modal.php', {
+            user_id: user_id
+        }, function(res) {
+            $('#responseModal').html(res);
+            $('#editUserModal').modal('show');
+        });
+    });;
+
+
+    // Activate User
+    $('.btnActivateUser').click(function() {
+        const user_id = $(this).data('user_id');
+        $.post('api/user/active.php', {
+            user_id: user_id
+        }, function(res) {
+            $('#response').html(res);
+        });
     });
-});;
 
-
-// Activate User
-$('.btnActivateUser').click(function() {
-    const user_id = $(this).data('user_id');
-    $.post('api/user/active.php', {
-        user_id: user_id
-    }, function(res) {
-        $('#response').html(res);
+    // Deactivate User
+    $('.btnDeactivateUser').click(function() {
+        const user_id = $(this).data('user_id');
+        $.post('api/user/deactivate.php', {
+            user_id: user_id
+        }, function(res) {
+            $('#response').html(res);
+        });
     });
-});
 
-// Deactivate User
-$('.btnDeactivateUser').click(function() {
-    const user_id = $(this).data('user_id');
-    $.post('api/user/deactivate.php', {
-        user_id: user_id
-    }, function(res) {
-        $('#response').html(res);
+    // Remove User
+    $('.btnRemoveUser').click(function() {
+        const user_id = $(this).data('user_id');
+        $.post('api/user/remove.php', {
+            user_id: user_id
+        }, function(res) {
+            $('#response').html(res);
+        });
     });
-});
-
-// Remove User
-$('.btnRemoveUser').click(function() {
-    const user_id = $(this).data('user_id');
-    $.post('api/user/remove.php', {
-        user_id: user_id
-    }, function(res) {
-        $('#response').html(res);
-    });
-});
 </script>
