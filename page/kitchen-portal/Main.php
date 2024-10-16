@@ -1,1 +1,1 @@
-<?php
+<h1>DASHBOARD NG KITCHEN</h1>
