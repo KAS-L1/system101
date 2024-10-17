@@ -3,6 +3,8 @@
 $data = file_get_contents('http://127.0.0.15/api/sync/procurement.php?token=d368051b3cd2819131fff6811cf4e59c');
 $data = json_decode($data, true);
 
+
+
 ?>
 <div class="card">
     <div class="card-body">
