@@ -72,15 +72,17 @@ $contracts = $DB->SELECT("contracts", "*", "ORDER BY contract_id DESC");
                             $i = 1;
                             foreach ($contracts as $contract) {
                                 $vendor = $DB->SELECT_ONE_WHERE('vendors', '*', array('vendor_id' => $contract['vendor_id']));
+                                $vendorName = $vendor ? CHARS($vendor['vendor_name']) : 'Unknown Vendor';
                             ?>
                                 <tr>
                                     <td><?= $i++; ?></td>
                                     <td><?= CHARS($contract['contract_id']); ?></td>
-                                    <td><?= CHARS($vendor['vendor_name']); ?></td>
+                                    <td><?= $vendorName; ?></td>
                                     <td><?= CHARS($contract['contract_terms']); ?></td>
                                     <td><?= CHARS($contract['start_date']); ?></td>
                                     <td><?= CHARS($contract['end_date']); ?></td>
                                     <td>
+                                        <!-- Status Badge Logic -->
                                         <?php if ($contract['status'] == 'Active') { ?>
                                             <span class="badge bg-success">Active</span>
                                         <?php } elseif ($contract['status'] == 'Expired') { ?>
@@ -95,12 +97,9 @@ $contracts = $DB->SELECT("contracts", "*", "ORDER BY contract_id DESC");
                                     <td><?= CHARS($contract['remarks']); ?></td>
                                     <td>
                                         <div class="d-flex gap-2">
-                                            <!-- Edit Contract Button -->
                                             <button class="btn btn-sm btn-light shadow-sm editContract" data-contract_id="<?= $contract['contract_id']; ?>">
                                                 <i class="bi bi-pencil-square"></i>
                                             </button>
-
-                                            <!-- Sync Contract Button -->
                                             <button class="btn btn-sm btn-primary shadow-sm syncContract" data-contract_id="<?= $contract['contract_id']; ?>">
                                                 <i class="bi bi-upload"></i> Sync
                                             </button>
@@ -108,6 +107,7 @@ $contracts = $DB->SELECT("contracts", "*", "ORDER BY contract_id DESC");
                                     </td>
                                 </tr>
                             <?php } ?>
+
                         </tbody>
                     </table>
                 </div>

@@ -1,7 +1,3 @@
-<?php
-include_once('api/middleware/role_access.php');
-?>
-
 <!-- User Management Cards -->
 <div class="container mt-4 py-5">
     <div class="row text-center">
@@ -48,13 +44,70 @@ include_once('api/middleware/role_access.php');
     </div>
 </div>
 
-
+<!-- Modal: View User Profile -->
+<div class="modal fade" id="viewUserProfileModal" tabindex="-1" aria-labelledby="viewUserProfileModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewUserProfileModalLabel">User Profile</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- User Profile Table -->
+                <div class="table-responsive mt-4">
+                    <table id="dataTable1" class="table table-bordered table-hover table-sm">
+                        <thead class="table text-success">
+                            <tr>
+                                <th>#</th>
+                                <th>User Id</th>
+                                <th>Username</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Email</th>
+                                <th>Contact Number</th>
+                                <th>Address</th>
+                                <th>User Role</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $i = 1;
+                            $users = $DB->SELECT('users', '*');
+                            foreach ($users as $user) {
+                            ?>
+                                <tr>
+                                    <td><?= $i++; ?></td>
+                                    <td><?= $user['user_id']; ?></td>
+                                    <td><?= $user['username']; ?></td>
+                                    <td><?= $user['firstname']; ?></td>
+                                    <td><?= $user['lastname']; ?></td>
+                                    <td><?= $user['email']; ?></td>
+                                    <td><?= $user['contact']; ?></td>
+                                    <td><?= $user['address']; ?></td>
+                                    <td><?= $user['role']; ?></td>
+                                    <td><?= $user['status']; ?></td>
+                                </tr>
+                            <?php
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Responsive Table for Users -->
 <div class="container">
     <div class="table-responsive mt-4">
-        <table id="dataTable" class="table table-bordered table-hover table-sm shadow-sm table-nowrap">
-            <thead class="thead-light">
+        <table id="dataTable2" class="table table-bordered table-hover table-sm shadow-sm table-nowrap">
+            <thead class="thead-light text-success">
                 <tr>
                     <th>#</th>
                     <th>USER ID</th>
@@ -86,21 +139,22 @@ include_once('api/middleware/role_access.php');
                         <td>
                             <?php if ($user['status'] == "Active") { ?>
                                 <span class="badge bg-success">Active</span>
-                            <?php } else if ($user['status'] == "Inactive") { ?>
-                                <span class="badge bg-danger">Inactive</span>
+                            <?php } else if ($user['status'] == "Deactivated") { ?>
+                                <span class="badge bg-danger">Deactivated</span>
                             <?php } else { ?>
                                 <span class="badge bg-secondary">Pending</span>
                             <?php } ?>
                         </td>
                         <td>
                             <div class="d-flex gap-2">
-                                <button class="btn btn-sm btn-primary btnEditUser"
-                                    data-user_id=" <?= $user['user_id'] ?>">Edit</button>
-                                <button class="btn btn-sm btn-success activateUser"
-                                    data-id="<?= $user['id'] ?>">Activate</button>
-                                <button class="btn btn-sm btn-danger deactivateUser"
-                                    data-id="<?= $user['id'] ?>">Deactivate</button>
-                                <button class="btn btn-sm btn-warning removeUser" data-id="<?= $user['id'] ?>">Remove</button>
+                                <button class="btn btn-sm btn-light shadow-sm btnEditUser"
+                                    data-user_id=" <?= $user['user_id'] ?>"><i class="bi bi-pencil-square"></i></button>
+                                <button class="btn btn-sm btn-success shadow-sm btnActivateUser"
+                                    data-user_id="<?= $user['user_id'] ?>"><i class="bi bi-check-circle"></i></button>
+                                <button class="btn btn-sm btn-danger shadow-sm btnDeactivateUser"
+                                    data-user_id="<?= $user['user_id'] ?>"><i class="bi bi-x-circle"></i></button>
+                                <button class="btn btn-sm btn-warning shadow-sm btnRemoveUser"
+                                    data-user_id="<?= $user['user_id'] ?>"><i class="bi bi-trash"></i></button>
                             </div>
                         </td>
                     </tr>
@@ -113,6 +167,7 @@ include_once('api/middleware/role_access.php');
 
 <!-- Modal Container for Dynamic Modals -->
 <div id="responseModal"></div>
+<div id="response"></div>
 
 <!-- JavaScript for Handling Modals and AJAX Requests -->
 <script>
@@ -135,41 +190,41 @@ include_once('api/middleware/role_access.php');
     });;
 
 
-
     // Activate User
-    $('.activateUser').click(function() {
-        const id = $(this).data('id');
-        $.post('api/user/activate.php', {
-            id: id
+    $('.btnActivateUser').click(function() {
+        const user_id = $(this).data('user_id');
+        $.post('api/user/active.php', {
+            user_id: user_id
         }, function(res) {
             $('#response').html(res);
         });
     });
 
     // Deactivate User
-    $('.deactivateUser').click(function() {
-        const id = $(this).data('id');
+    $('.btnDeactivateUser').click(function() {
+        const user_id = $(this).data('user_id');
         $.post('api/user/deactivate.php', {
-            id: id
+            user_id: user_id
         }, function(res) {
             $('#response').html(res);
         });
     });
 
     // Remove User
-    $('.removeUser').click(function() {
-        const id = $(this).data('id');
+    $('.btnRemoveUser').click(function() {
+        const user_id = $(this).data('user_id');
 
         Swal.fire({
             title: "Are you sure you want to delete this user?",
             icon: "question",
             showCancelButton: true,
             confirmButtonText: "Yes, Delete",
+            confirmButtonColor: '#198754', // Set the success color here
         }).then((result) => {
             if (result.isConfirmed) {
                 // Proceed with deletion
                 $.post('api/user/remove.php', {
-                    id: id
+                    user_id: user_id
                 }, function(res) {
                     $('#response').html(res);
                     // Call your custom swalAlert after successful deletion

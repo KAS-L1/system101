@@ -154,11 +154,13 @@
                                         // Selecting on vendors 
                                         $where = array("vendor_id" => $product['vendor_id']);
                                         $vendor_name = $DB->SELECT_ONE_WHERE("vendors", "vendor_name", $where);
+                                        $vendorName = $vendor ? CHARS($vendor['vendor_name']) : 'Unknown Vendor';
+
                                         ?>
                                         <tr>
                                             <td><?= $i++; ?></td>
                                             <td><?= $product['product_id']; ?></td>
-                                            <td><?= $vendor_name['vendor_name']; ?></td>
+                                            <td><?= $vendorName ?></td>
                                             <td><?= $product['product_name']; ?></td>
                                             <td><?= $product['description']; ?></td>
                                             <td><?= NUMBER_PHP_2($product['unit_price']); ?></td>
@@ -214,13 +216,15 @@
                                         <?php
                                         // Selecting on vendors 
                                         $vendor_name = $DB->SELECT_ONE_WHERE("vendors", "vendor_name", array("vendor_id" => $product['vendor_id']));
+                                        $vendorName = $vendor ? CHARS($vendor['vendor_name']) : 'Unknown Vendor';
+
                                         $product_name = $DB->SELECT_ONE_WHERE("vendor_products", "product_name", array("product_id" => $product['product_id']));
 
                                         ?>
                                         <tr>
                                             <td><?= $i++; ?></td>
                                             <td><?= $rfq['rfq_id']; ?></td>
-                                            <td><?= $vendor_name['vendor_name']; ?></td>
+                                            <td><?= $vendorName ?></td>
                                             <td><?= $product_name['product_name']; ?></td>
                                             <td><?= $rfq['requested_quantity']; ?></td>
                                             <td><?= NUMBER_PHP_2($rfq['quoted_price']); ?></td>
@@ -304,6 +308,7 @@
                     icon: "question",
                     showCancelButton: true,
                     confirmButtonText: "Yes, Delete",
+                    confirmButtonColor: '#198754', // Set the success color (green)
                 }).then((result) => {
                     if (result.isConfirmed) {
                         // Proceed with deletion
@@ -353,6 +358,7 @@
                     icon: "question",
                     showCancelButton: true,
                     confirmButtonText: "Yes, Delete",
+                    confirmButtonColor: '#198754', // Set the success color (green)
                 }).then((result) => {
                     if (result.isConfirmed) {
                         // Proceed with deletion
@@ -421,6 +427,7 @@
                     icon: "question",
                     showCancelButton: true,
                     confirmButtonText: "Yes, Delete",
+                    confirmButtonColor: '#198754', // Set the success color (green)
                 }).then((result) => {
                     if (result.isConfirmed) {
                         // Proceed with deletion
