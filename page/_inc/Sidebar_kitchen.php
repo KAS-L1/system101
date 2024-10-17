@@ -9,7 +9,7 @@
                             Dashboard
                         </a>
                         <div class="sb-sidenav-menu-heading text-muted">Food & Beverage</div>
-                        <a class="nav-link text-dark" href="kitchen-portal">
+                        <a class="nav-link text-dark" href="kitchen-portal">w
                             <div class="sb-nav-link-icon text-success"><i class="fas fa-store"></i></div>
                             KOT
                         </a>

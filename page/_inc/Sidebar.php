@@ -77,7 +77,7 @@
                     </div>
 
                     <div class="sb-sidenav-menu-heading text-muted">Vendor Portal</div>
-                    <a class="nav-link text-dark" href="vendor_portal.php">
+                    <a class="nav-link text-dark" href="vendor-portal">
                         <div class="sb-nav-link-icon text-success"><i class="fas fa-store"></i></div>
                         Vendor Dashboard
                     </a>
@@ -96,7 +96,7 @@
                         Tracking
                     </a>
                     <div class="sb-sidenav-menu-heading text-muted">Food & Beverage</div>
-                    <a class="nav-link text-dark" href="vendor_portal.php">
+                    <a class="nav-link text-dark" href="kitchen-portal">
                         <div class="sb-nav-link-icon text-success"><i class="fas fa-store"></i></div>
                         F & B Dashboard
                     </a>
@@ -113,6 +113,10 @@
                     <a class="nav-link text-dark" href="vendor_portal.php">
                         <div class="sb-nav-link-icon text-success"><i class="fas fa-store"></i></div>
                         Mangement
+                    </a>
+                    <a class="nav-link text-dark" href="chat.php">
+                        <div class="sb-nav-link-icon text-success"><i class="fas fa-store"></i></div>
+                        Chat
                     </a>
 
                 </div>
