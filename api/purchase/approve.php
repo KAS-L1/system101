@@ -1,19 +1,21 @@
+
+
 <?php require("../../app/init.php") ?>
 
 
 <?php 
     
-    $order_id = $_POST['order_id'];
+    $po_id = $_POST['po_id'];
 
     // UPDATE DATA
     $data = array(
-        "status" => "Approve",
+        "status" => "Delivered",
     );
-    $where = array("id" => $order_id);
-    $order = $DB->UPDATE("orders", $data, $where);
-    if($order != "success") alert("danger", $order['error']);
+    $where = array("po_id" => $po_id);
+    $purchaseorders = $DB->UPDATE("purchaseorder", $data, $where);
+    if($purchaseorders != "success") alert("danger", $purchaseorders['error']);
     
-    swalAlert("success", "Order Approved");
+    swalAlert("success", "Order Delivered");
     refreshUrlTimeout(2000);
     
 
