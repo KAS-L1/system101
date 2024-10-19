@@ -77,47 +77,50 @@
                     </div>
 
                     <div class="sb-sidenav-menu-heading text-muted">Vendor Portal</div>
-                    <a class="nav-link text-dark" href="vendor-portal">
-                        <div class="sb-nav-link-icon text-success"><i class="fas fa-store"></i></div>
-                        Vendor Dashboard
+                    <a class="nav-link collapsed text-dark" href="#" data-bs-toggle="collapse"
+                        data-bs-target="#collapseVendor" aria-expanded="false" aria-controls="collapseAdmin">
+                        <div class="sb-nav-link-icon text-success"><i class="fas fa-file-alt"></i></div>
+                        Vendor Portal
+                        <div class="sb-sidenav-collapse-arrow text-success"><i class="fas fa-angle-down"></i></div>
                     </a>
-                    <a class="nav-link text-dark" href="vendor_portal.php">
-                        <div class="sb-nav-link-icon text-success"><i class="fas fa-store"></i></div>
-                        Payment Method
-                    </a>
+                    <div class="collapse" id="collapseVendor" aria-labelledby="headingTwo"
+                        data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link text-dark" href="/vendor-portal">Dashboard</a>
+                        </nav>
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link text-dark" href="#">Payment Method</a>
+                        </nav>
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link text-dark" href="#">Payment Method</a>
+                        </nav>
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link text-dark" href="#">Payment Method</a>
+                        </nav>
+                    </div>
 
-                    <a class="nav-link text-dark" href="vendor_portal.php">
-                        <div class="sb-nav-link-icon text-success"><i class="fas fa-store"></i></div>
-                        Invoice
+                    <div class="sb-sidenav-menu-heading text-muted">F&V</div>
+                    <a class="nav-link collapsed text-dark" href="#" data-bs-toggle="collapse"
+                        data-bs-target="#collapseF&V" aria-expanded="false" aria-controls="collapseAdmin">
+                        <div class="sb-nav-link-icon text-success"><i class="fas fa-file-alt"></i></div>
+                        Food & Beverage
+                        <div class="sb-sidenav-collapse-arrow text-success"><i class="fas fa-angle-down"></i></div>
                     </a>
-
-                    <a class="nav-link text-dark" href="vendor_portal.php">
-                        <div class="sb-nav-link-icon text-success"><i class="fas fa-store"></i></div>
-                        Tracking
-                    </a>
-                    <div class="sb-sidenav-menu-heading text-muted">Food & Beverage</div>
-                    <a class="nav-link text-dark" href="kitchen-portal">
-                        <div class="sb-nav-link-icon text-success"><i class="fas fa-store"></i></div>
-                        F & B Dashboard
-                    </a>
-                    <a class="nav-link text-dark" href="vendor_portal.php">
-                        <div class="sb-nav-link-icon text-success"><i class="fas fa-store"></i></div>
-                        KOT
-                    </a>
-
-                    <a class="nav-link text-dark" href="vendor_portal.php">
-                        <div class="sb-nav-link-icon text-success"><i class="fas fa-store"></i></div>
-                        Stock
-                    </a>
-
-                    <a class="nav-link text-dark" href="vendor_portal.php">
-                        <div class="sb-nav-link-icon text-success"><i class="fas fa-store"></i></div>
-                        Mangement
-                    </a>
-                    <a class="nav-link text-dark" href="chat.php">
-                        <div class="sb-nav-link-icon text-success"><i class="fas fa-store"></i></div>
-                        Chat
-                    </a>
+                    <div class="collapse" id="collapseF&V" aria-labelledby="headingTwo"
+                        data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link text-dark" href="/kitchen-portal">Dashboard</a>
+                        </nav>
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link text-dark" href="#">Payment Method</a>
+                        </nav>
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link text-dark" href="#">Payment Method</a>
+                        </nav>
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link text-dark" href="#">Payment Method</a>
+                        </nav>
+                    </div>
 
                 </div>
             </div>
