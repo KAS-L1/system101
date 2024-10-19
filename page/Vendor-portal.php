@@ -1,5 +1,4 @@
 <?php
-
     if(isset($_GET["page"])){
         
         if(VIEW("page/vendor-portal/", $_GET["page"]) == "404"){

@@ -1,6 +1,7 @@
+
+
 <?php
-include_once('api/middleware/role_access.php');
-// Retrieve all Purchase Orders from the `purchaseorder` table
+// include_once('api/middleware/role_access.php');
 $purchaseOrders = $DB->SELECT("purchaseorder", "*", "ORDER BY po_id DESC");
 ?>
 

@@ -36,6 +36,8 @@
         include('page/_inc/Sidebar_vendor.php');
     } else if (AUTH_USER['role'] == "KITCHEN") {
         include('page/_inc/Sidebar_kitchen.php');
+    } else if (AUTH_USER['role'] == "LOGISTIC") {
+        include('page/_inc/Sidebar_logistic.php');
     } else {
         include('page/_inc/Sidebar.php');
     }

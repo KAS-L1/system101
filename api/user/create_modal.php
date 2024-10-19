@@ -41,6 +41,7 @@
                             <option value="LOGISTIC">LOGISTIC</option>
                             <option value="FINANCE">FINANCE</option>
                             <option value="STAFF">STAFF</option>
+                            <option value="VENDOR">VENDOR</option>
                         </select>
                     </div>
                     <div class="modal-footer">

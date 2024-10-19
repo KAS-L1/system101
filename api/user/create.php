@@ -16,6 +16,7 @@ use PHPMailer\PHPMailer\Exception;
         "email" => $DB->ESCAPE($_POST['email']),
         "contact" => $DB->ESCAPE($_POST['user_contact']),
         "address" => $DB->ESCAPE($_POST['user_address']),
+        "role" => $DB->ESCAPE($_POST['user_role']),
         "status" => "Pending"  // Default status when created
     );
 

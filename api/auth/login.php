@@ -51,13 +51,13 @@ if (isset($_POST['username']) and isset($_POST['password'])) {
             if ($user['role'] == "ADMIN") {
                 redirectUrl("/dashboard");
             } else if ($user['role'] == "LOGISTIC") {
-                redirectUrl("/purchase-orders");
+                redirectUrl("/dashboard");
             } else if ($user['role'] == "FINANCE") {
-                redirectUrl("/audit-management");
-            } else if ($user['role'] == "VENDOR") {
-                redirectUrl("/vendor-portal");
+                redirectUrl("/budget-approval");
             } else if ($user['role'] == "KITCHEN") {
                 redirectUrl("/kitchen-portal");
+            } else if ($user['role'] == "VENDOR") {
+                redirectUrl("/vendor-portal");
             }
         } else {
             // If the database update fails, display an error message

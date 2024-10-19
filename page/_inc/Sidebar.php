@@ -40,9 +40,12 @@
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link text-dark" href="layout-static.html">Audit Reports</a>
                             <a class="nav-link text-dark" href="layout-sidenav-light.html">Audit Schedules</a>
-                            <a class="nav-link text-dark" href="layout-sidenav-light.html">Audit Findings</a>
-                            <a class="nav-link text-dark" href="layout-sidenav-light.html">Audit Recommendations</a>
+                            <a class="nav-link text-dark" href="layout-sidenav-light.html">Audit Logs</a>
+                            <a class="nav-link text-dark" href="layout-sidenav-light.html">Audits (Filtered by Tags)</a>
                             <a class="nav-link text-dark" href="layout-sidenav-light.html">Audit Implementation</a>
+                            <a class="nav-link text-dark" href="layout-sidenav-light.html">Audit Findings</a>
+                            <a class="nav-link text-dark" href="layout-sidenav-light.html">Audit History</a>
+                            <a class="nav-link text-dark" href="layout-sidenav-light.html">Reports</a>
                         </nav>
                     </div>
                     <a class="nav-link collapsed text-dark" href="#" data-bs-toggle="collapse"
@@ -54,11 +57,10 @@
                     <div class="collapse" id="collapseDocument" aria-labelledby="headingThree"
                         data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link text-dark" href="layout-static.html">Document Upload</a>
-                            <a class="nav-link text-dark" href="layout-sidenav-light.html">Document Approval</a>
-                            <a class="nav-link text-dark" href="layout-sidenav-light.html">Document Storage</a>
-                            <a class="nav-link text-dark" href="layout-sidenav-light.html">Document Retrieval</a>
-                            <a class="nav-link text-dark" href="layout-sidenav-light.html">Document Disposal</a>
+                            <a class="nav-link text-dark" href="layout-static.html">Document List</a>
+                            <a class="nav-link text-dark" href="layout-sidenav-light.html">Document Content</a>
+                            <a class="nav-link text-dark" href="layout-sidenav-light.html">Document History</a>
+                            <a class="nav-link text-dark" href="layout-sidenav-light.html">Search and Filtering</a>
                         </nav>
                     </div>
 
@@ -66,7 +68,7 @@
                     <a class="nav-link collapsed text-dark" href="#" data-bs-toggle="collapse"
                         data-bs-target="#collapseAdmin" aria-expanded="false" aria-controls="collapseAdmin">
                         <div class="sb-nav-link-icon text-success"><i class="fas fa-file-alt"></i></div>
-                        Management
+                        User Management
                         <div class="sb-sidenav-collapse-arrow text-success"><i class="fas fa-angle-down"></i></div>
                     </a>
                     <div class="collapse" id="collapseAdmin" aria-labelledby="headingTwo"
@@ -79,7 +81,7 @@
                     <div class="sb-sidenav-menu-heading text-muted">Vendor Portal</div>
                     <a class="nav-link collapsed text-dark" href="#" data-bs-toggle="collapse"
                         data-bs-target="#collapseVendor" aria-expanded="false" aria-controls="collapseAdmin">
-                        <div class="sb-nav-link-icon text-success"><i class="fas fa-file-alt"></i></div>
+                        <div class="sb-nav-link-icon text-success"><i class="fas fa-store"></i></div>
                         Vendor Portal
                         <div class="sb-sidenav-collapse-arrow text-success"><i class="fas fa-angle-down"></i></div>
                     </a>
@@ -89,20 +91,32 @@
                             <a class="nav-link text-dark" href="/vendor-portal">Dashboard</a>
                         </nav>
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link text-dark" href="#">Payment Method</a>
+                            <a class="nav-link text-dark" href="#">Purchase Orders</a>
                         </nav>
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link text-dark" href="#">Payment Method</a>
+                            <a class="nav-link text-dark" href="#">Request for Quote</a>
                         </nav>
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link text-dark" href="#">Payment Method</a>
+                            <a class="nav-link text-dark" href="#">Product Catalog</a>
+                        </nav>
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link text-dark" href="#">Invoice</a>
+                        </nav>
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link text-dark" href="#">Delivery and Shipment Updates</a>
+                        </nav>
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link text-dark" href="#">Vendor Performance Rating</a>
+                        </nav>
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link text-dark" href="#">Help and Support</a>
                         </nav>
                     </div>
 
                     <div class="sb-sidenav-menu-heading text-muted">F&V</div>
                     <a class="nav-link collapsed text-dark" href="#" data-bs-toggle="collapse"
                         data-bs-target="#collapseF&V" aria-expanded="false" aria-controls="collapseAdmin">
-                        <div class="sb-nav-link-icon text-success"><i class="fas fa-file-alt"></i></div>
+                        <div class="sb-nav-link-icon text-success"><i class="fas fa-carrot"></i></div>
                         Food & Beverage
                         <div class="sb-sidenav-collapse-arrow text-success"><i class="fas fa-angle-down"></i></div>
                     </a>
@@ -112,13 +126,25 @@
                             <a class="nav-link text-dark" href="/kitchen-portal">Dashboard</a>
                         </nav>
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link text-dark" href="#">Payment Method</a>
+                            <a class="nav-link text-dark" href="#">Kitchen Order Management</a>
                         </nav>
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link text-dark" href="#">Payment Method</a>
+                            <a class="nav-link text-dark" href="#">Stock Management</a>
                         </nav>
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link text-dark" href="#">Payment Method</a>
+                            <a class="nav-link text-dark" href="#">Recipe Management</a>
+                        </nav>
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link text-dark" href="#">Food Costing</a>
+                        </nav>
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link text-dark" href="#">Waste Management</a>
+                        </nav>
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link text-dark" href="#">Reports & Analytics</a>
+                        </nav>
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link text-dark" href="#">Settings</a>
                         </nav>
                     </div>
 
