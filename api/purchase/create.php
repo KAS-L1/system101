@@ -20,7 +20,7 @@ $data = array(
 $purchaseOrder = $DB->INSERT("purchaseorder", $data);
 
 // Check if the Purchase Order was successfully created
-if ($purchaseOrder) {
+if ($purchaseOrder == "sucess") {
     // Display success alert and refresh page
     swalAlert('success', 'Purchase Order Created Successfully!');
     refreshUrlTimeout(2000);

@@ -12,7 +12,7 @@ $where = array("user_id" => $user_id);
 $user = $DB->DELETE("users", $where);
 
 // Check if the update is successful
-if ($user) {
+if ($user == "success") {
     swalAlert("success", "User Removed");
     refreshUrlTimeout(2000);
 } else {

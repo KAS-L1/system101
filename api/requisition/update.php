@@ -24,7 +24,7 @@ require("../../app/init.php");
     $requisition = $DB->UPDATE("purchaserequisition", $data, $where);
 
     // Check if the update is successful
-    if ($requisition) {
+    if ($requisition == "success") {
         swalAlert("success", "Requisition successfully updated");
         refreshUrlTimeout(2000);
     } else {

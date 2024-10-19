@@ -10,7 +10,7 @@
         "status" => "Deactivated",
         "updated_at" => DATE_TIME,
     );
-    pre($data);
+
     $where = array("user_id" => $user_id);
     $user = $DB->UPDATE("users", $data, $where);
     if($user != "success") alert("danger", $user['error']);

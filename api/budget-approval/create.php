@@ -16,7 +16,7 @@ require("../../app/init.php");
     // Insert the budget approval into the `budget_approval` table
     $approval = $DB->INSERT("budget_approval", $data);
 
-    if ($approval) {
+    if ($approval == "success") {
         // Update the related requisition's status based on approval
         $requisition_status = $data['approval_status'] == 'Approved' ? 'Approved' : 'Rejected';
         $requisition_update = $DB->UPDATE(

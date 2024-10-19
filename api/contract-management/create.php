@@ -15,7 +15,7 @@ $data = array(
 $contract = $DB->INSERT("contracts", $data);
 
 // Check if the contract was created successfully
-if ($contract) {
+if ($contract == "success") {
     swalAlert('success', 'Contract Created Successfully!');
     refreshUrlTimeout(2000);
 } else {

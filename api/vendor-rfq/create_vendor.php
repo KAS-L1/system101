@@ -16,7 +16,7 @@ $data = array(
 // Insert the vendor into the database
 $vendor = $DB->INSERT("vendors", $data);
 
-if ($vendor) {
+if ($vendor == "success") {
     // Display success alert and refresh the page
     swalAlert("success", "Vendor Created Successfully");
     refreshUrlTimeout(2000);

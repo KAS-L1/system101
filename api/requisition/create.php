@@ -18,7 +18,7 @@ require("../../app/init.php");
     // Insert the requisition into the database
     $requisition = $DB->INSERT("purchaserequisition", $data);
 
-    if ($requisition) {
+    if ($requisition == "success") {
         // Display success alert and refresh page
         swalAlert('success', 'Requisition Created Successfully');
         refreshUrlTimeout(2000);

@@ -26,7 +26,7 @@ $where = array("po_id" => $po_id);
 $updatePO = $DB->UPDATE("purchaseorder", $data, $where);
 
 // Check if the update is successful
-if ($updatePO) {
+if ($updatePO == "success") {
     swalAlert("success", "Purchase Order successfully updated");
     refreshUrlTimeout(2000);
 } else {

@@ -13,7 +13,7 @@ $data = [
 $where = ["rfq_id" => $rfq_id];
 $updateRFQ = $DB->UPDATE("rfqs", $data, $where);
 
-if ($updateRFQ) {
+if ($updateRFQ == "success") {
     swalAlert("RFQ updated successfully.");
 } else {
     swalAlert("Failed to update RFQ.");

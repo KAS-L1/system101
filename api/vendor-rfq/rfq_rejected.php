@@ -17,7 +17,7 @@ $where = array("rfq_id" => $rfq_id);
 $rfq = $DB->UPDATE("rfqs", $data, $where);
 
 // Check if the update was successful
-if ($rfq) {
+if ($rfq == "success") {
     swalAlert("success", "RFQ Rejected successfully.");
 } else {
     alert("danger", $rfq['error']);

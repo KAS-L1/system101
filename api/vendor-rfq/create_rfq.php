@@ -15,7 +15,7 @@ $data = array(
 // Insert the RFQ into the database
 $rfq = $DB->INSERT("rfqs", $data);
 
-if ($rfq) {
+if ($rfq == "success") {
     // Display success alert and refresh the page
     swalAlert('success', 'RFQ Created Successfully');
     refreshUrlTimeout(2000);

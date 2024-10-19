@@ -21,7 +21,7 @@ $where = array("invoice_id" => $invoice_id);
 $updateInvoice = $DB->UPDATE("invoice_payments", $data, $where);
 
 // Check if the update is successful
-if ($updateInvoice) {
+if ($updateInvoice == "success") {
     swalAlert("success", "Invoice successfully updated");
     refreshUrlTimeout(2000);
 } else {

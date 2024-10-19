@@ -21,7 +21,7 @@ $where = array("contract_id" => $contract_id);
 $updateContract = $DB->UPDATE("contracts", $data, $where);
 
 // Check if the update is successful
-if ($updateContract) {
+if ($updateContract == "success") {
     swalAlert("success", "Contract successfully updated");
     refreshUrlTimeout(2000);
 } else {

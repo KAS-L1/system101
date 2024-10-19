@@ -13,7 +13,7 @@ $data = [
 $where = ["vendor_id" => $vendor_id];
 $updateVendor = $DB->UPDATE("vendors", $data, $where);
 
-if ($updateVendor) {
+if ($updateVendor == "success") {
     swalAlert("success", "Vendor updated successfully.");
     refreshUrlTimeout(2000);
 } else {

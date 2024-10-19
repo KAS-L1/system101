@@ -16,7 +16,7 @@ $data = array(
 $insertInvoice = $DB->INSERT("invoice_payments", $data);
 
 // Check if the insert was successful
-if ($insertInvoice) {
+if ($insertInvoice == "success") {
     swalAlert("success", "Invoice created successfully!");
     refreshUrlTimeout(2000);
 } else {
