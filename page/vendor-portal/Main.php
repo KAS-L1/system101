@@ -1,7 +1,7 @@
 
 
 <?php
-// include_once('api/middleware/role_access.php');
+include_once('api/middleware/role_access_vendor.php');
 $purchaseOrders = $DB->SELECT("purchaseorder", "*", "ORDER BY po_id DESC");
 ?>
 
