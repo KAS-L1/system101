@@ -29,9 +29,10 @@ function pre_die($data)
 // Function to escape special characters in a string
 function CHARS($string)
 {
-    // Use htmlspecialchars to escape special characters
-    return htmlspecialchars($string);
+    // Ensure the input is a string; if not, default to an empty string
+    return htmlspecialchars($string ?? '');
 }
+
 
 // Function to convert a string to lowercase
 function LOWER_CASE($string)

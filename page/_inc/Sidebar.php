@@ -91,10 +91,10 @@
                             <a class="nav-link text-dark" href="/vendor-portal">Dashboard</a>
                         </nav>
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link text-dark" href="#">Purchase Orders</a>
+                            <a class="nav-link text-dark" href="/vendor-purchase-orders">Purchase Orders</a>
                         </nav>
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link text-dark" href="#">Request for Quote</a>
+                            <a class="nav-link text-dark" href="/vendor-request-for-qouted">Request for Quote</a>
                         </nav>
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link text-dark" href="#">Product Catalog</a>

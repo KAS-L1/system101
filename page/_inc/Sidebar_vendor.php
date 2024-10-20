@@ -9,11 +9,11 @@
                         Dashboard
                     </a>
                     <div class="sb-sidenav-menu-heading text-muted">Vendor Portal</div>
-                    <a class="nav-link text-dark" href="#purchase-orders">
+                    <a class="nav-link text-dark" href="/vendor-purchase-orders">
                         <div class="sb-nav-link-icon text-success"><i class="fas fa-shopping-cart"></i></div>
                         Purchase Orders
                     </a>
-                    <a class="nav-link text-dark" href="#request-for-quote">
+                    <a class="nav-link text-dark" href="/vendor-request-for-qouted">
                         <div class="sb-nav-link-icon text-success"><i class="fas fa-file-invoice-dollar"></i></div>
                         Request for Quote
                     </a>

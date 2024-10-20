@@ -1,5 +1,5 @@
 <?php
-include_once('api/middleware/role_access.php');
+include_once('api/middleware/role_access_vendor.php');
 // Retrieve all Purchase Orders from the `purchaseorder` table
 $purchaseOrders = $DB->SELECT("purchaseorder", "*", "ORDER BY po_id DESC");
 ?>
@@ -8,7 +8,7 @@ $purchaseOrders = $DB->SELECT("purchaseorder", "*", "ORDER BY po_id DESC");
 <div class="container mt-4 py-5">
     <div class="row text-center">
         <!-- Card: Add Purchase Order -->
-        <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+        <!-- <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
             <div class="card border-0 shadow-sm h-100">
                 <div class="card-body">
                     <i class="fas fa-file-alt fa-2x text-success mb-3"></i>
@@ -18,7 +18,7 @@ $purchaseOrders = $DB->SELECT("purchaseorder", "*", "ORDER BY po_id DESC");
                         data-bs-target="#addPurchaseOrderModal">Create PO</button>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <!-- Card: View Active Purchase Orders -->
         <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
@@ -170,9 +170,9 @@ $purchaseOrders = $DB->SELECT("purchaseorder", "*", "ORDER BY po_id DESC");
                                         <td>
                                             <div class="d-flex gap-2">
                                                 <!-- Edit Button -->
-                                                <button class="btn btn-sm btn-light shadow-sm editOrder" data-po_id="<?= $order['po_id']; ?>">
+                                                <!-- <button class="btn btn-sm btn-light shadow-sm editOrder" data-po_id="<?= $order['po_id']; ?>">
                                                     <i class="bi bi-pencil-square"></i>
-                                                </button>
+                                                </button> -->
 
                                                 <!-- Approve Button -->
                                                 <?php if ($order['status'] == "Ordered") { ?>
