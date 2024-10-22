@@ -13,6 +13,7 @@ $rfqs = $DB->SELECT("rfqs", "*");
 
 <!-- Container for Page Content -->
 <div class="container mt-5">
+
     <!-- Row for Cards -->
     <div class="row g-4">
         <!-- Vendor Management Card -->
@@ -40,18 +41,6 @@ $rfqs = $DB->SELECT("rfqs", "*");
                         data-bs-target="#createProductModal">
                         Create Product
                     </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- RFQ Management Card -->
-        <div class="col-lg-4 col-md-6 col-sm-12">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-body text-center">
-                    <i class="fas fa-file-signature fa-2x text-success mb-3"></i>
-                    <h5 class="card-title">RFQ Management</h5>
-                    <p class="card-text text-muted small">Create and manage Requests for Quotations (RFQs).</p>
-                    <button id="openCreateRFQModalButton" class="btn btn-success">Create RFQ</button>
                 </div>
             </div>
         </div>
@@ -191,8 +180,14 @@ $rfqs = $DB->SELECT("rfqs", "*");
         <!-- RFQ Management Table Card -->
         <div class="container mt-4">
             <div class="card shadow-sm mb-4">
-                <div class="card-header bg-light text-success">
+                <div class="card-header bg-light text-success d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">RFQ Management and Status</h5>
+                    <!-- Download Report Button next to the Search bar -->
+                    <div>
+                        <button class="btn btn-sm btn-success" onclick="window.open('/api/vendor-rfq/generateall_report_rfq.php', '_blank')">
+                            <i class="bi bi-download"></i>
+                        </button>
+                    </div>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -244,9 +239,12 @@ $rfqs = $DB->SELECT("rfqs", "*");
                                         <td><?= CHARS($rfq['remarks']); ?></td>
                                         <td>
                                             <div class="d-flex gap-2">
-                                                <!-- Edit RFQ Button -->
-                                                <button class="btn btn-sm btn-light shadow-sm editRFQ" data-rfq_id="<?= $rfq['rfq_id']; ?>">
-                                                    <i class="bi bi-pencil-square"></i>
+                                                <!-- View RFQ Button -->
+                                                <button class="btn btn-sm btn-light shadow-sm viewRFQ" data-rfq_id="<?= $rfq['rfq_id']; ?>">
+                                                    <i class="bi bi-eye"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-light shadow-sm generateReport text-success" data-rfq_id="<?= $rfq['rfq_id']; ?>">
+                                                    <i class="bi bi-file-earmark-text"></i>
                                                 </button>
                                                 <!-- Approve RFQ Button -->
                                                 <button class="btn btn-sm btn-success shadow-sm approveRFQ" data-rfq_id="<?= $rfq['rfq_id']; ?>">
@@ -270,6 +268,7 @@ $rfqs = $DB->SELECT("rfqs", "*");
                 </div>
             </div>
         </div>
+
 
 
 
@@ -380,6 +379,35 @@ $rfqs = $DB->SELECT("rfqs", "*");
 
     <script>
         // RFQ Modals and Actions
+
+        // Handle View RFQ button click
+        $('.viewRFQ').click(function() {
+            const rfq_id = $(this).data('rfq_id');
+            $.post('api/vendor-rfq/view_rfq_modal.php', {
+                rfq_id: rfq_id
+            }, function(res) {
+                $('#responseModal').html(res);
+                $('#viewRFQModal').modal('show');
+            });
+        });
+
+        // Handle Generate Report button click
+        $('.generateReport').click(function() {
+            const rfq_id = $(this).data('rfq_id');
+            
+            Swal.fire({
+                title: "Generate Report?",
+                text: "This will generate a PDF report for the selected RFQ.",
+                icon: "info",
+                showCancelButton: true,
+                confirmButtonText: "Generate Report",
+                confirmButtonColor: '#198754',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.open('api/vendor-rfq/generate_report_rfq.php?rfq_id=' + rfq_id, '_blank');
+                }
+            });
+        });
 
         // Handle Create RFQ button click
         $('#openCreateRFQModalButton').click(function() {

@@ -44,7 +44,7 @@ $productName = $productNameData ? CHARS($productNameData['product_name']) : 'Unk
                     <!-- Product Name Display -->
                     <div class="mb-3">
                         <label for="product_name" class="form-label">Product Name</label>
-                        <input type="text" class="form-control" id="product_name" value="<?= $productName; ?>" disabled>
+                        <input type="text" class="form-control" id="product_name" value="<?= $productName; ?>" readonly>
                     </div>
 
                     <!-- Requested Quantity -->
