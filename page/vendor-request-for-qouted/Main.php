@@ -14,18 +14,6 @@ $rfqs = $DB->SELECT("rfqs", "*");
 <div class="container mt-5">
     <!-- Row for Cards -->
     <div class="row g-4">
-        <!-- RFQ Management Card -->
-        <!-- <div class="col-lg-4 col-md-6 col-sm-12">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-body text-center">
-                    <i class="fas fa-file-signature fa-2x text-success mb-3"></i>
-                    <h5 class="card-title">RFQ Management</h5>
-                    <p class="card-text text-muted small">Create and manage Requests for Quotations (RFQs).</p>
-                    <button id="openCreateRFQModalButton" class="btn btn-success">Create RFQ</button>
-                </div>
-            </div>
-        </div> -->
-
         <!-- RFQ Management Table Card -->
         <div class="container mt-4">
             <div class="card shadow-sm mb-4">
@@ -45,48 +33,56 @@ $rfqs = $DB->SELECT("rfqs", "*");
                                     <th>Quoted Price</th>
                                     <th>RFQ Status</th>
                                     <th>Response Date</th>
+                                    <th>Remarks</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $i = 1; foreach ($rfqs as $rfq): ?>
-                            <?php
-                            // Selecting vendor name
-                            $vendor_name = $DB->SELECT_ONE_WHERE("vendors", "vendor_name", array("vendor_id" => $rfq['vendor_id']));
-                            $vendorName = CHARS($vendor_name['vendor_name'] ?? 'Unknown Vendor');
+                                <?php
+                                $i = 1;
+                                foreach ($rfqs as $rfq) {
+                                    // Selecting vendor name
+                                    $vendor_name = $DB->SELECT_ONE_WHERE("vendors", "vendor_name", array("vendor_id" => $rfq['vendor_id']));
+                                    $vendorName = CHARS(isset($vendor_name['vendor_name']) ? $vendor_name['vendor_name'] : 'Unknown Vendor');
 
-                            // Selecting product name
-                            $product_name = $DB->SELECT_ONE_WHERE("vendor_products", "product_name", array("product_id" => $rfq['product_id']));
-                            $productName = CHARS($product_name['product_name'] ?? 'Unknown Product');
-                            ?>
-                            <tr>
-                                <td><?= $i++; ?></td>
-                                <td><?= CHARS($rfq['rfq_id']); ?></td>
-                                <td><?= $vendorName ?></td>
-                                <td><?= $productName ?></td>
-                                <td><?= CHARS($rfq['requested_quantity']); ?></td>
-                                <td><?= NUMBER_PHP_2($rfq['quoted_price']); ?></td>
-                                <td>
-                                    <?php if ($rfq['rfq_status'] == 'Approved'): ?>
-                                        <span class="badge bg-success"><?= CHARS($rfq['rfq_status']); ?></span>
-                                    <?php elseif ($rfq['rfq_status'] == 'Rejected'): ?>
-                                        <span class="badge bg-danger"><?= CHARS($rfq['rfq_status']); ?></span>
-                                    <?php else: ?>
-                                        <span class="badge bg-secondary"><?= CHARS($rfq['rfq_status']); ?></span>
-                                    <?php endif; ?>
-                                </td>
-                                <td><?= CHARS($rfq['response_date']); ?></td>
-                                <td>
-                                    <div class="d-flex gap-2">
-                                        <!-- Edit RFQ Button -->
-                                        <button class="btn btn-sm btn-light shadow-sm editRFQ" data-rfq_id="<?= CHARS($rfq['rfq_id']); ?>">
-                                            <i class="bi bi-pencil-square"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-
+                                    // Selecting product name
+                                    $product_name = $DB->SELECT_ONE_WHERE("vendor_products", "product_name", array("product_id" => $rfq['product_id']));
+                                    $productName = CHARS(isset($product_name['product_name']) ? $product_name['product_name'] : 'Unknown Product');
+                                ?>
+                                    <tr>
+                                        <td><?php echo $i++; ?></td>
+                                        <td><?php echo CHARS($rfq['rfq_id']); ?></td>
+                                        <td><?php echo $vendorName; ?></td>
+                                        <td><?php echo $productName; ?></td>
+                                        <td><?php echo CHARS($rfq['requested_quantity']); ?></td>
+                                        <td><?php echo NUMBER_PHP_2($rfq['quoted_price']); ?></td>
+                                        <td>
+                                            <?php if ($rfq['rfq_status'] == 'Approved'): ?>
+                                                <span class="badge bg-success"><?= $rfq['rfq_status']; ?></span>
+                                            <?php elseif ($rfq['rfq_status'] == 'Rejected'): ?>
+                                                <span class="badge bg-danger"><?= $rfq['rfq_status']; ?></span>
+                                            <?php elseif ($rfq['rfq_status'] == 'Responded'): ?>
+                                                <span class="badge bg-info"><?= $rfq['rfq_status']; ?></span>
+                                            <?php else: ?>
+                                                <span class="badge bg-secondary"><?= $rfq['rfq_status']; ?></span>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td><?php echo CHARS($rfq['response_date']); ?></td>
+                                        <td><?php echo CHARS($rfq['remarks']); ?></td>
+                                        <td>
+                                            <div class="d-flex gap-2">
+                                                <!-- Edit RFQ Button -->
+                                                <button class="btn btn-sm btn-light shadow-sm editRFQ" data-rfq_id="<?php echo CHARS($rfq['rfq_id']); ?>">
+                                                    <i class="bi bi-pencil-square"></i>
+                                                </button>
+                                                   <!-- Responded RFQ Button -->
+                                                <button class="btn btn-sm btn-light shadow-sm respondedRFQ text-info" data-rfq_id="<?= $rfq['rfq_id']; ?>">
+                                                  <i class="bi bi-reply-fill"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
                             </tbody>
                         </table>
                     </div>
@@ -121,9 +117,9 @@ $rfqs = $DB->SELECT("rfqs", "*");
             });
 
             // Handle Approve RFQ button click
-            $('.approveRFQ').click(function() {
+            $('.respondedRFQ').click(function() {
                 const rfq_id = $(this).data('rfq_id');
-                $.post('api/vendor-rfq/approve_rfq.php', {
+                $.post('api/vendor-rfq/responded_rfq.php', {
                     rfq_id: rfq_id
                 }, function(response) {
                     $('#responseModal').html(response);

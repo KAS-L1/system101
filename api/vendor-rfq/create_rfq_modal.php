@@ -42,19 +42,12 @@
                             <input type="number" class="form-control" id="requestedQuantity" name="requested_quantity" required>
                         </div>
 
-                        <!-- Quoted Price -->
-                        <div class="mb-3">
-                            <label for="quotedPrice" class="form-label">Quoted Price</label>
-                            <input type="number" class="form-control" id="quotedPrice" name="quoted_price" step="0.01" required>
-                        </div>
 
                         <!-- RFQ Status (Dropdown) -->
                         <div class="mb-3">
                             <label for="rfqStatus" class="form-label">RFQ Status</label>
-                            <select class="form-select" id="rfqStatus" name="rfq_status" required>
+                            <select class="form-select" id="rfqStatus" name="rfq_status">
                                 <option value="Pending">Pending</option>
-                                <option value="Approved">Approved</option>
-                                <option value="Rejected">Rejected</option>
                             </select>
                         </div>
 
@@ -64,6 +57,12 @@
                             <input type="date" class="form-control" id="responseDate" name="response_date" required>
                         </div>
 
+                        <!-- Remarks -->
+                        <div class="mb-3">
+                            <label for="responseRemarks">Remarks:</label>
+                            <textarea class="form-control" id="responseRemarks" name="response_remarks"></textarea>
+                        </div>
+                    
                         <!-- Submit Button -->
                         <button type="submit" class="btn btn-success">Create RFQ</button>
                     </form>

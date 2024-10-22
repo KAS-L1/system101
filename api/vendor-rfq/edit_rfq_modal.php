@@ -2,6 +2,11 @@
 require("../../app/init.php");
 $rfq_id = $_POST['rfq_id'];
 $rfq = $DB->SELECT_ONE_WHERE("rfqs", "*", ["rfq_id" => $rfq_id]);
+$vendors = $DB->SELECT("vendors", "*", "ORDER BY vendor_id ASC");
+
+// Fetch product name based on product_id from RFQ
+$productNameData = $DB->SELECT_ONE_WHERE("vendor_products", "product_name", ["product_id" => $rfq['product_id']]);
+$productName = $productNameData ? CHARS($productNameData['product_name']) : 'Unknown Product';
 ?>
 
 <!-- Edit RFQ Modal -->
@@ -14,31 +19,52 @@ $rfq = $DB->SELECT_ONE_WHERE("rfqs", "*", ["rfq_id" => $rfq_id]);
             </div>
             <div class="modal-body">
                 <form id="editRFQForm">
-                    <input type="hidden" name="rfq_id" value="<?= $rfq['rfq_id']; ?>">
+                    <input type="hidden" name="rfq_id" value="<?= CHARS($rfq['rfq_id']); ?>">
+
+                    <!-- Vendor Selection -->
                     <div class="mb-3">
-                        <label for="vendor_id" class="form-label">Vendor ID</label>
-                        <input type="text" class="form-control" id="vendor_id" name="vendor_id" value="<?= $rfq['vendor_id']; ?>" disabled>
-                    </div>
-                    <div class="mb-3">
-                        <label for="product_id" class="form-label">Product ID</label>
-                        <input type="text" class="form-control" id="product_id" name="product_id" value="<?= $rfq['product_id']; ?>" disabled>
-                    </div>
-                    <div class="mb-3">
-                        <label for="requested_quantity" class="form-label">Requested Quantity</label>
-                        <input type="number" class="form-control" id="requested_quantity" name="requested_quantity" value="<?= $rfq['requested_quantity']; ?>" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="quoted_price" class="form-label">Quoted Price</label>
-                        <input type="number" class="form-control" id="quoted_price" name="quoted_price" value="<?= $rfq['quoted_price']; ?>" step="0.01">
-                    </div>
-                    <div class="mb-3">
-                        <label for="rfq_status" class="form-label">RFQ Status</label>
-                        <select class="form-select" id="rfq_status" name="rfq_status" required>
-                            <option value="Pending" <?= $rfq['rfq_status'] == 'Pending' ? 'selected' : ''; ?>>Pending</option>
-                            <option value="Approved" <?= $rfq['rfq_status'] == 'Approved' ? 'selected' : ''; ?>>Approved</option>
-                            <option value="Rejected" <?= $rfq['rfq_status'] == 'Rejected' ? 'selected' : ''; ?>>Rejected</option>
+                        <label for="vendorId" class="form-label">Vendor Name</label>
+                        <select class="form-select" id="vendorId" name="vendor_id" required>
+                            <?php foreach ($vendors as $vendor): ?>
+                                <option value="<?= CHARS($vendor['vendor_id']); ?>" <?= $vendor['vendor_id'] == $rfq['vendor_id'] ? 'selected' : ''; ?>>
+                                    <?= CHARS($vendor['vendor_name']); ?>
+                                </option>
+                            <?php endforeach; ?>
                         </select>
                     </div>
+
+
+                    <!-- Product ID -->
+                    <div class="mb-3">
+                        <label for="product_id" class="form-label">Product ID</label>
+                        <input type="text" class="form-control" id="product_id" name="product_id" value="<?= $rfq['product_id']; ?>" readonly>
+                    </div>
+
+
+                    <!-- Product Name Display -->
+                    <div class="mb-3">
+                        <label for="product_name" class="form-label">Product Name</label>
+                        <input type="text" class="form-control" id="product_name" value="<?= $productName; ?>" disabled>
+                    </div>
+
+                    <!-- Requested Quantity -->
+                    <div class="mb-3">
+                        <label for="requested_quantity" class="form-label">Requested Quantity</label>
+                        <input type="number" class="form-control" id="requested_quantity" name="requested_quantity" value="<?= CHARS($rfq['requested_quantity']); ?>" required>
+                    </div>
+
+                    <!-- Quoted Price -->
+                    <div class="mb-3">
+                        <label for="quoted_price" class="form-label">Quoted Price</label>
+                        <input type="number" class="form-control" id="quoted_price" name="quoted_price" value="<?= CHARS($rfq['quoted_price']); ?>" step="0.01">
+                    </div>
+
+                    <!-- Remarks -->
+                    <div class="mb-3">
+                        <label for="response_remarks" class="form-label">Remarks:</label>
+                        <textarea class="form-control" id="response_remarks" name="response_remarks"><?= CHARS($rfq['remarks']); ?></textarea>
+                    </div>
+
                     <button type="submit" class="btn btn-success">Update RFQ</button>
                 </form>
             </div>
@@ -46,17 +72,12 @@ $rfq = $DB->SELECT_ONE_WHERE("rfqs", "*", ["rfq_id" => $rfq_id]);
     </div>
 </div>
 
-
-
 <script>
-    $('#editRFQForm').submit(function(e) {
-        e.preventDefault(); // Prevent default form submission
-
-        // Send an AJAX POST request to update the RFQ details
-        $.post('api/rfq/update.php', $(this).serialize(), function(response) {
-            $('#response').html(response); // Display response message
-            $('#editRFQModal').modal('hide'); // Hide the modal after updating
-            location.reload(); // Refresh the page to reflect the changes
-        });
+   $('#editRFQForm').submit(function(e) {
+    e.preventDefault();
+    $.post('api/vendor-rfq/update_rfq.php', $(this).serialize(), function(response) {
+        $('#response').html(response);
+        $('#editRFQModal').modal('hide');
     });
+});
 </script>
