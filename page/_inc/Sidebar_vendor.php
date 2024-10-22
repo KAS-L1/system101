@@ -17,7 +17,7 @@
                         <div class="sb-nav-link-icon text-success"><i class="fas fa-file-invoice-dollar"></i></div>
                         Request for Quote
                     </a>
-                    <a class="nav-link text-dark" href="#product-catalog">
+                    <a class="nav-link text-dark" href="/vendor-product-catalog">
                         <div class="sb-nav-link-icon text-success"><i class="fas fa-list"></i></div>
                         Product Catalog
                     </a>

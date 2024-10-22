@@ -97,7 +97,7 @@
                             <a class="nav-link text-dark" href="/vendor-request-for-qouted">Request for Quote</a>
                         </nav>
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link text-dark" href="#">Product Catalog</a>
+                            <a class="nav-link text-dark" href="/vendor-product-catalog">Product Catalog</a>
                         </nav>
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link text-dark" href="#">Invoice</a>

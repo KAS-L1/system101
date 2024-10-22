@@ -129,8 +129,13 @@ $rfqs = $DB->SELECT("rfqs", "*");
         <!-- Product Catalog Management Table Card -->
         <div class="container mt-4">
             <div class="card shadow-sm mb-4">
-                <div class="card-header bg-light text-success">
+                <div class="card-header bg-light text-success d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">Product Catalog Management</h5>
+                    <div>
+                        <button class="btn btn-sm btn-success" onclick="window.open('/api/vendor-rfq/generateall_report_product.php', '_blank')">
+                            <i class="bi bi-download"></i>
+                        </button>
+                    </div>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -172,6 +177,14 @@ $rfqs = $DB->SELECT("rfqs", "*");
                                                 <button class="btn btn-sm btn-light shadow-sm editProduct"
                                                     data-product_id="<?= $product['product_id']; ?>">
                                                     <i class="bi bi-pencil-square"></i>
+                                                </button>
+                                                 <!-- View RFQ Button -->
+                                                <button class="btn btn-sm btn-light shadow-sm viewProduct" data-product_id="<?= $product['product_id']; ?>">
+                                                    <i class="bi bi-eye"></i>
+                                                </button>
+                                                <!-- Generate Report Button -->
+                                                <button class="btn btn-sm btn-light shadow-sm generateReportProduct text-success" data-product_id="<?= $product['product_id']; ?>">
+                                                    <i class="bi bi-file-earmark-text"></i>
                                                 </button>
                                                 <!-- Remove Product Button -->
                                                 <button class="btn btn-sm btn-warning shadow-sm removeProduct"
@@ -294,6 +307,35 @@ $rfqs = $DB->SELECT("rfqs", "*");
     <!-- JavaScript for Handling Modals and AJAX Requests -->
     <script>
         // Vendor Modals and Actions
+
+          $('.viewProduct').click(function() {
+                    const product_id = $(this).data('product_id');
+                    $.post('api/vendor-rfq/view_product_modal.php', {
+                        product_id: product_id
+                    }, function(res) {
+                        $('#responseModal').html(res);
+                        $('#viewProductModal').modal('show');
+                    });
+                });
+
+                // Handle Generate Report button click
+                $('.generateReportProduct').click(function() {
+                    const product_id = $(this).data('product_id');
+                    
+                    Swal.fire({
+                        title: "Generate Report?",
+                        text: "This will generate a PDF report for the selected RFQ.",
+                        icon: "info",
+                        showCancelButton: true,
+                        confirmButtonText: "Generate Report",
+                        confirmButtonColor: '#198754',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.open('api/vendor-rfq/generate_report_product.php?product_id=' + product_id, '_blank');
+                        }
+                    });
+                });
+                
         $('#openCreateVendorModalButton').click(function() {
             $.post('api/vendor-rfq/create_vendor_modal.php', function(res) {
                 $('#responseModal').html(res);

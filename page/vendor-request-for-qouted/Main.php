@@ -85,6 +85,7 @@
                                                     <button class="btn btn-sm btn-light shadow-sm viewRFQ" data-rfq_id="<?= $rfq['rfq_id']; ?>">
                                                         <i class="bi bi-eye"></i>
                                                     </button>
+                                                    <!-- Generate Report Button -->
                                                     <button class="btn btn-sm btn-light shadow-sm generateReport text-success" data-rfq_id="<?= $rfq['rfq_id']; ?>">
                                                         <i class="bi bi-file-earmark-text"></i>
                                                     </button>
