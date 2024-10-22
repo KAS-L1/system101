@@ -45,6 +45,18 @@ $rfqs = $DB->SELECT("rfqs", "*");
             </div>
         </div>
 
+        <!-- RFQ Management Card -->
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-file-signature fa-2x text-success mb-3"></i>
+                    <h5 class="card-title">RFQ Management</h5>
+                    <p class="card-text text-muted small">Create and manage Requests for Quotations (RFQs).</p>
+                    <button id="openCreateRFQModalButton" class="btn btn-success">Create RFQ</button>
+                </div>
+            </div>
+        </div>
+
         <!-- Vendor Management Table Card -->
         <div class="container mt-4">
             <div class="card shadow-sm mb-4">

@@ -23,9 +23,8 @@ class Database
     public function DB_CONNECTION()
     {
         $this->DB = new mysqli($this->DB_HOST, $this->DB_USER, $this->DB_PASSWORD, $this->DB_NAME);
-        if (!$this->DB) {
-            print($this->DB->connect_error);
-            exit();
+        if ($this->DB->connect_error) {
+            die("Connection failed: " . $this->DB->connect_error);
         }
     }
 
@@ -48,21 +47,37 @@ class Database
     }
 
     // Select data from a table
-    public function SELECT($table, $fields, $options = '')
+    public function SELECT($table, $fields, $options = '', $params = [])
     {
-        $query = "SELECT {$fields} FROM {$table} {$options} ";
-        $result = $this->DB->query($query) or die('Cannot execute SELECT command; ' . $this->DB->error);
+        $query = "SELECT {$fields} FROM {$table} {$options}";
+        $stmt = $this->DB->prepare($query);
+
+        if ($params) {
+            $types = str_repeat('s', count($params)); // Assuming all parameters are strings; adjust as needed
+            $stmt->bind_param($types, ...$params);
+        }
+
+        $stmt->execute();
+        $result = $stmt->get_result();
         $data = $result->fetch_all(MYSQLI_ASSOC);
+
         return $data;
     }
 
     // Select a single row from a table
-    public function SELECT_ONE($table, $fields, $options = '')
+    public function SELECT_ONE($table, $fields, $options = '', $params = [])
     {
         $query = "SELECT {$fields} FROM {$table} {$options} LIMIT 1";
-        $result = $this->DB->query($query);
-        $data = $result->fetch_assoc();
-        return $data;
+        $stmt = $this->DB->prepare($query);
+
+        if ($params) {
+            $types = str_repeat('s', count($params)); // Adjust types as needed
+            $stmt->bind_param($types, ...$params);
+        }
+
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc();
     }
 
     // Select multiple rows from a table based on a condition
@@ -70,13 +85,22 @@ class Database
     {
         $condition = "";
         foreach ($where as $key => $value) {
-            $condition .= $key . " = '" . $value . "' AND ";
+            $condition .= $key . " = ? AND ";
         }
         $condition = substr($condition, 0, -5);
 
         $query = "SELECT {$fields} FROM {$table} WHERE {$condition} {$options}";
-        $result = $this->DB->query($query) or die('Cannot execute SELECT_WHERE command; ' . $this->DB->error);
+        $stmt = $this->DB->prepare($query);
+        
+        if ($where) {
+            $types = str_repeat('s', count($where)); // Adjust types as needed
+            $stmt->bind_param($types, ...array_values($where));
+        }
+
+        $stmt->execute();
+        $result = $stmt->get_result();
         $data = $result->fetch_all(MYSQLI_ASSOC);
+
         return $data;
     }
 
@@ -85,18 +109,25 @@ class Database
     {
         $condition = "";
         foreach ($where as $key => $value) {
-            $condition .= $key . " = '" . $value . "' AND ";
+            $condition .= $key . " = ? AND ";
         }
         $condition = substr($condition, 0, -5);
 
         $query = "SELECT {$fields} FROM {$table} WHERE {$condition} {$options} LIMIT 1";
-        $result = $this->DB->query($query) or die('Cannot execute SELECT_ONE_WHERE command; ' . $this->DB->error);
-        $data = $result->fetch_assoc();
-        return $data;
+        $stmt = $this->DB->prepare($query);
+        
+        if ($where) {
+            $types = str_repeat('s', count($where)); // Adjust types as needed
+            $stmt->bind_param($types, ...array_values($where));
+        }
+
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc();
     }
 
     // Insert data into a table
-    public function INSERT($table, $fields = '')
+    public function INSERT($table, $fields = [])
     {
         $field_key = implode(",", array_keys($fields));
         $field_value = implode("','", array_values($fields));
