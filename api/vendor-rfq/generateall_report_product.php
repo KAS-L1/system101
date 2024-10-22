@@ -74,14 +74,14 @@ foreach ($products as $product) {
     $vendor_name = $DB->SELECT_ONE_WHERE("vendors", "vendor_name", array("vendor_id" => $product['vendor_id']));
     $vendorName = CHARS($vendor_name['vendor_name'] ?? 'Unknown Vendor');
 
-    // Add the row to the table
+    // Add the row to the table with the Peso sign in UTF-8
     $html .= '<tr>
              <td>' . $i++ . '</td>
              <td>' . CHARS($product['product_id'] ?? '') . '</td>
              <td>' . $vendorName . '</td>
              <td>' . CHARS($product['product_name'] ?? '') . '</td>
              <td>' . CHARS($product['description'] ?? '') . '</td>
-             <td>₱' . number_format($product['unit_price'] ?? 0, 2) . '</td>
+             <td>&#8369;' . number_format($product['unit_price'] ?? 0, 2) . '</td>
              <td>' . CHARS($product['availability'] ?? '') . '</td>
          </tr>';
 }

@@ -79,14 +79,14 @@ foreach ($rfqs as $rfq) {
     $statusBadge = $rfq['rfq_status'] == 'Approved' ? 'Approved' :
                    ($rfq['rfq_status'] == 'Rejected' ? 'Rejected' : 'Pending');
     
-    // Add the row to the table
+    // Add the row to the table with the Peso sign in UTF-8
     $html .= '<tr>
              <td>' . $i++ . '</td>
              <td>' . CHARS($rfq['rfq_id'] ?? '') . '</td>
              <td>' . CHARS($vendor_name['vendor_name'] ?? 'Unknown Vendor') . '</td>
              <td>' . CHARS($product_name['product_name'] ?? 'Unknown Product') . '</td>
              <td>' . CHARS($rfq['requested_quantity'] ?? '') . '</td>
-             <td>₱' . number_format($rfq['quoted_price'] ?? 0, 2) . '</td>
+             <td>&#8369;' . number_format($rfq['quoted_price'] ?? 0, 2) . '</td>
              <td>' . $statusBadge . '</td>
              <td>' . CHARS($rfq['response_date'] ?? '') . '</td>
              <td>' . CHARS($rfq['remarks'] ?? 'No Remarks') . '</td>

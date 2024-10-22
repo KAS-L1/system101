@@ -100,9 +100,9 @@ $contracts = $DB->SELECT("contracts", "*", "ORDER BY contract_id DESC");
                                             <button class="btn btn-sm btn-light shadow-sm editContract" data-contract_id="<?= $contract['contract_id']; ?>">
                                                 <i class="bi bi-pencil-square"></i>
                                             </button>
-                                            <button class="btn btn-sm btn-primary shadow-sm syncContract" data-contract_id="<?= $contract['contract_id']; ?>">
+                                            <!-- <button class="btn btn-sm btn-primary shadow-sm syncContract" data-contract_id="<?= $contract['contract_id']; ?>">
                                                 <i class="bi bi-upload"></i> Sync
-                                            </button>
+                                            </button> -->
                                         </div>
                                     </td>
                                 </tr>
