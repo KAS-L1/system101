@@ -7,7 +7,8 @@
     $products = $DB->SELECT("vendor_products", "*");
 
     // Retrieve all RFQs from the `rfqs` table
-    $rfqs = $DB->SELECT("rfqs", "*");
+     $rfqs = $DB->SELECT("rfqs", "*", "ORDER BY response_date DESC");
+
     ?>
 
     <!-- Container for Page Content -->

@@ -6,6 +6,7 @@ $rfq_id = $_POST['rfq_id']; // Retrieve RFQ ID from POST
 // Data to update
 $data = array(
     "rfq_status" => "Approved", // Set status to Approved
+    "response_date" => DATE_TIME
 );
 
 // Where condition to target the correct RFQ

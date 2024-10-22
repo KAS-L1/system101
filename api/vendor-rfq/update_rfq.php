@@ -18,6 +18,7 @@ $data = [
     "remarks" => $DB->ESCAPE($_POST['response_remarks'] ?? ''),
 ];
 
+
 // Check if product_id is set
 if (empty($data['product_id'])) {
     swalAlert("error", "Product ID is required.");
@@ -29,12 +30,11 @@ $where = ["rfq_id" => $rfq_id];
 $updateRFQ = $DB->UPDATE("rfqs", $data, $where);
 
 // Check the result of the update operation
-if ($updateRFQ === "success") {
+if ($updateRFQ == "success") {
     swalAlert("success", "RFQ updated successfully.");
     refreshUrlTimeout(2000); // Optional: refresh page after 2 seconds
 } else {
-    // Assuming $updateRFQ might return an error array
-    $error_message = is_array($updateRFQ) && isset($updateRFQ['error']) ? $updateRFQ['error'] : "Unknown error";
-    swalAlert("error", "Failed to update RFQ: " . $error_message);
+    swalAlert("error", "Failed to update RFQ: ");
+    echo $updateRFQ['error'];
 }
 ?>

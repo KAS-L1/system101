@@ -15,6 +15,7 @@ $data = array(
     "remarks" => $DB->ESCAPE($_POST['response_remarks']),
 );
 
+// pre_die($data);
 // Insert the RFQ into the database
 $rfq = $DB->INSERT("rfqs", $data);
 
@@ -25,4 +26,5 @@ if ($rfq == "success") {
 } else {
     // Display error alert if something goes wrong
     swalAlert('error', 'Failed to Create RFQ');
+    // echo $rfq['error'];
 }

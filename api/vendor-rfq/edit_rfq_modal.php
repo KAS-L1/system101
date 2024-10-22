@@ -71,13 +71,12 @@ $productName = $productNameData ? CHARS($productNameData['product_name']) : 'Unk
         </div>
     </div>
 </div>
-
+<div id="responseEdit"></div>
 <script>
    $('#editRFQForm').submit(function(e) {
     e.preventDefault();
     $.post('api/vendor-rfq/update_rfq.php', $(this).serialize(), function(response) {
-        $('#response').html(response);
-        $('#editRFQModal').modal('hide');
+        $('#responseEdit').html(response);
     });
 });
 </script>

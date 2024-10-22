@@ -1,4 +1,5 @@
     <?php
+   
     require("../../app/init.php");
 
     // Fetch vendors from the database
