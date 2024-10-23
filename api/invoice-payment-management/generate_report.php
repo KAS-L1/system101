@@ -7,7 +7,7 @@
     $pdf = new TCPDF();
 
     // Set document information
-    $pdf->SetCreator('Your System');
+    $pdf->SetCreator('Logistic 2');
     $pdf->SetAuthor('Hotel Paradise');
     $pdf->SetTitle('Invoice Payment Report');
     $pdf->SetSubject('Generated Invoice Report');
