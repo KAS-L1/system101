@@ -5,7 +5,7 @@ $vendor = $DB->SELECT_ONE_WHERE("vendors", "*", ["vendor_id" => $vendor_id]);
 ?>
 
 <div class="modal fade" id="editVendorModal" tabindex="-1" aria-labelledby="editVendorModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="editVendorModalLabel">Edit Vendor</h5>

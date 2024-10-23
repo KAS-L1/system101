@@ -72,7 +72,14 @@ $contracts = $DB->SELECT("contracts", "*", "ORDER BY contract_id DESC");
                             $i = 1;
                             foreach ($contracts as $contract) {
                                 $vendor = $DB->SELECT_ONE_WHERE('vendors', '*', array('vendor_id' => $contract['vendor_id']));
-                                $vendorName = $vendor ? CHARS($vendor['vendor_name']) : 'Unknown Vendor';
+                                
+                                // Debugging output in case of missing vendor
+                                if (!$vendor) {
+                                    echo "<!-- Debug: No vendor found for vendor_id: {$contract['vendor_id']} -->";
+                                }
+                                
+                                // Safely handle vendor name
+                                $vendorName = $vendor && isset($vendor['vendor_name']) ? CHARS($vendor['vendor_name']) : 'Unknown Vendor';
                             ?>
                                 <tr>
                                     <td><?= $i++; ?></td>
@@ -100,14 +107,10 @@ $contracts = $DB->SELECT("contracts", "*", "ORDER BY contract_id DESC");
                                             <button class="btn btn-sm btn-light shadow-sm editContract" data-contract_id="<?= $contract['contract_id']; ?>">
                                                 <i class="bi bi-pencil-square"></i>
                                             </button>
-                                            <!-- <button class="btn btn-sm btn-primary shadow-sm syncContract" data-contract_id="<?= $contract['contract_id']; ?>">
-                                                <i class="bi bi-upload"></i> Sync
-                                            </button> -->
                                         </div>
                                     </td>
                                 </tr>
                             <?php } ?>
-
                         </tbody>
                     </table>
                 </div>
@@ -143,11 +146,19 @@ $contracts = $DB->SELECT("contracts", "*", "ORDER BY contract_id DESC");
                                 $i = 1;
                                 foreach ($contracts as $contract) {
                                     $vendor = $DB->SELECT_ONE_WHERE('vendors', '*', array('vendor_id' => $contract['vendor_id']));
+                                    
+                                    // Debugging output for missing vendor
+                                    if (!$vendor) {
+                                        echo "<!-- Debug: No vendor found for vendor_id: {$contract['vendor_id']} -->";
+                                    }
+                                    
+                                    // Safely handle vendor name
+                                    $vendorName = $vendor && isset($vendor['vendor_name']) ? CHARS($vendor['vendor_name']) : 'Unknown Vendor';
                                 ?>
                                     <tr>
                                         <td><?= $i++; ?></td>
                                         <td><?= CHARS($contract['contract_id']); ?></td>
-                                        <td><?= CHARS($vendor['vendor_name']); ?></td>
+                                        <td><?= $vendorName; ?></td>
                                         <td><?= CHARS($contract['contract_terms']); ?></td>
                                         <td><?= CHARS($contract['start_date']); ?></td>
                                         <td><?= CHARS($contract['end_date']); ?></td>
@@ -194,23 +205,9 @@ $contracts = $DB->SELECT("contracts", "*", "ORDER BY contract_id DESC");
     // Edit Contract Button Click Event
     $('.editContract').click(function() {
         const contract_id = $(this).data('contract_id');
-        $.post('api/contract-management/edit_modal.php', {
-            contract_id: contract_id
-        }, function(res) {
+        $.post('api/contract-management/edit_modal.php', { contract_id }, function(res) {
             $('#responseModal').html(res);
             $('#editContractModal').modal('show');
-        });
-    });
-
-    // Sync Contract Button Click Event
-    $('.syncContract').click(function() {
-        const contract_id = $(this).data('contract_id');
-        $.post('api/contract-management/sync_contract.php', {
-            contract_id: contract_id
-        }, function(res) {
-            const response = JSON.parse(res);
-            const alertClass = response.status === 'Synced' ? 'alert-success' : 'alert-danger';
-            $('#response').html(`<div class="alert ${alertClass}">${response.message}</div>`);
         });
     });
 </script>

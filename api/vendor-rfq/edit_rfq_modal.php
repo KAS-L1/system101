@@ -11,7 +11,7 @@ $productName = $productNameData ? CHARS($productNameData['product_name']) : 'Unk
 
 <!-- Edit RFQ Modal -->
 <div class="modal fade" id="editRFQModal" tabindex="-1" aria-labelledby="editRFQModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="editRFQModalLabel">Edit RFQ</h5>

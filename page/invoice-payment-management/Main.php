@@ -90,10 +90,6 @@ $invoices = $DB->SELECT("invoice_payments", "*", "ORDER BY invoice_id DESC");
                                                 <i class="bi bi-pencil-square"></i>
                                             </button>
 
-                                            <!-- Sync Invoice Button -->
-                                            <button class="btn btn-sm btn-primary syncInvoice" data-invoice_id="<?= $invoice['invoice_id']; ?>">
-                                                <i class="bi bi-upload"></i> Sync
-                                            </button>
                                         </div>
                                     </td>
                                 </tr>

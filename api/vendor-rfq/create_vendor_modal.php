@@ -1,5 +1,5 @@
 <div class="modal fade" id="createVendorModal" tabindex="-1" aria-labelledby="createVendorModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered"> <!-- Added modal-dialog-centered for vertical centering -->
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="createVendorModalLabel">Create Vendor</h5>

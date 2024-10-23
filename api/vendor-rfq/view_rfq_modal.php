@@ -14,21 +14,21 @@ if (isset($_POST['rfq_id'])) {
 
         // Output a modal with RFQ details
         echo "
-        <div class='modal fade' id='viewRFQModal' tabindex='-1'>
-            <div class='modal-dialog modal-lg'>
+        <div class='modal fade' id='viewRFQModal' tabindex='-1' aria-labelledby='viewRFQModalLabel' aria-hidden='true'>
+            <div class='modal-dialog modal-lg modal-dialog-centered'> <!-- Center the modal -->
                 <div class='modal-content'>
                     <div class='modal-header'>
-                        <h5 class='modal-title'>RFQ Details for ID: {$rfq['rfq_id']}</h5>
-                        <button type='button' class='btn-close' data-bs-dismiss='modal'></button>
+                        <h5 class='modal-title' id='viewRFQModalLabel'>RFQ Details for ID: {$rfq['rfq_id']}</h5>
+                        <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
                     </div>
                     <div class='modal-body'>
-                        <p><strong>Vendor:</strong> {$vendor_name['vendor_name']}</p>
-                        <p><strong>Product:</strong> {$product_name['product_name']}</p>
-                        <p><strong>Quantity Requested:</strong> {$rfq['requested_quantity']}</p>
-                        <p><strong>Quoted Price:</strong> {$rfq['quoted_price']}</p>
-                        <p><strong>Status:</strong> {$rfq['rfq_status']}</p>
-                        <p><strong>Response Date:</strong> {$rfq['response_date']}</p>
-                        <p><strong>Remarks:</strong> {$rfq['remarks']}</p>
+                        <p><strong>Vendor:</strong> " . htmlspecialchars($vendor_name['vendor_name']) . "</p>
+                        <p><strong>Product:</strong> " . htmlspecialchars($product_name['product_name']) . "</p>
+                        <p><strong>Quantity Requested:</strong> " . htmlspecialchars($rfq['requested_quantity']) . "</p>
+                        <p><strong>Quoted Price:</strong> ₱" . number_format($rfq['quoted_price'], 2) . "</p>
+                        <p><strong>Status:</strong> " . htmlspecialchars($rfq['rfq_status']) . "</p>
+                        <p><strong>Response Date:</strong> " . htmlspecialchars($rfq['response_date']) . "</p>
+                        <p><strong>Remarks:</strong> " . htmlspecialchars($rfq['remarks']) . "</p>
                     </div>
                     <div class='modal-footer'>
                         <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Close</button>
