@@ -14,7 +14,7 @@ if (isset($_POST['po_id'])) {
         // Modal content
         echo "
         <div class='modal fade' id='viewOrderModal' tabindex='-1' aria-labelledby='viewOrderModalLabel' aria-hidden='true'>
-            <div class='modal-dialog modal-lg'>
+            <div class='modal-dialog modal-lg modal-dialog-centered'>
                 <div class='modal-content'>
                     <div class='modal-header'>
                         <h5 class='modal-title'>Purchase Order Details (ID: {$order['po_id']})</h5>
