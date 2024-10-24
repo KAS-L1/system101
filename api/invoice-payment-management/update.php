@@ -26,4 +26,5 @@ if ($updateInvoice == "success") {
     refreshUrlTimeout(2000);
 } else {
     swalAlert("error", "Failed to update invoice");
+    echo $updateInvoice['error'];
 }

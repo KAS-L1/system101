@@ -7,17 +7,6 @@ $invoices = $DB->SELECT("invoice_payments", "*", "ORDER BY invoice_id DESC");
 
 <div class="container mt-4 py-5">
     <div class="row text-center">
-        <!-- Card: Add Invoice -->
-        <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-body">
-                    <i class="fas fa-file-invoice fa-2x text-success mb-3"></i>
-                    <h6 class="card-title">Create Invoice</h6>
-                    <p class="card-text text-muted small">Create a new invoice for the completed purchase order.</p>
-                    <button id="btnAddInvoice" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#addInvoiceModal">Create Invoice</button>
-                </div>
-            </div>
-        </div>
 
         <!-- Card: View Active Invoices -->
         <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
@@ -71,13 +60,13 @@ $invoices = $DB->SELECT("invoice_payments", "*", "ORDER BY invoice_id DESC");
                             <?php
                             $i = 1;
                             foreach ($invoices as $invoice) {
-                                $vendor = $DB->SELECT_ONE_WHERE('vendors', '*', array('vendor_id' => $invoice['vendor_id']));
+                             $order = $DB->SELECT_ONE_WHERE('purchaseorder', '*', array('po_id' => $invoice['po_id']));
                             ?>
                                 <tr>
                                     <td><?= $i++; ?></td>
                                     <td><?= CHARS($invoice['invoice_id']); ?></td>
                                     <td><?= CHARS($invoice['po_id']); ?></td>
-                                    <td><?= CHARS($vendor['vendor_name']); ?></td>
+                                    <td><?= CHARS($order['vendor_name']); ?></td>
                                     <td><?= NUMBER_PHP_2($invoice['amount']); ?></td>
                                     <td><?= CHARS($invoice['payment_terms']); ?></td>
                                     <td><span class="badge bg-<?= $invoice['payment_status'] == 'Paid' ? 'success' : 'secondary' ?>"><?= CHARS($invoice['payment_status']); ?></span></td>

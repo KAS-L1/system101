@@ -9,8 +9,8 @@ $data = array(
     "due_date" => $DB->ESCAPE($_POST['due_date']),
     "remarks" => $DB->ESCAPE($_POST['remarks']),
     "payment_status" => $DB->ESCAPE($_POST['payment_status']),
-    "vendor_id" => $DB->SELECT_ONE_WHERE('purchaseorder', 'vendor_id', array("po_id" => $_POST['po_id']))['vendor_id'], // Get vendor ID from the linked purchase order
 );
+
 
 // Insert the new invoice into the `invoice_payments` table
 $insertInvoice = $DB->INSERT("invoice_payments", $data);

@@ -100,7 +100,7 @@
                             <a class="nav-link text-dark" href="/vendor-product-catalog">Product Catalog</a>
                         </nav>
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link text-dark" href="#">Invoice</a>
+                            <a class="nav-link text-dark" href="/vendor-invoice-payment-management">Invoice</a>
                         </nav>
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link text-dark" href="#">Delivery and Shipment Updates</a>

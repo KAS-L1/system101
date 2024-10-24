@@ -21,7 +21,7 @@
                         <div class="sb-nav-link-icon text-success"><i class="fas fa-list"></i></div>
                         Product Catalog
                     </a>
-                    <a class="nav-link text-dark" href="#invoice">
+                    <a class="nav-link text-dark" href="/vendor-invoice-payment-management">
                         <div class="sb-nav-link-icon text-success"><i class="fas fa-receipt"></i></div>
                         Invoice
                     </a>
