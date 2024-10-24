@@ -9,6 +9,7 @@
     // UPDATE DATA
     $data = array(
         "status" => "Approve",
+        "requested_date" => DATE_TIME
     );
     $where = array("requisition_id" => $requisition_id);
     $requisition = $DB->UPDATE("purchaserequisition", $data, $where);

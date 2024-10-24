@@ -153,15 +153,12 @@ $rfqs = $DB->SELECT("rfqs", "*", "ORDER BY response_date DESC");
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $i = 1;
-
-                                foreach ($products as $product): ?>
+                                <?php $i = 1; foreach ($products as $product): ?>
                                     <?php
                                     // Selecting on vendors 
                                     $where = array("vendor_id" => $product['vendor_id']);
                                     $vendor_name = $DB->SELECT_ONE_WHERE("vendors", "vendor_name", $where);
-                                    $vendorName = $vendor ? CHARS($vendor['vendor_name']) : 'Unknown Vendor';
-
+                                    $vendorName = $vendor_name ? CHARS($vendor_name['vendor_name']) : 'Unknown Vendor'; // Updated variable reference here
                                     ?>
                                     <tr>
                                         <td><?= $i++; ?></td>

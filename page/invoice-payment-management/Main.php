@@ -120,13 +120,13 @@ $invoices = $DB->SELECT("invoice_payments", "*", "ORDER BY invoice_id DESC");
                                         <?php
                                         $i = 1;
                                         foreach ($invoices as $invoice) {
-                                            $vendor = $DB->SELECT_ONE_WHERE('vendors', '*', array('vendor_id' => $invoice['vendor_id']));
+                                         $order = $DB->SELECT_ONE_WHERE('purchaseorder', '*', array('po_id' => $invoice['po_id']));
                                         ?>
                                             <tr>
                                                 <td><?= $i++; ?></td>
                                                 <td><?= CHARS($invoice['invoice_id']); ?></td>
                                                 <td><?= CHARS($invoice['po_id']); ?></td>
-                                                <td><?= CHARS($vendor['vendor_name']); ?></td>
+                                                <td><?= CHARS($order['vendor_name']); ?></td>
                                                 <td><?= NUMBER_PHP_2($invoice['amount']); ?></td>
                                                 <td><?= CHARS($invoice['payment_terms']); ?></td>
                                                 <td><span class="badge bg-<?= $invoice['payment_status'] == 'Paid' ? 'success' : 'secondary' ?>"><?= CHARS($invoice['payment_status']); ?></span></td>
