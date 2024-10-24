@@ -16,7 +16,7 @@ $product = $DB->SELECT_ONE_WHERE("vendor_products", "*", ["product_id" => $produ
                 <form id="editProductForm">
                     <input type="hidden" name="product_id" value="<?= $product['product_id']; ?>">
                     <div class="mb-3">
-                        <label for="vendorId" class="form-label">Vendor Id</label>
+                        <label for="vendorId" class="form-label">Vendor Name</label>
                         <select class="form-select" id="vendorId" name="vendor_id" required>
                             <?php foreach ($vendors as $vendor): ?>
                                 <option value="<?= $vendor['vendor_id']; ?>" <?= $vendor['vendor_id'] == $product['vendor_id'] ? 'selected' : ''; ?>>
