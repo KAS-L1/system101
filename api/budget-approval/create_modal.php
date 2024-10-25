@@ -88,13 +88,13 @@
 
 <!-- JavaScript for Handling the Form Submission -->
 <script>
-$('#formCreateBudgetApproval').submit(function(e) {
-    e.preventDefault(); // Prevent default form submission
-    var formData = $(this).serialize();
+    $('#formCreateBudgetApproval').submit(function(e) {
+        e.preventDefault(); // Prevent default form submission
+        var formData = $(this).serialize();
 
-    // Send the data to the API endpoint for creating a budget approval
-    $.post("api/budget-approval/create.php", formData, function(response) {
-        $('#responseModal').html(response); // Display response in the modal
+        // Send the data to the API endpoint for creating a budget approval
+        $.post("api/budget-approval/create.php", formData, function(response) {
+            $('#responseModal').html(response); // Display response in the modal
+        });
     });
-});
 </script>

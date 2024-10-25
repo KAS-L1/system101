@@ -11,14 +11,14 @@ $products = $DB->SELECT("vendor_products", "*");
 $rfqs = $DB->SELECT("rfqs", "*");
 ?>
 
-   <!-- Container for Page Content -->
-    <div class="container mt-5">
+<!-- Container for Page Content -->
+<div class="container mt-5">
     <!-- Row for Cards -->
     <div class="row g-4">
         <!-- Product Catalog Management Table Card -->
         <div class="container mt-4">
             <div class="card shadow-sm mb-4">
-                
+
                 <div class="card-header bg-light text-success d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">Product Catalog Management</h5>
                     <!-- Download Report Button next to the Search bar -->
@@ -47,7 +47,8 @@ $rfqs = $DB->SELECT("rfqs", "*");
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $i = 1; foreach ($products as $product): ?>
+                                <?php $i = 1;
+                                foreach ($products as $product): ?>
                                     <?php
                                     // Selecting on vendors 
                                     $where = array("vendor_id" => $product['vendor_id']);
@@ -99,35 +100,35 @@ $rfqs = $DB->SELECT("rfqs", "*");
         // Product Modals and Actions
         // Handle Create Product modal open action
 
-         // Handle View RFQ button click
+        // Handle View RFQ button click
 
-                $('.viewProduct').click(function() {
-                    const product_id = $(this).data('product_id');
-                    $.post('api/vendor-rfq/view_product_modal.php', {
-                        product_id: product_id
-                    }, function(res) {
-                        $('#responseModal').html(res);
-                        $('#viewProductModal').modal('show');
-                    });
-                });
+        $('.viewProduct').click(function() {
+            const product_id = $(this).data('product_id');
+            $.post('api/vendor-rfq/view_product_modal.php', {
+                product_id: product_id
+            }, function(res) {
+                $('#responseModal').html(res);
+                $('#viewProductModal').modal('show');
+            });
+        });
 
-                // Handle Generate Report button click
-                $('.generateReportProduct').click(function() {
-                    const product_id = $(this).data('product_id');
-                    
-                    Swal.fire({
-                        title: "Generate Report?",
-                        text: "This will generate a PDF report for the selected RFQ.",
-                        icon: "info",
-                        showCancelButton: true,
-                        confirmButtonText: "Generate Report",
-                        confirmButtonColor: '#198754',
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.open('api/vendor-rfq/generate_report_product.php?product_id=' + product_id, '_blank');
-                        }
-                    });
-                });
+        // Handle Generate Report button click
+        $('.generateReportProduct').click(function() {
+            const product_id = $(this).data('product_id');
+
+            Swal.fire({
+                title: "Generate Report?",
+                text: "This will generate a PDF report for the selected RFQ.",
+                icon: "info",
+                showCancelButton: true,
+                confirmButtonText: "Generate Report",
+                confirmButtonColor: '#198754',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.open('api/vendor-rfq/generate_report_product.php?product_id=' + product_id, '_blank');
+                }
+            });
+        });
 
         $('#CreateProductModalButton').click(function() {
             $.post('api/vendor-rfq/create_product_modal.php', function(res) {
@@ -138,7 +139,9 @@ $rfqs = $DB->SELECT("rfqs", "*");
 
         $('.editProduct').click(function() {
             const product_id = $(this).data('product_id');
-            $.post('api/vendor-rfq/edit_product_modal.php', { product_id: product_id }, function(res) {
+            $.post('api/vendor-rfq/edit_product_modal.php', {
+                product_id: product_id
+            }, function(res) {
                 $('#responseModal').html(res);
                 $('#editProductModal').modal('show');
             });
@@ -157,7 +160,9 @@ $rfqs = $DB->SELECT("rfqs", "*");
             }).then((result) => {
                 if (result.isConfirmed) {
                     // Proceed with deletion
-                    $.post('api/vendor-rfq/remove_product.php', { product_id: product_id }, function(response) {
+                    $.post('api/vendor-rfq/remove_product.php', {
+                        product_id: product_id
+                    }, function(response) {
                         $('#responseModal').html(response);
                         swalAlert('success', 'Product has been deleted!');
                     }).fail(function() {
