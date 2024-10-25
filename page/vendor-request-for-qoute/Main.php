@@ -29,22 +29,6 @@ $rfqs = $DB->SELECT("rfqs", "*", "ORDER BY response_date DESC");
             </div>
         </div>
 
-        <!-- Product Catalog Management Card -->
-        <div class="col-lg-4 col-md-6 col-sm-12">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-body text-center">
-                    <i class="fas fa-boxes fa-2x text-success mb-3"></i>
-                    <h5 class="card-title">Product Catalog Management</h5>
-                    <p class="card-text text-muted small">Manage product catalog, descriptions, and prices.</p>
-                    <!-- Fix data-bs-toggle and data-bs-target attributes -->
-                    <button id="CreateProductModalButton" class="btn btn-success" data-bs-toggle="modal"
-                        data-bs-target="#createProductModal">
-                        Create Product
-                    </button>
-                </div>
-            </div>
-        </div>
-
         <!-- RFQ Management Card -->
         <div class="col-lg-4 col-md-6 col-sm-12">
             <div class="card border-0 shadow-sm h-100">
@@ -153,7 +137,8 @@ $rfqs = $DB->SELECT("rfqs", "*", "ORDER BY response_date DESC");
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $i = 1; foreach ($products as $product): ?>
+                                <?php $i = 1;
+                                foreach ($products as $product): ?>
                                     <?php
                                     // Selecting on vendors 
                                     $where = array("vendor_id" => $product['vendor_id']);
@@ -175,7 +160,7 @@ $rfqs = $DB->SELECT("rfqs", "*", "ORDER BY response_date DESC");
                                                     data-product_id="<?= $product['product_id']; ?>">
                                                     <i class="bi bi-pencil-square"></i>
                                                 </button>
-                                                 <!-- View RFQ Button -->
+                                                <!-- View RFQ Button -->
                                                 <button class="btn btn-sm btn-light shadow-sm viewProduct" data-product_id="<?= $product['product_id']; ?>">
                                                     <i class="bi bi-eye"></i>
                                                 </button>
@@ -229,12 +214,13 @@ $rfqs = $DB->SELECT("rfqs", "*", "ORDER BY response_date DESC");
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $i = 1; foreach ($rfqs as $rfq): ?>
+                                <?php $i = 1;
+                                foreach ($rfqs as $rfq): ?>
                                     <?php
                                     // Get vendor name
                                     $vendor_name = $DB->SELECT_ONE_WHERE("vendors", "vendor_name", array("vendor_id" => $rfq['vendor_id']));
                                     $vendorName = $vendor_name ? CHARS($vendor_name['vendor_name']) : 'Unknown Vendor';
-                                    
+
                                     // Get product name
                                     $product_name_data = $DB->SELECT_ONE_WHERE("vendor_products", "product_name", array("product_id" => $rfq['product_id']));
                                     $productName = $product_name_data ? CHARS($product_name_data['product_name']) : 'Unknown Product';
@@ -305,34 +291,34 @@ $rfqs = $DB->SELECT("rfqs", "*", "ORDER BY response_date DESC");
     <script>
         // Vendor Modals and Actions
 
-          $('.viewProduct').click(function() {
-                    const product_id = $(this).data('product_id');
-                    $.post('api/vendor-rfq/view_product_modal.php', {
-                        product_id: product_id
-                    }, function(res) {
-                        $('#responseModal').html(res);
-                        $('#viewProductModal').modal('show');
-                    });
-                });
+        $('.viewProduct').click(function() {
+            const product_id = $(this).data('product_id');
+            $.post('api/vendor-rfq/view_product_modal.php', {
+                product_id: product_id
+            }, function(res) {
+                $('#responseModal').html(res);
+                $('#viewProductModal').modal('show');
+            });
+        });
 
-                // Handle Generate Report button click
-                $('.generateReportProduct').click(function() {
-                    const product_id = $(this).data('product_id');
-                    
-                    Swal.fire({
-                        title: "Generate Report?",
-                        text: "This will generate a PDF report for the selected RFQ.",
-                        icon: "info",
-                        showCancelButton: true,
-                        confirmButtonText: "Generate Report",
-                        confirmButtonColor: '#198754',
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.open('api/vendor-rfq/generate_report_product.php?product_id=' + product_id, '_blank');
-                        }
-                    });
-                });
-                
+        // Handle Generate Report button click
+        $('.generateReportProduct').click(function() {
+            const product_id = $(this).data('product_id');
+
+            Swal.fire({
+                title: "Generate Report?",
+                text: "This will generate a PDF report for the selected RFQ.",
+                icon: "info",
+                showCancelButton: true,
+                confirmButtonText: "Generate Report",
+                confirmButtonColor: '#198754',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.open('api/vendor-rfq/generate_report_product.php?product_id=' + product_id, '_blank');
+                }
+            });
+        });
+
         $('#openCreateVendorModalButton').click(function() {
             $.post('api/vendor-rfq/create_vendor_modal.php', function(res) {
                 $('#responseModal').html(res);
@@ -445,7 +431,7 @@ $rfqs = $DB->SELECT("rfqs", "*", "ORDER BY response_date DESC");
         // Handle Generate Report button click
         $('.generateReport').click(function() {
             const rfq_id = $(this).data('rfq_id');
-            
+
             Swal.fire({
                 title: "Generate Report?",
                 text: "This will generate a PDF report for the selected RFQ.",
