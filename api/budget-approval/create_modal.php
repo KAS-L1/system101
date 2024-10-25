@@ -93,8 +93,15 @@
         var formData = $(this).serialize();
 
         // Send the data to the API endpoint for creating a budget approval
-        $.post("api/budget-approval/create.php", formData, function(response) {
-            $('#responseModal').html(response); // Display response in the modal
-        });
+        $.post("api/budget-approval/create.php", formData)
+            .done(function(response) {
+                $('#responseModal').html(response); // Display response in the modal
+                // Optionally, close the modal after success
+                // $('#createBudgetApprovalModal').modal('hide');
+            })
+        // .fail(function(xhr, status, error) {
+        //     console.error('Form submission error:', status, error);
+        //     swalAlert('error', 'There was an error submitting the form. Please try again.');
+        // });
     });
 </script>
