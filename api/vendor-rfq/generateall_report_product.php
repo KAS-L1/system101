@@ -59,6 +59,7 @@ $html = '<table border="1" cellpadding="5">
                  <th>#</th>
                  <th>Product ID</th>
                  <th>Vendor Name</th>
+                 <th>Category</th> <!-- Added Category Header -->
                  <th>Product Name</th>
                  <th>Description</th>
                  <th>Unit Price</th>
@@ -74,11 +75,16 @@ foreach ($products as $product) {
     $vendor_name = $DB->SELECT_ONE_WHERE("vendors", "vendor_name", array("vendor_id" => $product['vendor_id']));
     $vendorName = CHARS($vendor_name['vendor_name'] ?? 'Unknown Vendor');
 
+    // Fetch Category name from the categories table
+    $category = $DB->SELECT_ONE_WHERE("categories", "category_name", array("category_id" => $product['category_id'])); // Adjust as needed
+    $categoryName = CHARS($category['category_name'] ?? 'Unknown Category');
+
     // Add the row to the table with the Peso sign in UTF-8
     $html .= '<tr>
              <td>' . $i++ . '</td>
              <td>' . CHARS($product['product_id'] ?? '') . '</td>
              <td>' . $vendorName . '</td>
+             <td>' . $categoryName . '</td> <!-- New Category Column -->
              <td>' . CHARS($product['product_name'] ?? '') . '</td>
              <td>' . CHARS($product['description'] ?? '') . '</td>
              <td>&#8369;' . number_format($product['unit_price'] ?? 0, 2) . '</td>
@@ -93,4 +99,3 @@ $pdf->writeHTML($html, true, false, true, false, '');
 
 // Output the PDF to the browser
 $pdf->Output('product_catalog_report.pdf', 'I'); // 'I' to display in the browser, 'D' to force download
-?>

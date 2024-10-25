@@ -146,6 +146,10 @@
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link text-dark" href="#">Settings</a>
                         </nav>
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link text-dark" href="/chat">Chat</a>
+                        </nav>
+
                     </div>
 
                 </div>

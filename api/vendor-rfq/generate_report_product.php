@@ -5,11 +5,15 @@ require_once '../tcpdf/vendor/autoload.php';
 if (isset($_GET['product_id'])) {
     $product_id = $_GET['product_id'];
     $product = $DB->SELECT_ONE_WHERE("vendor_products", "*", array("product_id" => $product_id));
-    
+
     // Check if product exists
     if ($product) {
         $vendor = $DB->SELECT_ONE_WHERE("vendors", "vendor_name", array("vendor_id" => $product['vendor_id']));
         $vendorName = CHARS(isset($vendor['vendor_name']) ? $vendor['vendor_name'] : 'Unknown Vendor');
+
+        // Fetch category name
+        $category = $DB->SELECT_ONE_WHERE("categories", "category_name", array("category_id" => $product['category_id'])); // Adjust based on your actual field name
+        $categoryName = $category ? CHARS($category['category_name']) : 'Unknown Category';
 
         // Create new PDF document
         $pdf = new TCPDF();
@@ -26,6 +30,7 @@ if (isset($_GET['product_id'])) {
         $pdf->SetFont('dejavusans', '', 12);
         $pdf->Cell(0, 10, 'Product ID: ' . CHARS($product['product_id']), 0, 1);
         $pdf->Cell(0, 10, 'Vendor Name: ' . $vendorName, 0, 1);
+        $pdf->Cell(0, 10, 'Category: ' . $categoryName, 0, 1); // New Category Line
         $pdf->Cell(0, 10, 'Product Name: ' . CHARS($product['product_name']), 0, 1);
         $pdf->Cell(0, 10, 'Description: ' . CHARS($product['description']), 0, 1);
         $pdf->Cell(0, 10, 'Unit Price: ₱' . number_format($product['unit_price'], 2), 0, 1); // Use the Peso sign in UTF-8
@@ -39,4 +44,3 @@ if (isset($_GET['product_id'])) {
 } else {
     echo "Invalid product ID.";
 }
-?>
