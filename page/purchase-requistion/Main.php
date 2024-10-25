@@ -82,7 +82,7 @@ include_once('api/middleware/role_access.php');
                                     <tbody>
                                         <?php
                                         $i = 1;
-                                        $requisitions = $DB->SELECT('purchaserequisition', '*', 'ORDER BY requested_date DESC');
+                                        $requisitions = $DB->SELECT('purchaserequisition', '*', 'ORDER BY requested_date ASC');
                                         foreach ($requisitions as $requisition) {
                                         ?>
                                             <tr>
