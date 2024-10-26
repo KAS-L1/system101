@@ -3,13 +3,13 @@
 
 if (isset($_GET["page"])) {
 
-    if (VIEW("page/delivery-updates/", $_GET["page"]) == "404") {
+    if (VIEW("page/vendor-delivery-updates/", $_GET["page"]) == "404") {
         include("page/404.php");
     } else {
-        include(VIEW("page/delivery-updates/", $_GET["page"]));
+        include(VIEW("page/vendor-delivery-updates/", $_GET["page"]));
     }
 } else {
-    include('page/delivery-updates/Main.php');
+    include('pagevendor-/vendor-delivery-updates/Main.php');
 }
 
 ?>

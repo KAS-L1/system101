@@ -110,7 +110,7 @@ try {
                 <div class="card-body">
                     <p class="card-text text-muted small">A concise view of current POs, including delivery deadlines and payment statuses.</p>
                     <div class="table-responsive">
-                        <table id="dataTable1" class="table table-bordered">
+                        <table id="dataTable" class="table table-bordered">
                             <thead class="table table-success">
                                 <tr>
                                     <th>PO Number</th>
@@ -127,7 +127,7 @@ try {
                                             <td>PO #{$order['po_id']}</td>
                                             <td>{$order['delivery_date']}</td>
                                             <td>";
-                                        
+
                                         // Using Bootstrap badge for status
                                         if ($order['status'] == 'Delivered') {
                                             echo "<span class='badge bg-success'>Delivered</span>";
@@ -136,10 +136,10 @@ try {
                                         } else {
                                             echo "<span class='badge bg-secondary'>Ordered</span>";
                                         }
-                                        
+
                                         echo "</td>
                                             <td>";
-                                        
+
                                         // Using Bootstrap badge for payment status
                                         if ($order['sync_status'] == 'Paid') {
                                             echo "<span class='badge bg-success'>Paid</span>";
@@ -148,7 +148,7 @@ try {
                                         } else {
                                             echo "<span class='badge bg-danger'>Unpaid</span>";
                                         }
-                                        
+
                                         echo "</td>
                                         </tr>";
                                     }
@@ -201,13 +201,17 @@ try {
     .consistent-alert {
         padding: 10px 15px;
         font-size: 1rem;
-        margin-top: 10px; /* Add margin for spacing between alerts */
-        border-radius: 5px; /* Optional: round the corners of the alerts */
+        margin-top: 10px;
+        /* Add margin for spacing between alerts */
+        border-radius: 5px;
+        /* Optional: round the corners of the alerts */
     }
+
     /* Adjust responsive behavior */
     @media (max-width: 576px) {
         .consistent-alert {
-            font-size: 0.875rem; /* Smaller font size for mobile devices */
+            font-size: 0.875rem;
+            /* Smaller font size for mobile devices */
         }
     }
 </style>
