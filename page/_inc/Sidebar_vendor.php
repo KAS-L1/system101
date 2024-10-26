@@ -33,7 +33,7 @@
                         <div class="sb-nav-link-icon text-success"><i class="fas fa-star"></i></div>
                         Vendor Performance Rating
                     </a>
-                    <a class="nav-link text-dark" href="#help-support">
+                    <a class="nav-link text-dark" href="/vendor-help-support">
                         <div class="sb-nav-link-icon text-success"><i class="fas fa-question-circle"></i></div>
                         Help and Support
                     </a>
