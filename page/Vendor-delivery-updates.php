@@ -9,7 +9,7 @@ if (isset($_GET["page"])) {
         include(VIEW("page/vendor-delivery-updates/", $_GET["page"]));
     }
 } else {
-    include('pagevendor-/vendor-delivery-updates/Main.php');
+    include('page/vendor-delivery-updates/Main.php');
 }
 
 ?>
