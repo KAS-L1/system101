@@ -109,7 +109,7 @@
                             <a class="nav-link text-dark" href="#">Vendor Performance Rating</a>
                         </nav>
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link text-dark" href="#">Help and Support</a>
+                            <a class="nav-link text-dark" href="/help-support">Help and Support</a>
                         </nav>
                     </div>
 
