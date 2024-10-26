@@ -95,6 +95,10 @@ $purchaseOrders = $DB->SELECT("purchaseorder", "*", "ORDER BY po_id DESC");
                                                             <span class="badge bg-success">Delivered</span>
                                                         <?php } elseif ($order['status'] == 'Cancelled') { ?>
                                                             <span class="badge bg-danger">Cancelled</span>
+                                                        <?php } elseif ($order['status'] == 'Shipped') { ?>
+                                                            <span class="badge bg-success">Shipped</span>
+                                                        <?php } elseif ($order['status'] == 'In Transit') { ?>
+                                                            <span class="badge bg-secondary">In Transit</span>
                                                         <?php } else { ?>
                                                             <span class="badge bg-secondary">Ordered</span>
                                                         <?php } ?>

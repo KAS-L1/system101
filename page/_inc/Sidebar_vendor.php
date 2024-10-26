@@ -41,7 +41,7 @@
                         <div class="sb-nav-link-icon text-success"><i class="fas fa-receipt"></i></div>
                         Invoice
                     </a>
-                    <a class="nav-link text-dark" href="#delivery-shipment">
+                    <a class="nav-link text-dark" href="/vendor-delivery-updates">
                         <div class="sb-nav-link-icon text-success"><i class="fas fa-truck"></i></div>
                         Delivery Updates
                     </a>

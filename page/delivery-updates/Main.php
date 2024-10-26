@@ -1,5 +1,5 @@
 <?php
-include_once('api/middleware/role_access_vendor.php');
+include_once('api/middleware/role_access.php');
 // Retrieve all Purchase Orders from the `purchaseorder` table
 $purchaseOrders = $DB->SELECT("purchaseorder", "*", "ORDER BY po_id DESC");
 ?>
@@ -13,13 +13,13 @@ $purchaseOrders = $DB->SELECT("purchaseorder", "*", "ORDER BY po_id DESC");
         <div class="container mt-4">
             <div class="card shadow-sm mb-4">
                 <div class="card-header bg-light text-success d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0 text-start">Purchase Order Management</h5>
+                    <h5 class="mb-0 text-start">Delivery and Shippment Updates</h5>
                     <!-- Download Report Button next to the Search bar -->
-                    <div>
+                    <!-- <div>
                         <button class="btn btn-sm btn-success" onclick="window.open('/api/purchase/generate_report.php', '_blank')">
                             <i class="bi bi-download"></i>
                         </button>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -28,15 +28,12 @@ $purchaseOrders = $DB->SELECT("purchaseorder", "*", "ORDER BY po_id DESC");
                                 <tr>
                                     <th>#</th>
                                     <th>PO ID</th>
-                                    <th>Vendor Name</th>
                                     <th>Items</th>
                                     <th>Quantity</th>
-                                    <th>Unit Price</th>
-                                    <th>Total Cost</th>
-                                    <th>Order Date</th>
-                                    <th>Delivery Date</th>
+                                    <th>Delivery Method</th>
                                     <th>Status</th>
-                                    <th>Remarks</th>
+                                    <th>Delivery Date</th>
+                                    <th>Tracking Link</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -48,13 +45,9 @@ $purchaseOrders = $DB->SELECT("purchaseorder", "*", "ORDER BY po_id DESC");
                                     <tr>
                                         <td><?= $i++; ?></td>
                                         <td><?= CHARS($order['po_id']); ?></td>
-                                        <td><?= CHARS($order['vendor_name']); ?></td>
                                         <td><?= CHARS($order['items']); ?></td>
                                         <td><?= CHARS($order['quantity']); ?></td>
-                                        <td><?= NUMBER_PHP_2($order['unit_price']); ?></td>
-                                        <td><?= NUMBER_PHP_2($order['total_cost']); ?></td>
-                                        <td><?= CHARS($order['order_date']); ?></td>
-                                        <td><?= !empty($order['delivery_date']) ? htmlspecialchars($order['delivery_date']) : 'No date available'; ?></td>
+                                        <td><?= CHARS($order['delivery_method']); ?></td>
                                         <td>
                                             <?php if ($order['status'] == 'Delivered') { ?>
                                                 <span class="badge bg-success">Delivered</span>
@@ -68,22 +61,13 @@ $purchaseOrders = $DB->SELECT("purchaseorder", "*", "ORDER BY po_id DESC");
                                                 <span class="badge bg-secondary">Ordered</span>
                                             <?php } ?>
                                         </td>
-                                        <td><?= CHARS($order['remarks']); ?></td>
+                                        <td><?= !empty($order['delivery_date']) ? htmlspecialchars($order['delivery_date']) : 'No date available'; ?></td>
+                                        <td><?= CHARS($order['tracking_link']); ?></td>
                                         <td>
                                             <div class="d-flex gap-2">
                                                 <!-- Edit Button -->
-                                                <!-- <button class="btn btn-sm btn-light shadow-sm editOrder" data-po_id="<?= $order['po_id']; ?>">
+                                                <button class="btn btn-sm btn-light shadow-sm editOrder" data-po_id="<?= $order['po_id']; ?>">
                                                     <i class="bi bi-pencil-square"></i>
-                                                </button> -->
-
-                                                <!-- Approve Button -->
-
-                                                <!-- View RFQ Button -->
-                                                <button class="btn btn-sm btn-light shadow-sm viewOrder" data-po_id="<?= $order['po_id']; ?>">
-                                                    <i class="bi bi-eye"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-light shadow-sm generateOrderReport text-success" data-po_id="<?= $order['po_id']; ?>">
-                                                    <i class="bi bi-file-earmark-text"></i>
                                                 </button>
 
                                                 <?php if ($order['status'] == "Ordered") { ?>
@@ -170,7 +154,7 @@ $purchaseOrders = $DB->SELECT("purchaseorder", "*", "ORDER BY po_id DESC");
                 // Edit Purchase Order Button Click Event
                 $('.editOrder').click(function() {
                     const po_id = $(this).data('po_id');
-                    $.post('api/purchase/edit_modal.php', {
+                    $.post('api/purchase/vendor_edit_modal.php', {
                         po_id: po_id
                     }, function(res) {
                         $('#responseModal').html(res);
