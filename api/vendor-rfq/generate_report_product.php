@@ -8,8 +8,12 @@ if (isset($_GET['product_id'])) {
 
     // Check if product exists
     if ($product) {
-        $vendor = $DB->SELECT_ONE_WHERE("vendors", "vendor_name", array("vendor_id" => $product['vendor_id']));
+        // Fetch the vendor's name from the `users` table based on `user_id`
+        $vendor = $DB->SELECT_ONE_WHERE("users", "vendor_name", array("user_id" => $product['vendor_id']));
+
+        // Sanitize and set the vendor name
         $vendorName = CHARS(isset($vendor['vendor_name']) ? $vendor['vendor_name'] : 'Unknown Vendor');
+
 
         // Fetch category name
         $category = $DB->SELECT_ONE_WHERE("categories", "category_name", array("category_id" => $product['category_id'])); // Adjust based on your actual field name

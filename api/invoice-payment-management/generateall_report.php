@@ -72,22 +72,24 @@ $html = '<table border="1" cellpadding="5">
 // Populate the table with data from the database
 $i = 1;
 foreach ($invoices as $invoice) {
-    // Fetch Vendor name from the 'vendors' table
-    $vendor = $DB->SELECT_ONE_WHERE("vendors", "vendor_name", array("vendor_id" => $invoice['vendor_id']));
-    $vendorName = CHARS($vendor['vendor_name'] ?? 'Unknown Vendor');
-    
-    // Add the row to the table
+    // Fetch the vendor's name from the `purchaseorder` table using `po_id`
+    $purchaseOrder = $DB->SELECT_ONE_WHERE("purchaseorder", "vendor_name", array("po_id" => $invoice['po_id']));
+
+    // Sanitize and set the vendor name, with a fallback if the vendor is not found
+    $vendorName = CHARS($purchaseOrder['vendor_name'] ?? 'Unknown Vendor');
+
+    // Add the row to the table with the Peso sign in UTF-8
     $html .= '<tr>
-             <td>' . $i++ . '</td>
-             <td>' . CHARS($invoice['invoice_id'] ?? '') . '</td>
-             <td>' . CHARS($invoice['po_id'] ?? '') . '</td>
-             <td>' . $vendorName . '</td>
-             <td>&#8369;' . number_format($invoice['amount'] ?? 0, 2) . '</td>
-             <td>' . CHARS($invoice['payment_terms'] ?? '') . '</td>
-             <td>' . CHARS($invoice['payment_status'] ?? '') . '</td>
-             <td>' . CHARS($invoice['due_date'] ?? '') . '</td>
-             <td>' . CHARS($invoice['remarks'] ?? 'No Remarks') . '</td>
-         </tr>';
+                 <td>' . $i++ . '</td>
+                 <td>' . CHARS($invoice['invoice_id'] ?? '') . '</td>
+                 <td>' . CHARS($invoice['po_id'] ?? '') . '</td>
+                 <td>' . $vendorName . '</td>
+                 <td>&#8369;' . number_format($invoice['amount'] ?? 0, 2) . '</td>
+                 <td>' . CHARS($invoice['payment_terms'] ?? '') . '</td>
+                 <td>' . CHARS($invoice['payment_status'] ?? '') . '</td>
+                 <td>' . CHARS($invoice['due_date'] ?? '') . '</td>
+                 <td>' . CHARS($invoice['remarks'] ?? 'No Remarks') . '</td>
+             </tr>';
 }
 
 $html .= '</tbody></table>';
@@ -97,5 +99,3 @@ $pdf->writeHTML($html, true, false, true, false, '');
 
 // Output the PDF to the browser
 $pdf->Output('invoice_report.pdf', 'I'); // 'I' to display in the browser, 'D' to force download
-
-?>

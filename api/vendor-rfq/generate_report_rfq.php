@@ -8,7 +8,7 @@ if (isset($_GET['rfq_id'])) {
 
     if ($rfq) {
         // Fetch Vendor and Product names from their respective tables
-        $vendor = $DB->SELECT_ONE_WHERE("vendors", "vendor_name", array("vendor_id" => $rfq['vendor_id']));
+        $vendor = $DB->SELECT_ONE_WHERE("users", "vendor_name", array("user_id" => $rfq['vendor_id']));
         $product = $DB->SELECT_ONE_WHERE("vendor_products", "product_name", array("product_id" => $rfq['product_id']));
 
         $vendorName = CHARS($vendor['vendor_name'] ?? 'Unknown Vendor');
@@ -27,14 +27,17 @@ if (isset($_GET['rfq_id'])) {
 
         // Set RFQ details
         $pdf->SetFont('dejavusans', '', 12);
-        $pdf->MultiCell(0, 10, 
+        $pdf->MultiCell(
+            0,
+            10,
             "Vendor Name: " . $vendorName . "\n" .
-            "Product Name: " . $productName . "\n" .
-            "Quantity Requested: " . CHARS($rfq['requested_quantity']) . "\n" .
-            "Quoted Price: ₱" . number_format($rfq['quoted_price'], 2) . "\n" .
-            "Status: " . CHARS($rfq['rfq_status']) . "\n" .
-            "Remarks: " . CHARS($rfq['remarks']), 
-            0, 'L'
+                "Product Name: " . $productName . "\n" .
+                "Quantity Requested: " . CHARS($rfq['requested_quantity']) . "\n" .
+                "Quoted Price: ₱" . number_format($rfq['quoted_price'], 2) . "\n" .
+                "Status: " . CHARS($rfq['rfq_status']) . "\n" .
+                "Remarks: " . CHARS($rfq['remarks']),
+            0,
+            'L'
         );
 
         // Close and output PDF document to the browser
@@ -45,4 +48,3 @@ if (isset($_GET['rfq_id'])) {
 } else {
     echo "Invalid RFQ ID.";
 }
-?>

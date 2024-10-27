@@ -22,9 +22,11 @@ $purchaseOrders = $DB->SELECT("purchaseorder", "*", "WHERE status = 'Delivered' 
                             <label for="po_id" class="form-label">Purchase Order</label>
                             <select id="po_id" name="po_id" class="form-select" required>
                                 <option value="">Select Purchase Order</option>
-                                <?php foreach ($purchaseOrders as $po) { ?>
-                                    <option value="<?= CHARS($po['po_id']); ?>"><?= CHARS($po['po_id']) . " - " . CHARS($po['vendor_name']); ?></option>
-                                <?php } ?>
+                                <?php foreach ($purchaseOrders as $po): ?>
+                                    <option value="<?= htmlspecialchars($po['po_id']); ?>">
+                                        <?= htmlspecialchars($po['po_id']) . " - " . htmlspecialchars($po['vendor_name']); ?>
+                                    </option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
 
@@ -80,8 +82,10 @@ $purchaseOrders = $DB->SELECT("purchaseorder", "*", "WHERE status = 'Delivered' 
 
         // AJAX request to create Invoice
         $.post("api/invoice-payment-management/create.php", formData, function(response) {
-            $('#responseModal').html(response); // Display response in modal
+            $('#responseModal').html(response); // Display response in modal or on the page
             $('#addInvoiceModal').modal('hide'); // Hide modal after submission
+        }).fail(function() {
+            $('#responseModal').html('<div class="alert alert-danger">An error occurred while creating the invoice. Please try again.</div>');
         });
     });
 </script>

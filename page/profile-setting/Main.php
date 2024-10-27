@@ -29,12 +29,12 @@
         <!-- Profile Name -->
         <div class="mt-3">
             <h3 class="mb-0"><?= CHARS(AUTH_USER['firstname']) . " " . CHARS(AUTH_USER['lastname']); ?></h3>
-            <p class="text-muted mb-0"><?= CHARS(AUTH_USER['role']); ?></p>
+            <p class="text-muted mb-0"><?= CHARS(AUTH_USER['role']) . "-" . AUTH_USER['user_id']; ?></p>
         </div>
     </div>
 
     <!-- Main Content -->
-    <div class="row">
+    <div class="row mt-5">
         <!-- Account Settings -->
         <div class="col-md-8 mb-4">
             <div class="card shadow-sm rounded-3">

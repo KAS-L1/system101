@@ -55,7 +55,7 @@ $rfqs = $DB->SELECT("rfqs", "*", "ORDER BY rfq_id DESC");
 // HTML content for the table
 $html = '<table border="1" cellpadding="5">
          <thead>
-             <tr>
+             <tr style="background-color:#f2f2f2;">
                  <th>#</th>
                  <th>RFQ ID</th>
                  <th>Vendor Name</th>
@@ -73,24 +73,25 @@ $html = '<table border="1" cellpadding="5">
 $i = 1;
 foreach ($rfqs as $rfq) {
     // Fetch Vendor and Product names from their respective tables
-    $vendor_name = $DB->SELECT_ONE_WHERE("vendors", "vendor_name", array("vendor_id" => $rfq['vendor_id']));
-    $product_name = $DB->SELECT_ONE_WHERE("vendor_products", "product_name", array("product_id" => $rfq['product_id']));
+    $vendor = $DB->SELECT_ONE_WHERE("users", "vendor_name", ["user_id" => $rfq['vendor_id']]);
+    $product = $DB->SELECT_ONE_WHERE("vendor_products", "product_name", ["product_id" => $rfq['product_id']]);
 
-    $statusBadge = $rfq['rfq_status'] == 'Approved' ? 'Approved' :
-                   ($rfq['rfq_status'] == 'Rejected' ? 'Rejected' : 'Pending');
-    
+    $vendorName = CHARS($vendor['vendor_name'] ?? 'Unknown Vendor');
+    $productName = CHARS($product['product_name'] ?? 'Unknown Product');
+    $statusBadge = CHARS($rfq['rfq_status'] ?? 'Pending');
+
     // Add the row to the table with the Peso sign in UTF-8
     $html .= '<tr>
-             <td>' . $i++ . '</td>
-             <td>' . CHARS($rfq['rfq_id'] ?? '') . '</td>
-             <td>' . CHARS($vendor_name['vendor_name'] ?? 'Unknown Vendor') . '</td>
-             <td>' . CHARS($product_name['product_name'] ?? 'Unknown Product') . '</td>
-             <td>' . CHARS($rfq['requested_quantity'] ?? '') . '</td>
-             <td>&#8369;' . number_format($rfq['quoted_price'] ?? 0, 2) . '</td>
-             <td>' . $statusBadge . '</td>
-             <td>' . CHARS($rfq['response_date'] ?? '') . '</td>
-             <td>' . CHARS($rfq['remarks'] ?? 'No Remarks') . '</td>
-         </tr>';
+                 <td>' . $i++ . '</td>
+                 <td>' . CHARS($rfq['rfq_id'] ?? '') . '</td>
+                 <td>' . $vendorName . '</td>
+                 <td>' . $productName . '</td>
+                 <td>' . CHARS($rfq['requested_quantity'] ?? '') . '</td>
+                 <td>&#8369;' . number_format($rfq['quoted_price'] ?? 0, 2) . '</td>
+                 <td>' . $statusBadge . '</td>
+                 <td>' . CHARS($rfq['response_date'] ?? '') . '</td>
+                 <td>' . CHARS($rfq['remarks'] ?? 'No Remarks') . '</td>
+             </tr>';
 }
 
 $html .= '</tbody></table>';
@@ -100,5 +101,3 @@ $pdf->writeHTML($html, true, false, true, false, '');
 
 // Output the PDF to the browser
 $pdf->Output('rfq_report.pdf', 'I'); // 'I' to display in the browser, 'D' to force download
-
-?>

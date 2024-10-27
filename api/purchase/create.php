@@ -1,10 +1,17 @@
     <?php
     require("../../app/init.php");
+    require("../auth/auth.php");
+
+
+    $where = array("user_id" => $_POST['vendor_id']);
+    $vendor = $DB->SELECT_ONE_WHERE("users", "*", $where);
+
 
     // Escape and sanitize the input data
     $data = array(
+        "vendor_id" => $DB->ESCAPE($_POST['vendor_id']),
         "po_id" => rand(), // Assuming a random ID is needed for new entries
-        "vendor_name" => $DB->ESCAPE($_POST['vendor_name']),
+        "vendor_name" => $DB->ESCAPE($vendor['vendor_name']),
         "items" => $DB->ESCAPE($_POST['items']),
         "quantity" => $DB->ESCAPE($_POST['quantity']), // Assuming quantity is sanitized by your framework
         "unit_price" => $DB->ESCAPE($_POST['unit_price']), // Assuming unit price is sanitized by your framework

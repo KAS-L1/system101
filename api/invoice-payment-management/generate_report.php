@@ -43,7 +43,7 @@ $pdf->SetFont('dejavusans', '', 10);
 // Title of the report
 $pdf->SetFont('helvetica', 'B', 16);
 $pdf->Cell(0, 15, 'Invoice Payment Report', 0, 1, 'C');
-$pdf->Ln(5); // Add some space after title
+$pdf->Ln(5); // Add some space after the title
 
 $pdf->SetFont('dejavusans', '', 10);
 $pdf->Write(0, 'Generated report for all invoices.', '', 0, 'C', true);
@@ -57,7 +57,7 @@ if (!empty($invoices)) {
     // HTML content for the table
     $html = '<table border="1" cellpadding="5">
             <thead>
-                <tr>
+                <tr style="background-color:#f2f2f2;">
                     <th>#</th>
                     <th>Invoice ID</th>
                     <th>PO ID</th>
@@ -74,18 +74,21 @@ if (!empty($invoices)) {
     // Populate the table with data from the database
     $i = 1;
     foreach ($invoices as $invoice) {
-        // Fetch the vendor details
-        $vendor = $DB->SELECT_ONE_WHERE('vendors', '*', array('vendor_id' => $invoice['vendor_id']));
+        // Fetch the vendor details from the `purchaseorder` table based on `po_id`
+        $purchaseOrder = $DB->SELECT_ONE_WHERE('purchaseorder', 'vendor_name', array('po_id' => $invoice['po_id']));
 
-        // Status badge
-        $statusBadge = $invoice['payment_status'] == 'Paid' ? 'Paid' : 'Pending';
+        // Set vendor name with fallback
+        $vendorName = CHARS($purchaseOrder['vendor_name'] ?? 'Unknown Vendor');
+
+        // Status badge for better readability
+        $statusBadge = $invoice['payment_status'] === 'Paid' ? 'Paid' : 'Pending';
 
         // Add rows to the table
         $html .= '<tr>
                 <td>' . $i++ . '</td>
                 <td>' . CHARS($invoice['invoice_id'] ?? '') . '</td>
                 <td>' . CHARS($invoice['po_id'] ?? '') . '</td>
-                <td>' . CHARS($vendor['vendor_name'] ?? 'Unknown Vendor') . '</td>
+                <td>' . $vendorName . '</td>
                 <td>₱' . number_format($invoice['amount'] ?? 0, 2) . '</td>
                 <td>' . CHARS($invoice['payment_terms'] ?? '') . '</td>
                 <td>' . $statusBadge . '</td>
@@ -105,4 +108,3 @@ if (!empty($invoices)) {
 
 // Output the PDF to the browser
 $pdf->Output('invoice_payment_report.pdf', 'I'); // 'I' to display in the browser, 'D' to force download
-?>

@@ -1,17 +1,23 @@
 <?php
 require("../../app/init.php");
+require("../auth/auth.php");
 
-// Sanitize and escape the input data
+
+// Get vendor details
+$where = array("user_id" => $_POST['vendor_id']);
+$vendor = $DB->SELECT_ONE_WHERE("users", "*", $where);
+
+// Prepare the data to be inserted into the RFQ table
 $data = array(
-    "rfq_id" => rand(),
-    "vendor_id" => $DB->ESCAPE($_POST['vendor_id']), // Ensure vendor_id is an integer
-    "product_id" => $DB->ESCAPE($_POST['product_id']), // Ensure product_id is an integer
-    "requested_quantity" => $DB->ESCAPE($_POST['requested_quantity']), // Ensure requested_quantity is an integer
-    "quoted_price" => isset($_POST['quoted_price']) && !empty($_POST['quoted_price']) 
-        ? $DB->ESCAPE($_POST['quoted_price']) 
-        : 0, // Set to 0 if not provided
+    "rfq_id" => rand(), // Replace with a proper unique identifier generation method
+    "vendor_id" => $DB->ESCAPE($_POST['vendor_id']),
+    "product_id" => $DB->ESCAPE($_POST['product_id']),
+    "requested_quantity" => $DB->ESCAPE($_POST['requested_quantity']),
+    "quoted_price" => isset($_POST['quoted_price']) && !empty($_POST['quoted_price'])
+        ? $DB->ESCAPE($_POST['quoted_price'])
+        : 0,
     "rfq_status" => $DB->ESCAPE($_POST['rfq_status']),
-    "response_date" => $DB->ESCAPE($_POST['response_date']), // Assumes the response date is a datetime string
+    "response_date" => $DB->ESCAPE($_POST['response_date']),
     "remarks" => $DB->ESCAPE($_POST['response_remarks']),
 );
 

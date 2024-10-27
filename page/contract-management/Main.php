@@ -71,14 +71,7 @@ $contracts = $DB->SELECT("contracts", "*", "ORDER BY contract_id DESC");
                             <?php
                             $i = 1;
                             foreach ($contracts as $contract) {
-                                $vendor = $DB->SELECT_ONE_WHERE('vendors', '*', array('vendor_id' => $contract['vendor_id']));
-                                
-                                // Debugging output in case of missing vendor
-                                if (!$vendor) {
-                                    echo "<!-- Debug: No vendor found for vendor_id: {$contract['vendor_id']} -->";
-                                }
-                                
-                                // Safely handle vendor name
+                                $vendor = $DB->SELECT_ONE_WHERE('users', 'vendor_name', array('user_id' => $contract['vendor_id']));
                                 $vendorName = $vendor && isset($vendor['vendor_name']) ? CHARS($vendor['vendor_name']) : 'Unknown Vendor';
                             ?>
                                 <tr>
@@ -145,14 +138,7 @@ $contracts = $DB->SELECT("contracts", "*", "ORDER BY contract_id DESC");
                                 <?php
                                 $i = 1;
                                 foreach ($contracts as $contract) {
-                                    $vendor = $DB->SELECT_ONE_WHERE('vendors', '*', array('vendor_id' => $contract['vendor_id']));
-                                    
-                                    // Debugging output for missing vendor
-                                    if (!$vendor) {
-                                        echo "<!-- Debug: No vendor found for vendor_id: {$contract['vendor_id']} -->";
-                                    }
-                                    
-                                    // Safely handle vendor name
+                                    $vendor = $DB->SELECT_ONE_WHERE('users', 'vendor_name', array('user_id' => $contract['vendor_id']));
                                     $vendorName = $vendor && isset($vendor['vendor_name']) ? CHARS($vendor['vendor_name']) : 'Unknown Vendor';
                                 ?>
                                     <tr>
@@ -205,7 +191,9 @@ $contracts = $DB->SELECT("contracts", "*", "ORDER BY contract_id DESC");
     // Edit Contract Button Click Event
     $('.editContract').click(function() {
         const contract_id = $(this).data('contract_id');
-        $.post('api/contract-management/edit_modal.php', { contract_id }, function(res) {
+        $.post('api/contract-management/edit_modal.php', {
+            contract_id
+        }, function(res) {
             $('#responseModal').html(res);
             $('#editContractModal').modal('show');
         });

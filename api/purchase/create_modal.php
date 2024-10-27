@@ -1,4 +1,10 @@
-<?php require("../../app/init.php"); ?>
+<?php require("../../app/init.php");
+
+$where = array("role" => "VENDOR");
+$vendors = $DB->SELECT_WHERE("users", "*", $where);
+
+?>
+
 
 <!-- Modal: Create Purchase Order -->
 <div class="modal fade" id="addPurchaseOrderModal" tabindex="-1" aria-labelledby="addPurchaseOrderModalLabel"
@@ -17,7 +23,14 @@
                         <!-- Vendor Name Field -->
                         <div class="col-md-6 mb-3">
                             <label for="vendor_name" class="form-label">Vendor Name</label>
-                            <input type="text" id="vendor_name" name="vendor_name" class="form-control" required>
+                            <select class="form-control" name="vendor_id" id="vendor_id">
+                                <?php foreach ($vendors as $vendor): ?>
+                                    <option value="<?= $vendor['user_id']; ?>">
+                                        <?= $vendor['vendor_name']; ?>
+                                    </option>
+                                <?php endforeach; ?>
+
+                            </select>
                         </div>
 
                         <!-- Items Field -->
@@ -79,13 +92,13 @@
 
 <!-- JavaScript for Handling Create Purchase Order Form Submission -->
 <script>
-$('#formAddPurchaseOrder').submit(function(e) {
-    e.preventDefault(); // Prevent default form submission
-    var formData = $(this).serialize(); // Serialize form data
+    $('#formAddPurchaseOrder').submit(function(e) {
+        e.preventDefault(); // Prevent default form submission
+        var formData = $(this).serialize(); // Serialize form data
 
-    // AJAX request to create purchase order
-    $.post("api/purchase/create.php", formData, function(response) {
-        $('#responseModal').html(response);
+        // AJAX request to create purchase order
+        $.post("api/purchase/create.php", formData, function(response) {
+            $('#responseModal').html(response);
+        });
     });
-});
 </script>

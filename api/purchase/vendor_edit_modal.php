@@ -61,9 +61,18 @@ $purchaseOrder = $DB->SELECT_ONE_WHERE("purchaseorder", "*", $where);
                         <!-- Tracking Link Field -->
                         <div class="col-md-6 mb-3">
                             <label for="tracking_link" class="form-label">Tracking Link</label>
-                            <input type="text" id="tracking_link" name="tracking_link" class="form-control"
-                                value="<?= $purchaseOrder['tracking_link'] ?>" required>
+                            <input type="url" id="tracking_link" name="tracking_link" class="form-control"
+                                value="<?= htmlspecialchars($purchaseOrder['tracking_link'] ?? ''); ?>" required>
+                            <?php if (!empty($purchaseOrder['tracking_link'])): ?>
+                                <div class="mt-2">
+                                    <a href="<?= htmlspecialchars($purchaseOrder['tracking_link']); ?>" target="_blank" class="btn btn-link">View Tracking</a>
+                                </div>
+                            <?php else: ?>
+                                <p class="text-muted mt-2">No link available</p>
+                            <?php endif; ?>
                         </div>
+
+
 
                         <!-- Delivery Date Field -->
                         <div class="col-md-6 mb-3">

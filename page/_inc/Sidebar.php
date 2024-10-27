@@ -103,7 +103,7 @@
                             <a class="nav-link text-dark" href="/vendor-invoice-payment-management">Invoice</a>
                         </nav>
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link text-dark" href="/vendor-delivery-updates">Delivery and Shipment Updates</a>
+                            <a class="nav-link text-dark" href="/delivery-updates">Delivery and Shipment Updates</a>
                         </nav>
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link text-dark" href="#">Vendor Performance Rating</a>

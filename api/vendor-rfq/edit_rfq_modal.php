@@ -1,8 +1,10 @@
 <?php
 require("../../app/init.php");
+
+// Retrieve the RFQ and vendor details
 $rfq_id = $_POST['rfq_id'];
 $rfq = $DB->SELECT_ONE_WHERE("rfqs", "*", ["rfq_id" => $rfq_id]);
-$vendors = $DB->SELECT("vendors", "*", "ORDER BY vendor_id ASC");
+$vendors = $DB->SELECT("users", "*", "WHERE role = 'VENDOR' ORDER BY user_id ASC");
 
 // Fetch product name based on product_id from RFQ
 $productNameData = $DB->SELECT_ONE_WHERE("vendor_products", "product_name", ["product_id" => $rfq['product_id']]);
@@ -26,22 +28,20 @@ $productName = $productNameData ? CHARS($productNameData['product_name']) : 'Unk
                         <label for="vendorId" class="form-label">Vendor Name</label>
                         <select class="form-select" id="vendorId" name="vendor_id" required>
                             <?php foreach ($vendors as $vendor): ?>
-                                <option value="<?= CHARS($vendor['vendor_id']); ?>" <?= $vendor['vendor_id'] == $rfq['vendor_id'] ? 'selected' : ''; ?>>
+                                <option value="<?= CHARS($vendor['user_id']); ?>" <?= $vendor['user_id'] == $rfq['vendor_id'] ? 'selected' : ''; ?>>
                                     <?= CHARS($vendor['vendor_name']); ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
                     </div>
 
-
-                    <!-- Product ID -->
+                    <!-- Product ID (Read-Only) -->
                     <div class="mb-3">
                         <label for="product_id" class="form-label">Product ID</label>
-                        <input type="text" class="form-control" id="product_id" name="product_id" value="<?= $rfq['product_id']; ?>" readonly>
+                        <input type="text" class="form-control" id="product_id" name="product_id" value="<?= CHARS($rfq['product_id']); ?>" readonly>
                     </div>
 
-
-                    <!-- Product Name Display -->
+                    <!-- Product Name Display (Read-Only) -->
                     <div class="mb-3">
                         <label for="product_name" class="form-label">Product Name</label>
                         <input type="text" class="form-control" id="product_name" value="<?= $productName; ?>" readonly>
@@ -65,6 +65,7 @@ $productName = $productNameData ? CHARS($productNameData['product_name']) : 'Unk
                         <textarea class="form-control" id="response_remarks" name="response_remarks"><?= CHARS($rfq['remarks']); ?></textarea>
                     </div>
 
+                    <!-- Submit Button -->
                     <button type="submit" class="btn btn-success">Update RFQ</button>
                 </form>
             </div>
@@ -73,10 +74,10 @@ $productName = $productNameData ? CHARS($productNameData['product_name']) : 'Unk
 </div>
 <div id="responseEdit"></div>
 <script>
-   $('#editRFQForm').submit(function(e) {
-    e.preventDefault();
-    $.post('api/vendor-rfq/update_rfq.php', $(this).serialize(), function(response) {
-        $('#responseEdit').html(response);
+    $('#editRFQForm').submit(function(e) {
+        e.preventDefault(); // Prevent default form submission
+        $.post('api/vendor-rfq/update_rfq.php', $(this).serialize(), function(response) {
+            $('#responseEdit').html(response); // Display server response in the responseEdit div
+        });
     });
-});
 </script>

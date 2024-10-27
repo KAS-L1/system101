@@ -1,13 +1,19 @@
     <?php
     include_once('api/middleware/role_access_vendor.php');
-    // Retrieve all vendors from the `vendors` table
-    $vendors = $DB->SELECT("vendors", "*");
-
-    // Retrieve all products from the `vendor_products` table
-    $products = $DB->SELECT("vendor_products", "*");
 
     // Retrieve all RFQs from the `rfqs` table
-     $rfqs = $DB->SELECT("rfqs", "*", "ORDER BY response_date DESC");
+
+
+    if (AUTH_USER['role'] == "ADMIN") {
+        $vendors = $DB->SELECT("vendors", "*");
+        $products = $DB->SELECT("vendor_products", "*");
+        $rfqs = $DB->SELECT("rfqs", "*", "ORDER BY response_date DESC");
+    } elseif (AUTH_USER['role'] == "VENDOR") {
+        $where = array("vendor_id" => AUTH_USER_ID);
+        $rfqs = $DB->SELECT_WHERE("rfqs", "*", $where, "ORDER BY response_date DESC");
+    }
+
+
 
     ?>
 
@@ -92,7 +98,7 @@
                                                     </button>
                                                     <!-- Responded RFQ Button -->
                                                     <button class="btn btn-sm btn-light shadow-sm respondedRFQ text-info" data-rfq_id="<?= $rfq['rfq_id']; ?>">
-                                                    <i class="bi bi-reply-fill"></i>
+                                                        <i class="bi bi-reply-fill"></i>
                                                     </button>
                                                 </div>
                                             </td>
@@ -112,8 +118,8 @@
             <!-- JavaScript for Handling Modals and AJAX Requests -->
             <script>
                 // RFQ Modals and Actions
-                
-                 // Handle View RFQ button click
+
+                // Handle View RFQ button click
 
                 $('.viewRFQ').click(function() {
                     const rfq_id = $(this).data('rfq_id');
@@ -128,7 +134,7 @@
                 // Handle Generate Report button click
                 $('.generateReport').click(function() {
                     const rfq_id = $(this).data('rfq_id');
-                    
+
                     Swal.fire({
                         title: "Generate Report?",
                         text: "This will generate a PDF report for the selected RFQ.",

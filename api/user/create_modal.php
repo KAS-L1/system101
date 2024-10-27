@@ -57,11 +57,11 @@
 
 <!-- JavaScript for Handling the Form Submission -->
 <script>
-$('#formAddUser').submit(function(e) {
-    e.preventDefault(); // Prevent default form submission
-    var formData = $(this).serialize();
-    $.post("api/user/create.php", formData, function(response) {
-        $('#responseCreateUser').html(response); // Display response in the modal
+    $('#formAddUser').submit(function(e) {
+        e.preventDefault(); // Prevent default form submission
+        var formData = $(this).serialize();
+        $.post("api/user/create.php", formData, function(response) {
+            $('#responseCreateUser').html(response); // Display response in the modal
+        });
     });
-});
 </script>

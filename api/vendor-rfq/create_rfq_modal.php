@@ -1,10 +1,14 @@
     <?php
-   
+
     require("../../app/init.php");
 
-    // Fetch vendors from the database
-    $vendors = $DB->SELECT("vendors", "*", "ORDER BY vendor_id ASC");
+    // Fetch vendors with the role "VENDOR" from the `users` table
+    $where = array("role" => "VENDOR");
+    $vendors = $DB->SELECT_WHERE("users", "*", $where, "ORDER BY user_id ASC");
+
+    // Fetch products from the `vendor_products` table
     $products = $DB->SELECT("vendor_products", "*", "ORDER BY product_id ASC");
+
 
     ?>
 
@@ -19,10 +23,12 @@
                     <form id="createRFQForm">
                         <!-- Vendor Selection -->
                         <div class="mb-3">
-                            <label for="vendorId" class="form-label">Vendor Name</label>
-                            <select class="form-select" id="vendorId" name="vendor_id" required>
+                            <label for="vendor_name" class="form-label">Vendor Name</label>
+                            <select class="form-control" name="vendor_id" id="vendor_id">
                                 <?php foreach ($vendors as $vendor): ?>
-                                    <option value="<?= $vendor['vendor_id']; ?>"><?= $vendor['vendor_name']; ?></option>
+                                    <option value="<?= $vendor['user_id']; ?>">
+                                        <?= htmlspecialchars($vendor['vendor_name']); ?>
+                                    </option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
@@ -32,7 +38,7 @@
                             <label for="productId" class="form-label">Product Name</label>
                             <select class="form-select" id="productId" name="product_id" required>
                                 <?php foreach ($products as $product): ?>
-                                    <option value="<?= $product['product_id']; ?>"><?= $product['product_name']; ?></option>
+                                    <option value="<?= $product['product_id']; ?>"><?= htmlspecialchars($product['product_name']); ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
@@ -42,7 +48,6 @@
                             <label for="requestedQuantity" class="form-label">Requested Quantity</label>
                             <input type="number" class="form-control" id="requestedQuantity" name="requested_quantity" required>
                         </div>
-
 
                         <!-- RFQ Status (Dropdown) -->
                         <div class="mb-3">
@@ -63,7 +68,7 @@
                             <label for="responseRemarks">Remarks:</label>
                             <textarea class="form-control" id="responseRemarks" name="response_remarks"></textarea>
                         </div>
-                    
+
                         <!-- Submit Button -->
                         <button type="submit" class="btn btn-success">Create RFQ</button>
                     </form>
@@ -74,6 +79,7 @@
             </div>
         </div>
     </div>
+
 
 
     <script>

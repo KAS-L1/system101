@@ -1,14 +1,15 @@
 <?php
 include_once('api/middleware/role_access_vendor.php');
 
-// Retrieve all vendors from the `vendors` table
-$vendors = $DB->SELECT("vendors", "*");
+if (AUTH_USER['role'] == "ADMIN") {
+    $vendors = $DB->SELECT("users", "*", "WHERE role = 'VENDOR' ORDER BY user_id ASC");
+    $products = $DB->SELECT("vendor_products", "*");
+    $rfqs = $DB->SELECT("rfqs", "*", "ORDER BY response_date DESC");
+} elseif (AUTH_USER['role'] == "VENDOR") {
+    $where = array("vendor_id" => AUTH_USER_ID);
+    $products = $DB->SELECT_WHERE("vendor_products", "*", $where);
+}
 
-// Retrieve all products from the `vendor_products` table
-$products = $DB->SELECT("vendor_products", "*");
-
-// Retrieve all RFQs from the `rfqs` table
-$rfqs = $DB->SELECT("rfqs", "*");
 ?>
 
 <!-- Container for Page Content -->
@@ -54,35 +55,32 @@ $rfqs = $DB->SELECT("rfqs", "*");
                                 foreach ($products as $product): ?>
                                     <?php
                                     // Selecting vendor name 
-                                    $whereVendor = array("vendor_id" => $product['vendor_id']);
-                                    $vendor_name = $DB->SELECT_ONE_WHERE("vendors", "vendor_name", $whereVendor);
-                                    $vendorName = $vendor_name ? CHARS($vendor_name['vendor_name']) : 'Unknown Vendor';
+                                    $whereVendor = array("user_id" => $product['vendor_id']);
+                                    $vendor_name = $DB->SELECT_ONE_WHERE("users", "vendor_name", $whereVendor);
+                                    $vendorName = $vendor_name ? htmlspecialchars($vendor_name['vendor_name']) : 'Unknown Vendor';
 
                                     // Selecting category name
-                                    $whereCategory = array("category_id" => $product['category_id']); // Assuming you have category_id in vendor_products
+                                    $whereCategory = array("category_id" => $product['category_id']);
                                     $category_name = $DB->SELECT_ONE_WHERE("categories", "category_name", $whereCategory);
-                                    $categoryName = $category_name ? CHARS($category_name['category_name']) : 'Unknown Category'; // Adjust this based on your actual field names
+                                    $categoryName = $category_name ? htmlspecialchars($category_name['category_name']) : 'Unknown Category';
                                     ?>
                                     <tr>
                                         <td><?= $i++; ?></td>
-                                        <td><?= $product['product_id']; ?></td>
+                                        <td><?= htmlspecialchars($product['product_id']); ?></td>
                                         <td><?= $vendorName; ?></td>
-                                        <td><?= $categoryName; ?></td> <!-- Display Category -->
-                                        <td><?= $product['product_name']; ?></td>
-                                        <td><?= $product['description']; ?></td>
-                                        <td><?= NUMBER_PHP_2($product['unit_price']); ?></td>
-                                        <td><?= $product['availability']; ?></td>
+                                        <td><?= $categoryName; ?></td>
+                                        <td><?= htmlspecialchars($product['product_name']); ?></td>
+                                        <td><?= htmlspecialchars($product['description']); ?></td>
+                                        <td><?= number_format($product['unit_price'], 2); ?></td>
+                                        <td><?= htmlspecialchars($product['availability']); ?></td>
                                         <td>
                                             <div class="d-flex gap-2">
-                                                <!-- Edit Product Button -->
                                                 <button class="btn btn-sm btn-light shadow-sm editProduct" data-product_id="<?= $product['product_id']; ?>">
                                                     <i class="bi bi-pencil-square"></i>
                                                 </button>
-                                                <!-- View RFQ Button -->
                                                 <button class="btn btn-sm btn-light shadow-sm viewProduct" data-product_id="<?= $product['product_id']; ?>">
                                                     <i class="bi bi-eye"></i>
                                                 </button>
-                                                <!-- Generate Report Button -->
                                                 <button class="btn btn-sm btn-light shadow-sm generateReportProduct text-success" data-product_id="<?= $product['product_id']; ?>">
                                                     <i class="bi bi-file-earmark-text"></i>
                                                 </button>
@@ -127,51 +125,38 @@ $rfqs = $DB->SELECT("rfqs", "*");
     </div>
 </div>
 
+<!-- JavaScript for Handling Modals and AJAX Requests -->
 <script>
-    // Handle Create Category modal open action
     $('#CreateCategoryModalButton').click(function() {
         $('#createCategoryModal').modal('show');
     });
 
-    // Handle Create Category form submission
     $('#createCategoryForm').on('submit', function(event) {
-        event.preventDefault(); // Prevent the default form submission
-
-        const categoryName = $('#category_name').val(); // Get the category name
-
+        event.preventDefault();
+        const categoryName = $('#category_name').val();
         $.post('api/vendor-rfq/add_category.php', {
             category_name: categoryName
         }, function(response) {
-            $('#createCategoryModal').modal('hide'); // Hide the modal
-            $('#response').html(response); // Display response
-            $('#category_name').val(''); // Clear input field
-            // Optionally, refresh the category list or table
+            $('#createCategoryModal').modal('hide');
+            $('#response').html(response);
+            $('#category_name').val('');
         }).fail(function() {
             alert('Error adding category. Please try again.');
         });
     });
-</script>
 
-
-<!-- JavaScript for Handling Modals and AJAX Requests -->
-<script>
-    // Product Modals and Actions
-
-    // Handle View RFQ button click
     $('.viewProduct').click(function() {
         const product_id = $(this).data('product_id');
         $.post('api/vendor-rfq/view_product_modal.php', {
-            product_id: product_id
+            product_id
         }, function(res) {
             $('#responseModal').html(res);
             $('#viewProductModal').modal('show');
         });
     });
 
-    // Handle Generate Report button click
     $('.generateReportProduct').click(function() {
         const product_id = $(this).data('product_id');
-
         Swal.fire({
             title: "Generate Report?",
             text: "This will generate a PDF report for the selected RFQ.",
@@ -186,7 +171,6 @@ $rfqs = $DB->SELECT("rfqs", "*");
         });
     });
 
-    // Handle Create Product modal open action
     $('#CreateProductModalButton').click(function() {
         $.post('api/vendor-rfq/create_product_modal.php', function(res) {
             $('#responseModal').html(res);
@@ -194,39 +178,13 @@ $rfqs = $DB->SELECT("rfqs", "*");
         });
     });
 
-    // Edit Product
     $('.editProduct').click(function() {
         const product_id = $(this).data('product_id');
         $.post('api/vendor-rfq/edit_product_modal.php', {
-            product_id: product_id
+            product_id
         }, function(res) {
             $('#responseModal').html(res);
             $('#editProductModal').modal('show');
-        });
-    });
-
-    // Remove Product
-    $('.removeProduct').click(function() {
-        const product_id = $(this).data('product_id');
-
-        Swal.fire({
-            title: "Are you sure you want to delete this product?",
-            icon: "question",
-            showCancelButton: true,
-            confirmButtonText: "Yes, Delete",
-            confirmButtonColor: '#198754', // Set the success color (green)
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Proceed with deletion
-                $.post('api/vendor-rfq/remove_product.php', {
-                    product_id: product_id
-                }, function(response) {
-                    $('#responseModal').html(response);
-                    swalAlert('success', 'Product has been deleted!');
-                }).fail(function() {
-                    swalAlert('error', 'Failed to delete product. Please try again.');
-                });
-            }
         });
     });
 </script>

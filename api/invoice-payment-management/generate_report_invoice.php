@@ -7,9 +7,11 @@ if (isset($_GET['invoice_id'])) {
     $invoice = $DB->SELECT_ONE_WHERE("invoice_payments", "*", array("invoice_id" => $invoice_id));
 
     if ($invoice) {
-        // Fetch Vendor Name from the 'vendors' table
-        $vendor = $DB->SELECT_ONE_WHERE("vendors", "vendor_name", array("vendor_id" => $invoice['vendor_id']));
-        $vendorName = CHARS($vendor['vendor_name'] ?? 'Unknown Vendor');
+        // Fetch the associated purchase order using `po_id` from the invoice
+        $purchaseOrder = $DB->SELECT_ONE_WHERE("purchaseorder", "vendor_name", array("po_id" => $invoice['po_id']));
+
+        // Sanitize and set the vendor name, with a fallback if the vendor is not found
+        $vendorName = CHARS($purchaseOrder['vendor_name'] ?? 'Unknown Vendor');
 
         // Create a new PDF document
         $pdf = new TCPDF();
@@ -24,15 +26,18 @@ if (isset($_GET['invoice_id'])) {
 
         // Set Invoice details
         $pdf->SetFont('dejavusans', '', 12);
-        $pdf->MultiCell(0, 10, 
+        $pdf->MultiCell(
+            0,
+            10,
             "Vendor Name: " . $vendorName . "\n" .
-            "PO ID: " . CHARS($invoice['po_id']) . "\n" .
-            "Amount: ₱" . number_format($invoice['amount'], 2) . "\n" .
-            "Payment Terms: " . CHARS($invoice['payment_terms']) . "\n" .
-            "Payment Status: " . CHARS($invoice['payment_status']) . "\n" .
-            "Due Date: " . CHARS($invoice['due_date']) . "\n" .
-            "Remarks: " . CHARS($invoice['remarks']),
-            0, 'L'
+                "PO ID: " . CHARS($invoice['po_id']) . "\n" .
+                "Amount: ₱" . number_format($invoice['amount'], 2) . "\n" .
+                "Payment Terms: " . CHARS($invoice['payment_terms']) . "\n" .
+                "Payment Status: " . CHARS($invoice['payment_status']) . "\n" .
+                "Due Date: " . CHARS($invoice['due_date']) . "\n" .
+                "Remarks: " . CHARS($invoice['remarks']),
+            0,
+            'L'
         );
 
         // Close and output PDF document to the browser
@@ -43,4 +48,3 @@ if (isset($_GET['invoice_id'])) {
 } else {
     echo "Invalid Invoice ID.";
 }
-?>

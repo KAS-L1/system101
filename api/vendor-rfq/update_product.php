@@ -1,6 +1,9 @@
     <?php
     require("../../app/init.php");
 
+    $where = array("user_id" => $_POST['vendor_id']);
+    $vendor = $DB->SELECT_ONE_WHERE("users", "*", $where);
+
     $product_id = $_POST['product_id'];
     $data = [
         "vendor_id" => $DB->ESCAPE($_POST['vendor_id']), // Ensure vendor_id is an integer

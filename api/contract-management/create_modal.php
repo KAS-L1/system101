@@ -1,4 +1,10 @@
-<?php require("../../app/init.php"); ?>
+<?php require("../../app/init.php");
+
+$where = array("role" => "VENDOR");
+$vendors = $DB->SELECT_WHERE("users", "*", $where, "ORDER BY user_id ASC");
+
+?>
+
 
 <!-- Modal: Create Contract -->
 <div class="modal fade" id="addContractModal" tabindex="-1" aria-labelledby="addContractModalLabel" aria-hidden="true">
@@ -14,13 +20,13 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="vendor_id" class="form-label">Vendor Name</label>
-                            <select id="vendor_id" name="vendor_id" class="form-select" required>
-                                <?php
-                                $vendors = $DB->SELECT('vendors', '*');
-                                foreach ($vendors as $vendor) {
-                                    echo "<option value='{$vendor['vendor_id']}'>" . htmlspecialchars($vendor['vendor_name']) . "</option>";
-                                }
-                                ?>
+                            <select class="form-select" id="vendorId" name="vendor_id" required>
+                                <option value="">Select Vendor</option>
+                                <?php foreach ($vendors as $vendor): ?>
+                                    <option value="<?= htmlspecialchars($vendor['user_id']); ?>">
+                                        <?= htmlspecialchars($vendor['vendor_name']); ?>
+                                    </option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
 
