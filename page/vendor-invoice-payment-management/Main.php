@@ -1,7 +1,12 @@
 <?php
 include_once('api/middleware/role_access_vendor.php');
 // Fetch all invoices
-$invoices = $DB->SELECT("invoice_payments", "*", "ORDER BY invoice_id DESC");
+if (AUTH_USER['role'] == "ADMIN") {
+    $invoices = $DB->SELECT("invoice_payments", "*", "ORDER BY invoice_id DESC");
+} elseif (AUTH_USER['role'] == "VENDOR") {
+    $where = array("vendor_id" => AUTH_USER_ID);
+    $invoices = $DB->SELECT_WHERE("invoice_payments", "*", $where, "ORDER BY invoice_id DESC");
+}
 ?>
 
 <div class="container mt-5">
