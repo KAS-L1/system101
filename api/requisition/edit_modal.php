@@ -1,10 +1,10 @@
 <?php require("../../app/init.php"); ?>
 
-<?php 
-    // Retrieve the requisition data based on the ID provided via POST request
-    $requisition_id = $_POST['requisition_id'];
-    $where = array("requisition_id" => $requisition_id);
-    $requisition = $DB->SELECT_ONE_WHERE("purchaserequisition", "*", $where);
+<?php
+// Retrieve the requisition data based on the ID provided via POST request
+$requisition_id = $_POST['requisition_id'];
+$where = array("requisition_id" => $requisition_id);
+$requisition = $DB->SELECT_ONE_WHERE("purchaserequisition", "*", $where);
 ?>
 
 <!-- Edit Requisition Modal -->
@@ -45,6 +45,13 @@
                             <label for="quantity" class="form-label">Quantity</label>
                             <input type="number" id="quantity" name="quantity" class="form-control"
                                 value="<?= $requisition['quantity'] ?>" required>
+                        </div>
+
+                        <!-- Quantity Field -->
+                        <div class="col-md-4 mb-3">
+                            <label for="estimated_cost" class="form-label">Estimated Cost</label>
+                            <input type="number" id="estimated_cost" name="estimated_cost" class="form-control"
+                                value="<?= $requisition['estimated_cost'] ?>" required>
                         </div>
 
                         <!-- Unit of Measure Field -->
@@ -123,13 +130,13 @@
 
 <!-- JavaScript for Handling Form Submission -->
 <script>
-$('#formEditRequisition').submit(function(e) {
-    e.preventDefault(); // Prevent default form submission
-    var formData = $(this).serialize(); // Serialize form data
+    $('#formEditRequisition').submit(function(e) {
+        e.preventDefault(); // Prevent default form submission
+        var formData = $(this).serialize(); // Serialize form data
 
-    // AJAX request to update requisition data
-    $.post("api/requisition/update.php", formData, function(response) {
-        $('#responseModal').html(response); // Display response in the modal
+        // AJAX request to update requisition data
+        $.post("api/requisition/update.php", formData, function(response) {
+            $('#responseModal').html(response); // Display response in the modal
+        });
     });
-});
 </script>

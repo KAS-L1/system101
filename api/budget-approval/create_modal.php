@@ -20,7 +20,7 @@
                                 <select class="form-control" id="requisition_id" name="requisition_id" required>
                                     <!-- Dynamically populate requisition options -->
                                     <?php
-                                    $requisitions = $DB->SELECT("purchaserequisition", "requisition_id, department, item_description", "WHERE status='Pending'");
+                                    $requisitions = $DB->SELECT("purchaserequisition", "requisition_id, department, item_description", "WHERE status='Approve'");
                                     foreach ($requisitions as $requisition) {
                                         echo '<option value="' . $requisition['requisition_id'] . '">' . $requisition['requisition_id'] . ' - ' . $requisition['department'] . ' - ' . $requisition['item_description'] . '</option>';
                                     }

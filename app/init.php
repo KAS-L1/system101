@@ -11,6 +11,8 @@ require("core/components.php");
 
 require("core/utils.php");
 
+require_once('core/token.php');
+
 // DB Instance
 $DB = new Database();
 

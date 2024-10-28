@@ -1,7 +1,6 @@
 <?php
 include_once('api/middleware/role_access_vendor.php');
 // Retrieve all Purchase Orders from the `purchaseorder` table
-$purchaseOrders = $DB->SELECT("purchaseorder", "*", "ORDER BY po_id DESC");
 
 if (AUTH_USER['role'] == "ADMIN") {
     $purchaseOrders = $DB->SELECT("purchaseorder", "*", "ORDER BY po_id DESC");

@@ -32,6 +32,13 @@ try {
     alert('danger', 'An error occurred while fetching data: ' . $e->getMessage());
 }
 
+if (AUTH_USER['role'] == "ADMIN") {
+    $purchaseOrders = $DB->SELECT("purchaseorder", "*", "ORDER BY po_id DESC");
+} elseif (AUTH_USER['role'] == "VENDOR") {
+    $where = array("vendor_id" => AUTH_USER_ID);
+    $purchaseOrders = $DB->SELECT_WHERE("purchaseorder", "*", $where, "ORDER BY po_id DESC");
+}
+
 ?>
 
 <div class="container mt-4 py-5">

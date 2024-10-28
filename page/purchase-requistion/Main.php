@@ -49,8 +49,7 @@ include_once('api/middleware/role_access.php');
 </div>
 
 <!-- Modal: View Active Requisitions -->
-<div class="modal fade" id="viewRequisitionsModal" tabindex="-1" aria-labelledby="viewRequisitionsModalLabel"
-    aria-hidden="true">
+<div class="modal fade" id="viewRequisitionsModal" tabindex="-1" aria-labelledby="viewRequisitionsModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -71,6 +70,7 @@ include_once('api/middleware/role_access.php');
                                             <th>Department</th>
                                             <th>Item Description</th>
                                             <th>Quantity</th>
+                                            <th>Estimated Cost</th>
                                             <th>Unit of Measure</th>
                                             <th>Priority Level</th>
                                             <th>Requested Date</th>
@@ -81,8 +81,9 @@ include_once('api/middleware/role_access.php');
                                     <tbody>
                                         <?php
                                         $i = 1;
-                                        $requisitions = $DB->SELECT('purchaserequisition', '*', 'ORDER BY requested_date ASC');
-                                        foreach ($requisitions as $requisition) {
+                                        // Select only 'Pending' requisitions
+                                        $pendingRequisitions = $DB->SELECT('purchaserequisition', '*', "WHERE status = 'Pending' ORDER BY requested_date ASC");
+                                        foreach ($pendingRequisitions as $requisition) {
                                         ?>
                                             <tr>
                                                 <td><?= $i++; ?></td>
@@ -90,18 +91,13 @@ include_once('api/middleware/role_access.php');
                                                 <td><?= CHARS($requisition['department']); ?></td>
                                                 <td><?= CHARS($requisition['item_description']); ?></td>
                                                 <td><?= CHARS($requisition['quantity']); ?></td>
+                                                <td><?= NUMBER_PHP_2($requisition['estimated_cost']); ?></td>
                                                 <td><?= CHARS($requisition['unit_of_measure']); ?></td>
                                                 <td><?= CHARS($requisition['priority_level']); ?></td>
                                                 <td><?= CHARS($requisition['requested_date']); ?></td>
                                                 <td><?= CHARS($requisition['required_date']); ?></td>
                                                 <td>
-                                                    <?php if ($requisition['status'] == 'Approve') { ?>
-                                                        <span class="badge bg-success">Approve</span>
-                                                    <?php } elseif ($requisition['status'] == 'Decline') { ?>
-                                                        <span class="badge bg-danger">Decline</span>
-                                                    <?php } else { ?>
-                                                        <span class="badge bg-secondary">Pending</span>
-                                                    <?php } ?>
+                                                    <span class="badge bg-secondary">Pending</span>
                                                 </td>
                                             </tr>
                                         <?php } ?>
@@ -111,7 +107,6 @@ include_once('api/middleware/role_access.php');
                         </div>
                     </div>
                 </div>
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -119,6 +114,7 @@ include_once('api/middleware/role_access.php');
         </div>
     </div>
 </div>
+
 
 <!-- Purchase Requisition Table -->
 <div class="container mt-4">
@@ -137,6 +133,7 @@ include_once('api/middleware/role_access.php');
                             <th>Department</th>
                             <th>Item Description</th>
                             <th>Quantity</th>
+                            <th>Estimated Cost</th>
                             <th>Unit of Measure</th>
                             <th>Priority Level</th>
                             <th>Requested Date</th>
@@ -158,6 +155,7 @@ include_once('api/middleware/role_access.php');
                                 <td><?= $requisition['department']; ?></td>
                                 <td><?= $requisition['item_description']; ?></td>
                                 <td><?= $requisition['quantity']; ?></td>
+                                <td><?= NUMBER_PHP_2($requisition['estimated_cost']); ?></td>
                                 <td><?= $requisition['unit_of_measure']; ?></td>
                                 <td><?= $requisition['priority_level']; ?></td>
                                 <td><?= $requisition['requested_date']; ?></td>
