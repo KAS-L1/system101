@@ -2,112 +2,90 @@
 include('../../app/init.php');
 header('Content-Type: application/json');
 
-// Validate the token provided in the request
-if (!isset($_GET['token']) || $_GET['token'] !== BUDGET_APPROVAL_TOKEN) {
-    echo json_encode([
-        "status" => "error",
-        "message" => "Invalid or missing token."
-    ]);
+// Validate token
+if (!validateToken()) {
+    jsonResponse('error', 'Invalid or missing token.');
+}
+
+// Determine request method
+switch ($_SERVER['REQUEST_METHOD']) {
+    case 'GET':
+        handleGetRequisitions();
+        break;
+    case 'POST':
+        handlePostApprovalUpdate();
+        break;
+    default:
+        jsonResponse('error', 'Invalid request method. Use GET to fetch or POST to update.');
+}
+
+function validateToken()
+{
+    return isset($_GET['token']) && $_GET['token'] === BUDGET_APPROVAL_TOKEN;
+}
+
+function jsonResponse($status, $message, $data = [])
+{
+    echo json_encode(compact('status', 'message', 'data'));
     exit();
 }
 
-// Handle GET request: Retrieve all requisitions with "Approve" status
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+function handleGetRequisitions()
+{
+    global $DB;
     try {
-        // Select fields including the necessary details
-        $fields = "pr.requisition_id, pr.department, pr.item_description, pr.quantity, 
-                   pr.estimated_cost, ba.approved_amount, ba.approved_by, 
-                   ba.approval_date, ba.approval_status, ba.remarks";
+        $fields = "pr.requisition_id, pr.department, pr.item_description, pr.quantity, pr.estimated_cost,
+                   ba.approved_amount, ba.approved_by, ba.approval_date, ba.approval_status, ba.remarks";
         $options = "
             LEFT JOIN budget_approval ba ON pr.requisition_id = ba.requisition_id 
             WHERE pr.status = 'Approve'
-            ORDER BY pr.requested_date ASC
-        ";
+            ORDER BY pr.requested_date ASC";
 
-        // Fetch all "Approve" requisitions with their related budget approval data
         $approvals = $DB->SELECT('purchaserequisition pr', $fields, $options);
 
-        if (!empty($approvals)) {
-            echo json_encode([
-                "status" => "success",
-                "data" => $approvals
-            ]);
+        if ($approvals) {
+            jsonResponse('success', 'Data fetched successfully.', $approvals);
         } else {
-            echo json_encode([
-                "status" => "success",
-                "message" => "No requisitions found with status 'Approve'.",
-                "data" => []
-            ]);
+            jsonResponse('success', 'No requisitions found with status "Approve".');
         }
     } catch (Exception $e) {
-        echo json_encode([
-            "status" => "error",
-            "message" => "An error occurred while fetching data: " . $e->getMessage()
-        ]);
+        jsonResponse('error', 'Error fetching data: ' . $e->getMessage());
     }
-} elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Handle POST request: Update a specific budget approval
-    $requisition_id = $_POST['requisition_id'] ?? null;
-    $approved_amount = $_POST['approved_amount'] ?? null;
-    $approved_by = $_POST['approved_by'] ?? 'Finance Department';
-    $approval_date = $_POST['approval_date'] ?? date('Y-m-d');
-    $approval_status = $_POST['approval_status'] ?? null;
-    $remarks = $_POST['remarks'] ?? '';
+}
 
-    if (!$requisition_id || !$approved_amount || !$approval_status) {
-        echo json_encode([
-            "status" => "error",
-            "message" => "Missing required fields: requisition_id, approved_amount, approval_status."
-        ]);
-        exit();
+function handlePostApprovalUpdate()
+{
+    global $DB;
+    $data = collectApprovalData();
+
+    if (!$data['requisition_id'] || !$data['approved_amount'] || !$data['approval_status']) {
+        jsonResponse('error', 'Missing required fields: requisition_id, approved_amount, approval_status.');
     }
 
-    // Check if the requisition exists and is in "Approve" status
-    $requisition = $DB->SELECT_ONE(
-        "purchaserequisition",
-        "status",
-        "WHERE requisition_id = ?",
-        [$requisition_id]
-    );
-
+    $requisition = $DB->SELECT_ONE("purchaserequisition", "status", "WHERE requisition_id = ?", [$data['requisition_id']]);
     if (!$requisition || $requisition['status'] !== 'Approve') {
-        echo json_encode([
-            "status" => "error",
-            "message" => "The selected requisition is not eligible for approval actions."
-        ]);
-        exit();
+        jsonResponse('error', 'Requisition not eligible for approval actions.');
     }
 
-    // Prepare the data for updating
-    $data = [
-        "approved_amount" => floatval($approved_amount),
-        "approved_by" => $DB->ESCAPE($approved_by),
-        "approval_date" => $DB->ESCAPE($approval_date),
-        "approval_status" => $DB->ESCAPE($approval_status),
-        "remarks" => $DB->ESCAPE($remarks)
-    ];
+    $where = ["requisition_id" => $DB->ESCAPE($data['requisition_id'])];
+    $updateResult = $DB->UPDATE("budget_approval", $data, $where);
 
-    // Define the condition for updating the specific requisition
-    $where = ["requisition_id" => $DB->ESCAPE($requisition_id)];
-
-    // Update the budget approval in the database
-    $update_result = $DB->UPDATE("budget_approval", $data, $where);
-
-    // Return the response
-    if ($update_result === "success") {
-        echo json_encode([
-            "status" => "success",
-            "message" => "Budget approval updated successfully."
-        ]);
+    if ($updateResult === "success") {
+        jsonResponse('success', 'Budget approval updated successfully.');
     } else {
-        echo json_encode([
-            "status" => "error",
-            "message" => "Failed to update budget approval."
-        ]);
+        jsonResponse('error', 'Failed to update budget approval.');
     }
-} else {
-    echo json_encode([
-        "status" => "error",
-        "message" => "Invalid request method. Use GET to fetch or POST to update."
-    ]);
+}
+
+function collectApprovalData()
+{
+    global $DB;
+    return [
+        "requisition_id" => $_POST['requisition_id'] ?? null,
+        "approved_amount" => floatval($_POST['approved_amount'] ?? 0),
+        "approved_by" => $DB->ESCAPE($_POST['approved_by'] ?? 'Finance Department'),
+        "approval_date" => $DB->ESCAPE($_POST['approval_date'] ?? date('Y-m-d')),
+        "approval_status" => $DB->ESCAPE($_POST['approval_status'] ?? null),
+        "remarks" => $DB->ESCAPE($_POST['remarks'] ?? '')
+    ];
 }

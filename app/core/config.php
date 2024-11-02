@@ -18,5 +18,3 @@ define("DATE_TIME", date("Y-m-d H:i:s"));
 
 require("settings.php");
 require("token.php");
-
-
