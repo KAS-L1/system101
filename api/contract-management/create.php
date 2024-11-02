@@ -13,7 +13,6 @@ $data = array(
 
 // Insert the new contract into the contracts table
 $contract = $DB->INSERT("contracts", $data);
-
 // Check if the contract was created successfully
 if ($contract == "success") {
     swalAlert('success', 'Contract Created Successfully!');
