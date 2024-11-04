@@ -20,7 +20,7 @@ $data = array(
 );
 
 // Insert the new finding into the database
-$insertFinding = $DB->INSERT("audit_finding", $data);
+$insertFinding = $DB->INSERT(table: "audit_finding", $data);
 
 // Check if the finding was successfully added
 if ($insertFinding == "success") {
