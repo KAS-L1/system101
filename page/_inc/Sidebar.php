@@ -38,14 +38,11 @@
                     <div class="collapse" id="collapseAudit" aria-labelledby="headingTwo"
                         data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link text-dark" href="layout-static.html">Audit Reports</a>
-                            <a class="nav-link text-dark" href="layout-sidenav-light.html">Audit Schedules</a>
-                            <a class="nav-link text-dark" href="layout-sidenav-light.html">Audit Logs</a>
-                            <a class="nav-link text-dark" href="layout-sidenav-light.html">Audits (Filtered by Tags)</a>
-                            <a class="nav-link text-dark" href="layout-sidenav-light.html">Audit Implementation</a>
-                            <a class="nav-link text-dark" href="layout-sidenav-light.html">Audit Findings</a>
-                            <a class="nav-link text-dark" href="layout-sidenav-light.html">Audit History</a>
-                            <a class="nav-link text-dark" href="layout-sidenav-light.html">Reports</a>
+                            <a class="nav-link text-dark" href="/audit-schedule">Audit Schedule</a>
+                            <a class="nav-link text-dark" href="#">Audit Findings</a>
+                            <a class="nav-link text-dark" href="#">Audit Logs</a>
+                            <a class="nav-link text-dark" href="#">Audit History</a>
+                            <a class="nav-link text-dark" href="#">Reports</a>
                         </nav>
                     </div>
                     <a class="nav-link collapsed text-dark" href="#" data-bs-toggle="collapse"
@@ -58,9 +55,9 @@
                         data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link text-dark" href="layout-static.html">Document List</a>
-                            <a class="nav-link text-dark" href="layout-sidenav-light.html">Document Content</a>
-                            <a class="nav-link text-dark" href="layout-sidenav-light.html">Document History</a>
-                            <a class="nav-link text-dark" href="layout-sidenav-light.html">Search and Filtering</a>
+                            <a class="nav-link text-dark" href="#">Document Content</a>
+                            <a class="nav-link text-dark" href="#">Document History</a>
+                            <a class="nav-link text-dark" href="#">Search and Filtering</a>
                         </nav>
                     </div>
 

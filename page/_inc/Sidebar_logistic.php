@@ -38,11 +38,11 @@
                     <div class="collapse" id="collapseAudit" aria-labelledby="headingTwo"
                         data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link text-dark" href="layout-static.html">Audit Reports</a>
-                            <a class="nav-link text-dark" href="layout-sidenav-light.html">Audit Schedules</a>
-                            <a class="nav-link text-dark" href="layout-sidenav-light.html">Audit Findings</a>
-                            <a class="nav-link text-dark" href="layout-sidenav-light.html">Audit Recommendations</a>
-                            <a class="nav-link text-dark" href="layout-sidenav-light.html">Audit Implementation</a>
+                            <a class="nav-link text-dark" href="#">Audit Schedule/a>
+                                <a class="nav-link text-dark" href="#">Audit Findings</a>
+                                <a class="nav-link text-dark" href="#">Audit Findings</a>
+                                <a class="nav-link text-dark" href="#">Audit History</a>
+                                <a class="nav-link text-dark" href="#">Report</a>
                         </nav>
                     </div>
                     <a class="nav-link collapsed text-dark" href="#" data-bs-toggle="collapse"
@@ -55,10 +55,10 @@
                         data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link text-dark" href="layout-static.html">Document Upload</a>
-                            <a class="nav-link text-dark" href="layout-sidenav-light.html">Document Approval</a>
-                            <a class="nav-link text-dark" href="layout-sidenav-light.html">Document Storage</a>
-                            <a class="nav-link text-dark" href="layout-sidenav-light.html">Document Retrieval</a>
-                            <a class="nav-link text-dark" href="layout-sidenav-light.html">Document Disposal</a>
+                            <a class="nav-link text-dark" href="#">Document Approval</a>
+                            <a class="nav-link text-dark" href="#">Document Storage</a>
+                            <a class="nav-link text-dark" href="#">Document Retrieval</a>
+                            <a class="nav-link text-dark" href="#">Document Disposal</a>
                         </nav>
                     </div>
 

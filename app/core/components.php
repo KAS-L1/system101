@@ -169,7 +169,7 @@ function swalAlert($type, $title = null, $message = null)
             icon: '<?= $type ?>',
             title: '<?= $title ?>',
             text: '<?= $message ?>',
-            confirmButtonColor: "#26adf8",
+            confirmButtonColor: "#198754",
             confirmButtonText: 'Okay'
         });
     </script>
