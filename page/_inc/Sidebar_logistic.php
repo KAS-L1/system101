@@ -38,8 +38,8 @@
                     <div class="collapse" id="collapseAudit" aria-labelledby="headingTwo"
                         data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link text-dark" href="#">Audit Schedule/a>
-                                <a class="nav-link text-dark" href="#">Audit Findings</a>
+                            <a class="nav-link text-dark" href="/audit-schedule">Audit Schedule/a>
+                                <a class="nav-link text-dark" href="/audit-findings">Audit Findings</a>
                                 <a class="nav-link text-dark" href="#">Audit Findings</a>
                                 <a class="nav-link text-dark" href="#">Audit History</a>
                                 <a class="nav-link text-dark" href="#">Report</a>

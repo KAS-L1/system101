@@ -11,9 +11,9 @@
                 <h5 class="card-title mb-0">Audit Schedule Management</h5>
                 <!-- Button to Generate Report and Add Audit Schedule -->
                 <div>
-                    <a href="/api/audit/generate_report.php" class="btn btn-success">
+                    <!-- <a href="/api/audit/generate_report.php" class="btn btn-success">
                         <i class="bi bi-download"></i>
-                    </a>
+                    </a> -->
                     <button class="btn btn-primary" id="btnAddAuditSchedule">
                         <i class="bi bi-plus"></i> Add
                     </button>
@@ -59,6 +59,11 @@
                                     <td><?= $remarks; ?></td>
                                     <td>
                                         <div class="d-flex gap-2">
+                                            <!-- View Details Button -->
+                                            <button class="btn btn-sm btn-light shadow-sm viewDetails" data-audit_id="<?= $audit_id; ?>">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+
                                             <!-- Reschedule Button -->
                                             <button class="btn btn-sm btn-light shadow-sm rescheduleAudit" data-audit_id="<?= $audit_id; ?>">
                                                 <i class="bi bi-calendar-event"></i>
@@ -113,6 +118,17 @@
             $.post('api/audit-schedule/create_modal.php', function(res) {
                 $('#responseModal').html(res);
                 $('#addAuditScheduleModal').modal('show');
+            });
+        });
+
+        // View Details Event
+        $('.viewDetails').click(function() {
+            const audit_id = $(this).data('audit_id');
+            $.post('api/audit-schedule/view_details_modal.php', {
+                audit_id
+            }, function(response) {
+                $('#responseModal').html(response);
+                $('#viewDetailsModal').modal('show');
             });
         });
 
