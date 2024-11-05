@@ -44,11 +44,13 @@ $auditFindings = $DB->SELECT("audit_finding", "*", "ORDER BY finding_id DESC");
                             $status = htmlspecialchars($finding['status']);
 
                             // Badge class for different statuses
-                            $badgeClass = match ($status) {
-                                'Resolved' => 'bg-success text-light',
-                                'In Progress' => 'bg-light text-dark',
-                                default => 'bg-secondary text-light'
-                            };
+                            if ($status === 'Resolved') {
+                                $badgeClass = 'bg-success text-light';
+                            } elseif ($status === 'In Progress') {
+                                $badgeClass = 'bg-light text-dark';
+                            } else {
+                                $badgeClass = 'bg-secondary text-light';
+                            }
                         ?>
                             <tr>
                                 <td><?= $i++; ?></td>
