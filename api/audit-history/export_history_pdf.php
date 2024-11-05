@@ -116,12 +116,12 @@ $pdf->Cell(0, 10, 'Audit History (Filtered)', 0, 1, 'C');
 $html = '<table border="1" cellpadding="4">
             <thead>
                 <tr>
-                    <th style="background-color:#d9edf7;">#</th>
-                    <th style="background-color:#d9edf7;">Source</th>
-                    <th style="background-color:#d9edf7;">ID</th>
-                    <th style="background-color:#d9edf7;">Status</th>
-                    <th style="background-color:#d9edf7;">Change Date</th>
-                    <th style="background-color:#d9edf7;">Remarks</th>
+                    <th style="background-color:#198754;">#</th>
+                    <th style="background-color:#198754;">Source</th>
+                    <th style="background-color:#198754;">ID</th>
+                    <th style="background-color:#198754;">Status</th>
+                    <th style="background-color:#198754;">Change Date</th>
+                    <th style="background-color:#198754;">Remarks</th>
                 </tr>
             </thead>
             <tbody>';
