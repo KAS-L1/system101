@@ -1,128 +1,104 @@
 <?php
-include_once('api/middleware/role_access.php');
-// Retrieve all Audit Findings from the `audit_finding` table
-$auditFindings = $DB->SELECT("audit_finding", "*", "ORDER BY finding_id DESC");
-?>
+include_once($_SERVER['DOCUMENT_ROOT'] . '/app/init.php');
 
-<!-- Audit Findings Table Section -->
+// Check if the database connection is established
+if (!isset($DB)) {
+    die("Error: Database connection not initialized.");
+}
+
+// Initialize variables to avoid undefined variable errors
+$auditSummary = [];
+$auditFindings = [];
+
+// Retrieve audit data summary (count by severity) and handle any query issues
+$auditSummary = $DB->SELECT("audit_finding", "severity, COUNT(*) as count", "GROUP BY severity");
+if (!$auditSummary) {
+    $auditSummary = []; // Ensure $auditSummary is an empty array if the query fails or returns no results
+}
+
+// Retrieve recent audit findings details for display
+$auditFindings = $DB->SELECT("audit_finding", "finding_id, audit_id, finding_type, severity, description, status", "ORDER BY finding_id DESC LIMIT 10");
+if (!$auditFindings) {
+    $auditFindings = []; // Ensure $auditFindings is an empty array if the query fails or returns no results
+}
+?>
 <div class="container mt-4">
     <div class="card shadow-sm mb-4">
         <div class="card-header d-flex justify-content-between align-items-center bg-light text-success">
-            <h5 class="card-title mb-0">Audit Findings Management</h5>
-            <!-- Button to Add Audit Finding -->
-            <div>
-                <button class="btn btn-primary" id="btnAddFinding">
-                    <i class="bi bi-plus"></i> Add Finding
-                </button>
-            </div>
+            <h5 class="card-title mb-0">Audit Report Summary</h5>
+            <button class="btn btn-success" onclick="window.location.href='/api/audit-report/export_report_pdf.php'">
+                <i class="bi bi-file-earmark-pdf"></i> Export PDF
+            </button>
         </div>
 
         <div class="card-body">
-            <div class="table-responsive">
-                <table id="dataTableFinding" class="table table-bordered table-hover table-sm shadow-sm">
-                    <thead class="table-success">
+            <!-- Severity Summary Section -->
+            <h5 class="text-success">Severity Summary</h5>
+            <table class="table table-bordered table-sm">
+                <thead class="table-success">
+                    <tr>
+                        <th>Severity</th>
+                        <th>Count</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if (count($auditSummary) > 0): ?>
+                        <?php foreach ($auditSummary as $summary): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($summary['severity']); ?></td>
+                                <td><?= htmlspecialchars($summary['count']); ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
                         <tr>
-                            <th>#</th>
-                            <th>Finding ID</th>
-                            <th>Audit ID</th>
-                            <th>Finding Type</th>
-                            <th>Description</th>
-                            <th>Severity</th>
-                            <th>Status</th>
-                            <th>Actions</th>
+                            <td colspan="2" class="text-center">No data available</td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $i = 1;
-                        foreach ($auditFindings as $finding) {
-                            $finding_id = htmlspecialchars($finding['finding_id']);
-                            $audit_id = htmlspecialchars($finding['audit_id']);
-                            $finding_type = htmlspecialchars($finding['finding_type']);
-                            $description = htmlspecialchars($finding['description']);
-                            $severity = htmlspecialchars($finding['severity']);
-                            $status = htmlspecialchars($finding['status']);
+                    <?php endif; ?>
+                </tbody>
+            </table>
 
+            <!-- Recent Findings Section -->
+            <h5 class="text-success">Recent Audit Findings</h5>
+            <table class="table table-bordered table-hover table-sm">
+                <thead class="table-success">
+                    <tr>
+                        <th>Finding ID</th>
+                        <th>Audit ID</th>
+                        <th>Finding Type</th>
+                        <th>Severity</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if (count($auditFindings) > 0): ?>
+                        <?php foreach ($auditFindings as $finding): ?>
+                            <?php
                             // Badge class for different statuses
-                            if ($status === 'Resolved') {
+                            if ($finding['status'] === 'Resolved') {
                                 $badgeClass = 'bg-success text-light';
-                            } elseif ($status === 'In Progress') {
+                            } elseif ($finding['status'] === 'In Progress') {
                                 $badgeClass = 'bg-light text-dark';
                             } else {
                                 $badgeClass = 'bg-secondary text-light';
                             }
-                        ?>
+                            ?>
                             <tr>
-                                <td><?= $i++; ?></td>
-                                <td><?= $finding_id; ?></td>
-                                <td><?= $audit_id; ?></td>
-                                <td><?= $finding_type; ?></td>
-                                <td><?= $description; ?></td>
-                                <td><?= $severity; ?></td>
-                                <td><span class="badge <?= $badgeClass; ?>"><?= $status; ?></span></td>
-                                <td>
-                                    <div class="d-flex gap-2">
-                                        <!-- View Details Button -->
-                                        <button class="btn btn-sm btn-light shadow-sm viewFindingDetails" data-finding_id="<?= $finding_id; ?>">
-                                            <i class="bi bi-eye"></i>
-                                        </button>
-
-                                        <!-- Update Status Button -->
-                                        <?php if ($status == "Open" || $status == "In Progress") { ?>
-                                            <button class="btn btn-sm btn-light shadow-sm updateFindingStatus" data-finding_id="<?= $finding_id; ?>">
-                                                <i class="bi bi-pencil"></i>
-                                            </button>
-                                        <?php } else { ?>
-                                            <button class="btn btn-sm btn-light shadow-sm" disabled>
-                                                <i class="bi bi-pencil"></i>
-                                            </button>
-                                        <?php } ?>
-                                    </div>
-                                </td>
+                                <td><?= htmlspecialchars($finding['finding_id']); ?></td>
+                                <td><?= htmlspecialchars($finding['audit_id']); ?></td>
+                                <td><?= htmlspecialchars($finding['finding_type']); ?></td>
+                                <td><?= htmlspecialchars($finding['severity']); ?></td>
+                                <td><?= htmlspecialchars($finding['description']); ?></td>
+                                <td><span class="badge <?= $badgeClass; ?>"><?= htmlspecialchars($finding['status']); ?></span></td>
                             </tr>
-                        <?php } ?>
-                    </tbody>
-                </table>
-            </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="6" class="text-center">No recent findings available</td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
-
-<script>
-    // Add Finding Button Click Event
-    $('#btnAddFinding').click(function() {
-        const auditId = $(this).data('audit_id'); // Assuming the button has data-audit_id attribute
-        $.post('api/audit-findings/add_finding_modal.php', {
-            audit_id: auditId
-        }, function(res) {
-            $('#responseModal').html(res);
-            $('#addFindingModal').modal('show');
-        });
-    });
-
-    // View Finding Details Event
-    $('.viewFindingDetails').click(function() {
-        const finding_id = $(this).data('finding_id');
-        $.post('api/audit-findings/view_finding_modal.php', {
-            finding_id
-        }, function(response) {
-            $('#responseModal').html(response);
-            $('#viewFindingModal').modal('show');
-        });
-    });
-
-    // Update Finding Status Event
-    $('.updateFindingStatus').click(function() {
-        const finding_id = $(this).data('finding_id');
-        $.post('api/audit-findings/update_status_modal.php', {
-            finding_id
-        }, function(response) {
-            $('#responseModal').html(response);
-            $('#updateFindingStatusModal').modal('show');
-        });
-    });
-</script>
-
-<!-- Placeholder for dynamically loaded modals -->
-<div id="responseModal"></div>
-<div id="response"></div>

@@ -74,13 +74,24 @@ if (!$auditFindings) {
                 <tbody>
                     <?php if (count($auditFindings) > 0): ?>
                         <?php foreach ($auditFindings as $finding): ?>
+                            <?php
+                            // Badge class for different statuses
+                            $badgeClass = 'bg-secondary text-light'; // default class
+                            if ($finding['status'] === 'Resolved') {
+                                $badgeClass = 'bg-success text-light';
+                            } elseif ($finding['status'] === 'In Progress') {
+                                $badgeClass = 'bg-light text-dark';
+                            } elseif ($finding['status'] === 'Open') {
+                                $badgeClass = 'bg-secondary text-light';
+                            }
+                            ?>
                             <tr>
                                 <td><?= htmlspecialchars($finding['finding_id']); ?></td>
                                 <td><?= htmlspecialchars($finding['audit_id']); ?></td>
                                 <td><?= htmlspecialchars($finding['finding_type']); ?></td>
                                 <td><?= htmlspecialchars($finding['severity']); ?></td>
                                 <td><?= htmlspecialchars($finding['description']); ?></td>
-                                <td><?= htmlspecialchars($finding['status']); ?></td>
+                                <td><span class="badge <?= $badgeClass; ?>"><?= htmlspecialchars($finding['status']); ?></span></td>
                             </tr>
                         <?php endforeach; ?>
                     <?php else: ?>
