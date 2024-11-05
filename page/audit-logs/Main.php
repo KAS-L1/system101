@@ -10,9 +10,9 @@ $auditLogs = $DB->SELECT("audit_logs LEFT JOIN audit_schedule ON audit_logs.audi
         <div class="card-header d-flex justify-content-between align-items-center bg-light text-success">
             <h5 class="card-title mb-0">Audit Logs</h5>
             <div>
-                <button class="btn btn-success" id="exportCsv">
+                <!-- <button class="btn btn-success" id="exportCsv">
                     <i class="bi bi-file-earmark-spreadsheet"></i> Export CSV
-                </button>
+                </button> -->
                 <button class="btn btn-danger" id="exportPdf">
                     <i class="bi bi-file-earmark-pdf"></i> Export PDF
                 </button>
@@ -40,15 +40,15 @@ $auditLogs = $DB->SELECT("audit_logs LEFT JOIN audit_schedule ON audit_logs.audi
                         <?php
                         $i = 1;
                         foreach ($auditLogs as $log) {
-                            $log_id = htmlspecialchars($log['log_id'] ?? '');
-                            $audit_id = htmlspecialchars($log['audit_id'] ?? '');
-                            $action = htmlspecialchars($log['action'] ?? '');
-                            $timestamp = htmlspecialchars($log['timestamp'] ?? '');
-                            $user_id = htmlspecialchars($log['user_id'] ?? '');
-                            $details = htmlspecialchars($log['details'] ?? '');
-                            $audit_type = htmlspecialchars($log['audit_type'] ?? 'N/A');
-                            $scheduled_date = htmlspecialchars($log['scheduled_date'] ?? 'N/A');
-                            $department = htmlspecialchars($log['department'] ?? 'N/A');
+                            $log_id = CHARS($log['log_id'] ?? '');
+                            $audit_id = CHARS($log['audit_id'] ?? '');
+                            $action = CHARS($log['action'] ?? '');
+                            $timestamp = CHARS($log['timestamp'] ?? '');
+                            $user_id = CHARS($log['user_id'] ?? '');
+                            $details = CHARS($log['details'] ?? '');
+                            $audit_type = CHARS($log['audit_type'] ?? 'N/A');
+                            $scheduled_date = CHARS($log['scheduled_date'] ?? 'N/A');
+                            $department = CHARS($log['department'] ?? 'N/A');
                         ?>
                             <tr>
                                 <td><?= $i++; ?></td>

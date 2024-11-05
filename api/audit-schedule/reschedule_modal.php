@@ -77,7 +77,7 @@ $auditSchedule = $DB->SELECT_ONE_WHERE("audit_schedule", "*", $where);
         var formData = $(this).serialize(); // Serialize form data
 
         // AJAX request to update Audit Schedule data
-        $.post("api/audit/reschedule.php", formData, function(response) {
+        $.post("api/audit-schedule/reschedule.php", formData, function(response) {
             $('#responseModal').html(response); // Display response in the modal
         });
     });

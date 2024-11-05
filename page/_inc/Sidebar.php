@@ -41,8 +41,8 @@
                             <a class="nav-link text-dark" href="/audit-schedule">Audit Schedule</a>
                             <a class="nav-link text-dark" href="/audit-findings">Audit Findings</a>
                             <a class="nav-link text-dark" href="/audit-logs">Audit Logs</a>
-                            <a class="nav-link text-dark" href="#">Audit History</a>
-                            <a class="nav-link text-dark" href="#">Reports</a>
+                            <a class="nav-link text-dark" href="/audit-history">Audit History</a>
+                            <a class="nav-link text-dark" href="/audit-report">Reports</a>
                         </nav>
                     </div>
                     <a class="nav-link collapsed text-dark" href="#" data-bs-toggle="collapse"
