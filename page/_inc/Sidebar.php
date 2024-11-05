@@ -45,21 +45,13 @@
                             <a class="nav-link text-dark" href="/audit-report">Reports</a>
                         </nav>
                     </div>
-                    <a class="nav-link collapsed text-dark" href="#" data-bs-toggle="collapse"
-                        data-bs-target="#collapseDocument" aria-expanded="false" aria-controls="collapseDocument">
-                        <div class="sb-nav-link-icon text-success"><i class="fas fa-file"></i></div>
-                        Document Tracking
-                        <div class="sb-sidenav-collapse-arrow text-success"><i class="fas fa-angle-down"></i></div>
-                    </a>
-                    <div class="collapse" id="collapseDocument" aria-labelledby="headingThree"
-                        data-bs-parent="#sidenavAccordion">
-                        <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link text-dark" href="layout-static.html">Document List</a>
-                            <a class="nav-link text-dark" href="#">Document Content</a>
-                            <a class="nav-link text-dark" href="#">Document History</a>
-                            <a class="nav-link text-dark" href="#">Search and Filtering</a>
-                        </nav>
+                    <div>
+                        <a class="nav-link text-dark" href="/document-tracking">
+                            <div class="sb-nav-link-icon text-success"><i class="fas fa-file"></i></div>
+                            Document Tracking
+                        </a>
                     </div>
+
 
                     <div class="sb-sidenav-menu-heading text-muted">ADMIN ACCESS</div>
                     <a class="nav-link collapsed text-dark" href="#" data-bs-toggle="collapse"
