@@ -163,6 +163,12 @@
                 status: status,
                 priority: priority
             }, function(data) {
+                if (data.error) {
+                    // Handle error response
+                    alert("Error: " + data.error);
+                    return;
+                }
+
                 let documentRows = '';
                 data.forEach((doc, index) => {
                     const statusClass = doc.status === 'Approved' ? 'bg-success text-light' :
@@ -171,25 +177,27 @@
                         (doc.priority === 'Medium' ? 'bg-warning text-dark' : 'bg-secondary text-light');
 
                     documentRows += `
-                    <tr>
-                        <td>${index + 1}</td>
-                        <td>${doc.document_name}</td>
-                        <td>${doc.department}</td>
-                        <td>${doc.date_received}</td>
-                        <td>${doc.last_modified}</td>
-                        <td><span class="badge ${statusClass}">${doc.status}</span></td>
-                        <td><span class="badge ${priorityClass}">${doc.priority}</span></td>
-                        <td>
-                            <button class="btn btn-sm btn-light viewDocument" data-id="${doc.document_id}">View</button>
-                            <button class="btn btn-sm btn-success approveDocument" data-id="${doc.document_id}">Approve</button>
-                            <button class="btn btn-sm btn-danger rejectDocument" data-id="${doc.document_id}">Reject</button>
-                            <button class="btn btn-sm btn-dark downloadDocument" data-id="${doc.document_id}">Download</button>
-                            <button class="btn btn-sm btn-warning deleteDocument" data-id="${doc.document_id}">Delete</button>
-                        </td>
-                    </tr>`;
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${doc.document_name}</td>
+                    <td>${doc.department}</td>
+                    <td>${doc.date_received}</td>
+                    <td>${doc.last_modified}</td>
+                    <td><span class="badge ${statusClass}">${doc.status}</span></td>
+                    <td><span class="badge ${priorityClass}">${doc.priority}</span></td>
+                    <td>
+                        <button class="btn btn-sm btn-light viewDocument" data-id="${doc.document_id}"><i class='bi bi-eye'></i></button>
+                        <button class="btn btn-sm btn-success approveDocument" data-id="${doc.document_id}"><i class='bi bi-check-circle'></i></button>
+                        <button class="btn btn-sm btn-danger rejectDocument" data-id="${doc.document_id}"><i class='bi bi-x-circle'></i></button>
+                        <button class="btn btn-sm btn-light downloadDocument" data-id="${doc.document_id}"><i class='bi bi-download'></i></button>
+                        <button class="btn btn-sm btn-warning deleteDocument" data-id="${doc.document_id}"><i class='bi bi-trash'></i></button>
+                    </td>
+                </tr>`;
                 });
                 $('#documentTable tbody').html(documentRows);
-            }, 'json');
+            }, 'json').fail(function() {
+                alert("Failed to fetch documents. Please try again.");
+            });
         }
 
         $('#searchBar, #filterStatus, #filterPriority').on('input change', fetchDocuments);
