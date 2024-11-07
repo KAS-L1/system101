@@ -1,7 +1,6 @@
 <?php require("../../app/init.php"); ?>
 
-<div class="modal fade" id="addPurchaseRequisitionModal" tabindex="-1"
-    aria-labelledby="addPurchaseRequisitionModalLabel" aria-hidden="true">
+<div class="modal fade" id="addPurchaseRequisitionModal" tabindex="-1" aria-labelledby="addPurchaseRequisitionModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -12,7 +11,7 @@
                 <!-- Add Purchase Requisition Form -->
                 <form id="formAddRequisition">
                     <div class="row">
-                        <!-- First Row: Department, Item Description, Quantity, and Unit of Measure -->
+                        <!-- First Row: Department, Item Description, Quantity, Unit of Measure, Estimated Cost -->
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="department">Department:</label>
@@ -22,8 +21,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="item_description">Item Description:</label>
-                                <input type="text" class="form-control" id="item_description" name="item_description"
-                                    required>
+                                <input type="text" class="form-control" id="item_description" name="item_description" required>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -35,8 +33,13 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="unit_of_measure">Unit of Measure:</label>
-                                <input type="text" class="form-control" id="unit_of_measure" name="unit_of_measure"
-                                    required>
+                                <input type="text" class="form-control" id="unit_of_measure" name="unit_of_measure" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="estimated_cost">Estimated Cost:</label>
+                                <input type="number" class="form-control" id="estimated_cost" name="estimated_cost" required step="0.01">
                             </div>
                         </div>
                     </div>
@@ -56,15 +59,13 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="requested_date">Requested Date:</label>
-                                <input type="date" class="form-control" id="requested_date" name="requested_date"
-                                    required>
+                                <input type="date" class="form-control" id="requested_date" name="requested_date" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="required_date">Required Date:</label>
-                                <input type="date" class="form-control" id="required_date" name="required_date"
-                                    required>
+                                <input type="date" class="form-control" id="required_date" name="required_date" required>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -98,11 +99,11 @@
 
 <!-- JavaScript for Handling the Form Submission -->
 <script>
-$('#formAddRequisition').submit(function(e) {
-    e.preventDefault(); // Prevent default form submission
-    var formData = $(this).serialize();
-    $.post("api/requisition/create.php", formData, function(response) {
-        $('#responseModal').html(response); // Display response in the modal
+    $('#formAddRequisition').submit(function(e) {
+        e.preventDefault(); // Prevent default form submission
+        var formData = $(this).serialize();
+        $.post("api/requisition/create.php", formData, function(response) {
+            $('#responseModal').html(response); // Display response in the modal
+        });
     });
-});
 </script>

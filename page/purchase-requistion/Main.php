@@ -155,7 +155,7 @@ include_once('api/middleware/role_access.php');
                                 <td><?= $requisition['department']; ?></td>
                                 <td><?= $requisition['item_description']; ?></td>
                                 <td><?= $requisition['quantity']; ?></td>
-                                <td><?= NUMBER_PHP_2($requisition['estimated_cost']); ?></td>
+                                <td><?= NUMBER_PHP_2($requisition['estimated_cost'] ?? 0); ?></td>
                                 <td><?= $requisition['unit_of_measure']; ?></td>
                                 <td><?= $requisition['priority_level']; ?></td>
                                 <td><?= $requisition['requested_date']; ?></td>
