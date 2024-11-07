@@ -1,8 +1,13 @@
 <?php
 require("../../app/init.php");
 
-// Fetch Purchase Orders for dropdown
+// Fetch Purchase Orders for dropdown with "Delivered" status
 $purchaseOrders = $DB->SELECT("purchaseorder", "*", "WHERE status = 'Delivered' ORDER BY po_id DESC");
+
+// Debugging output to check if $purchaseOrders is populated correctly
+if (empty($purchaseOrders)) {
+    echo "<p class='text-danger'>No delivered purchase orders found.</p>";
+}
 ?>
 
 <!-- Create Invoice Modal -->
@@ -22,11 +27,16 @@ $purchaseOrders = $DB->SELECT("purchaseorder", "*", "WHERE status = 'Delivered' 
                             <label for="po_id" class="form-label">Purchase Order</label>
                             <select id="po_id" name="po_id" class="form-select" required>
                                 <option value="">Select Purchase Order</option>
-                                <?php foreach ($purchaseOrders as $po): ?>
-                                    <option value="<?= htmlspecialchars($po['po_id']); ?>">
-                                        <?= htmlspecialchars($po['po_id']) . " - " . htmlspecialchars($po['vendor_name']); ?>
-                                    </option>
-                                <?php endforeach; ?>
+                                <?php if (!empty($purchaseOrders)): ?>
+                                    <?php foreach ($purchaseOrders as $po): ?>
+                                        <option value="<?= htmlspecialchars($po['po_id']); ?>">
+                                            <?= htmlspecialchars($po['po_id']) . " - " . htmlspecialchars($po['vendor_name']); ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <!-- Display message if no orders are available -->
+                                    <option value="" disabled>No delivered purchase orders available</option>
+                                <?php endif; ?>
                             </select>
                         </div>
 
@@ -74,6 +84,7 @@ $purchaseOrders = $DB->SELECT("purchaseorder", "*", "WHERE status = 'Delivered' 
 </div>
 
 <div id="responseModal"></div>
+
 <!-- JavaScript for Form Submission -->
 <script>
     $('#formCreateInvoice').submit(function(e) {
