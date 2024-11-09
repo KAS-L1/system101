@@ -64,34 +64,32 @@ usort($auditHistoryData, function ($a, $b) {
 ?>
 
 <!-- Audit History Table Section -->
-<div class="container mt-4">
+<div class="container-fluid mt-4">
     <div class="card shadow-sm mb-4">
         <div class="card-header d-flex justify-content-between align-items-center bg-light text-success">
             <h5 class="card-title mb-0">Audit History</h5>
             <div>
-                <button class="btn btn-success" onclick="exportFilteredPDF()">
+                <button class="btn btn-success btn-sm" onclick="exportFilteredPDF()">
                     <i class="bi bi-file-earmark-pdf"></i> Export PDF
                 </button>
-
-                <button class="btn btn-primary" id="filterHistoryBtn"><i class="bi bi-filter"></i> Filter History</button>
+                <button class="btn btn-primary btn-sm" id="filterHistoryBtn"><i class="bi bi-filter"></i> Filter History</button>
             </div>
         </div>
 
         <!-- Filter Section -->
         <div class="card-body">
-            <div id="filterSection" style="display:none;">
+            <div id="filterSection" class="mb-3" style="display:none;">
                 <div class="row">
-                    <div class="col-md-4 mb-3">
+                    <div class="col-12 col-md-4 mb-3">
                         <label for="filterSource" class="form-label">Source</label>
                         <select id="filterSource" class="form-select">
                             <option value="">All</option>
                             <option value="Audit Schedule">Audit Schedule</option>
                             <option value="Audit Finding">Audit Finding</option>
-                            <!-- <option value="Audit History">Audit History</option> -->
                             <option value="Audit Log">Audit Log</option>
                         </select>
                     </div>
-                    <div class="col-md-4 mb-3">
+                    <div class="col-12 col-md-4 mb-3">
                         <label for="filterStatus" class="form-label">Status</label>
                         <select id="filterStatus" class="form-select">
                             <option value="">All</option>
@@ -103,7 +101,7 @@ usort($auditHistoryData, function ($a, $b) {
                             <option value="Resolved">Resolved</option>
                         </select>
                     </div>
-                    <div class="col-md-4 mb-3">
+                    <div class="col-12 col-md-4 mb-3">
                         <label for="filterDate" class="form-label">Date Range</label>
                         <div class="input-group">
                             <input type="date" id="filterStartDate" class="form-control">
@@ -111,13 +109,13 @@ usort($auditHistoryData, function ($a, $b) {
                         </div>
                     </div>
                 </div>
-                <button class="btn btn-primary" id="applyFilter">Apply Filter</button>
-                <button class="btn btn-secondary" id="clearFilter">Clear Filter</button>
+                <button class="btn btn-primary btn-sm" id="applyFilter">Apply Filter</button>
+                <button class="btn btn-secondary btn-sm" id="clearFilter">Clear Filter</button>
             </div>
 
             <!-- Audit History Table -->
             <div class="table-responsive mt-3">
-                <table id="auditHistoryTable" class="table table-bordered table-hover table-sm shadow-sm">
+                <table id="auditHistoryTable" class="table table-bordered table-hover table-sm">
                     <thead class="table-success">
                         <tr>
                             <th>#</th>
@@ -188,14 +186,12 @@ usort($auditHistoryData, function ($a, $b) {
     $('#exportHistoryCsv').click(function() {
         let csvContent = "data:text/csv;charset=utf-8,";
 
-        // Check if table has data
         const rows = $('#auditHistoryTable tbody tr:visible');
         if (rows.length === 0) {
             alert("No data available for export.");
             return;
         }
 
-        // Extract headers
         $('#auditHistoryTable thead tr').each(function() {
             const rowData = $(this).find("th").map(function() {
                 return `"${$(this).text().trim()}"`;
@@ -203,7 +199,6 @@ usort($auditHistoryData, function ($a, $b) {
             csvContent += rowData + "\n";
         });
 
-        // Extract visible data rows
         rows.each(function() {
             const rowData = $(this).find("td").map(function() {
                 return `"${$(this).text().trim()}"`;
@@ -220,17 +215,13 @@ usort($auditHistoryData, function ($a, $b) {
         document.body.removeChild(link);
     });
 
-    // Function to capture filter values and redirect to PDF export with query parameters
+    // Export to PDF
     function exportFilteredPDF() {
         const source = $('#filterSource').val();
         const status = $('#filterStatus').val();
         const startDate = $('#filterStartDate').val();
         const endDate = $('#filterEndDate').val();
-
-        // Construct URL with query parameters
         let url = `/api/audit-history/export_history_pdf.php?source=${source}&status=${status}&startDate=${startDate}&endDate=${endDate}`;
-
-        // Redirect to the export PDF page
         window.location.href = url;
     }
 </script>
