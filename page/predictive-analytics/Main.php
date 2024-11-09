@@ -43,7 +43,7 @@
             setTimeout(() => {
                 renderFunction(data);
                 toggleSkeleton(chartId, false); // Hide skeleton loader
-            }, 500); // 1.5 seconds delay
+            }, 500);
         }).fail(function(jqXHR) {
             console.error(`Error fetching data from ${endpoint}: ${jqXHR.responseText}`);
         });
@@ -52,6 +52,9 @@
     // Chart rendering functions
     function renderProcurementChart(data) {
         Highcharts.chart('procurement-chart', {
+            credits: {
+                enabled: false // Disable credits globally for each chart
+            },
             chart: {
                 type: 'line'
             },
@@ -79,6 +82,9 @@
 
     function renderVendorPerformanceChart(data) {
         Highcharts.chart('vendor-performance-chart', {
+            credits: {
+                enabled: false // Disable credits globally for each chart
+            },
             chart: {
                 type: 'column'
             },
@@ -106,6 +112,9 @@
 
     function renderAuditChart(data) {
         Highcharts.chart('audit-chart', {
+            credits: {
+                enabled: false // Disable credits globally for each chart
+            },
             chart: {
                 type: 'pie'
             },
@@ -126,6 +135,9 @@
 
     function renderDocumentChart(data) {
         Highcharts.chart('document-chart', {
+            credits: {
+                enabled: false // Disable credits globally for each chart
+            },
             chart: {
                 type: 'bar'
             },

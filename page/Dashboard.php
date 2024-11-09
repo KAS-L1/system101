@@ -155,13 +155,13 @@ $products_data = $DB->SELECT('vendor_products', '*', '');
     </div>
 </main>
 
-<!-- Include Highcharts library -->
-<script src="https://code.highcharts.com/highcharts.js"></script>
-
 <script>
     // Function to initialize each chart
     function initChart(chartId, type, title, categories, yAxisText, seriesData) {
         Highcharts.chart(chartId, {
+            credits: {
+                enabled: false // Disable credits globally for each chart
+            },
             chart: {
                 type: type,
                 backgroundColor: 'transparent'
