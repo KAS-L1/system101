@@ -1,21 +1,18 @@
 <?php
 include_once('api/middleware/role_access.php');
 
-// Retrieve all products from the `vendor_products` table
+// Fetch data
 $products = $DB->SELECT("vendor_products", "*");
-// Retrieve all RFQs from the `rfqs` table
 $rfqs = $DB->SELECT("rfqs", "*");
 
-// Count purchase per month
+// Monthly purchase data
 $query_purchase_months = "MONTH(order_date) AS month, SUM(unit_price) AS total";
 $months_purchase_data = $DB->SELECT('purchaseorder', $query_purchase_months, 'WHERE order_date IS NOT NULL GROUP BY MONTH(order_date) ORDER BY order_date ASC');
 
-// Prepare the months and totals arrays
 $purchase_months = [];
 $purchase_totals = [];
-
 foreach ($months_purchase_data as $row) {
-    $purchase_months[] = date('F', mktime(0, 0, 0, $row['month'], 10)); // Convert month number to month name
+    $purchase_months[] = date('F', mktime(0, 0, 0, $row['month'], 10));
     $purchase_totals[] = $row['total'];
 }
 
@@ -24,16 +21,14 @@ $purchase_months = implode(",", array_map(function ($month) {
     return "'" . $month . "'";
 }, $purchase_months));
 
-// Count requisitions per month
+// Monthly requisition data
 $query_requisitions_months = "MONTH(requested_date) AS month, SUM(quantity) AS total";
 $months_requisitions = $DB->SELECT('purchaserequisition', $query_requisitions_months, 'WHERE requested_date IS NOT NULL GROUP BY MONTH(requested_date) ORDER BY requested_date ASC');
 
-// Prepare the months and totals arrays
 $requisitions_months = [];
 $requisitions_totals = [];
-
 foreach ($months_requisitions as $row) {
-    $requisitions_months[] = date('F', mktime(0, 0, 0, $row['month'], 10)); // Convert month number to month name
+    $requisitions_months[] = date('F', mktime(0, 0, 0, $row['month'], 10));
     $requisitions_totals[] = $row['total'];
 }
 
@@ -42,8 +37,8 @@ $requisitions_months = implode(",", array_map(function ($month) {
     return "'" . $month . "'";
 }, $requisitions_months));
 
-// Fetch product data for the pie chart
-$products_data = $DB->SELECT('vendor_products', '*', ''); // Adjust based on your DB SELECT method
+// Product data for pie chart
+$products_data = $DB->SELECT('vendor_products', '*', '');
 ?>
 
 <main>
@@ -53,9 +48,21 @@ $products_data = $DB->SELECT('vendor_products', '*', ''); // Adjust based on you
             <li class="breadcrumb-item active">Dashboard</li>
         </ol>
 
+        <!-- Skeleton Loaders -->
+        <div class="row" id="skeletonLoaders">
+            <div class="col-lg-4 col-md-12 mb-4">
+                <div class="skeleton skeleton-card"></div>
+            </div>
+            <div class="col-lg-4 col-md-12 mb-4">
+                <div class="skeleton skeleton-card"></div>
+            </div>
+            <div class="col-lg-4 col-md-12 mb-4">
+                <div class="skeleton skeleton-card"></div>
+            </div>
+        </div>
+
         <!-- Row for Charts -->
-        <div class="row">
-            <!-- Card 1: Bar Chart -->
+        <div class="row" id="chartsRow" style="display: none;">
             <div class="col-lg-4 col-md-12 mb-4">
                 <div class="card border-0 shadow-sm h-100">
                     <div class="card-header bg-light text-success">
@@ -66,8 +73,6 @@ $products_data = $DB->SELECT('vendor_products', '*', ''); // Adjust based on you
                     </div>
                 </div>
             </div>
-
-            <!-- Card 2: Line Chart -->
             <div class="col-lg-4 col-md-12 mb-4">
                 <div class="card border-0 shadow-sm h-100">
                     <div class="card-header bg-light text-success">
@@ -78,8 +83,6 @@ $products_data = $DB->SELECT('vendor_products', '*', ''); // Adjust based on you
                     </div>
                 </div>
             </div>
-
-            <!-- Card 3: Pie Chart -->
             <div class="col-lg-4 col-md-12 mb-4">
                 <div class="card border-0 shadow-sm h-100">
                     <div class="card-header bg-light text-success">
@@ -92,8 +95,11 @@ $products_data = $DB->SELECT('vendor_products', '*', ''); // Adjust based on you
             </div>
         </div>
 
+        <!-- RFQ Management Table Skeleton Loader -->
+        <div id="rfqSkeleton" class="skeleton skeleton-table mb-4"></div>
+
         <!-- RFQ Management Table Card -->
-        <div class="card shadow-sm mb-4">
+        <div class="card shadow-sm mb-4" id="rfqTable" style="display: none;">
             <div class="card-header bg-light text-success">
                 <h5 class="mb-0">RFQ Management and Status</h5>
             </div>
@@ -153,154 +159,110 @@ $products_data = $DB->SELECT('vendor_products', '*', ''); // Adjust based on you
 <script src="https://code.highcharts.com/highcharts.js"></script>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Bar Chart for Purchase Orders
-        Highcharts.chart('purchaseChart', {
+    // Function to initialize each chart
+    function initChart(chartId, type, title, categories, yAxisText, seriesData) {
+        Highcharts.chart(chartId, {
             chart: {
-                type: 'column',
+                type: type,
                 backgroundColor: 'transparent'
             },
             title: {
-                text: 'Purchase Orders'
+                text: title
             },
             xAxis: {
-                categories: [<?= $purchase_months ?>],
-                crosshair: true
+                categories: categories
             },
             yAxis: {
-                min: 0,
                 title: {
-                    text: 'Purchase (₱)'
+                    text: yAxisText
                 }
             },
-            series: [{
+            series: seriesData,
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        legend: {
+                            enabled: false
+                        }
+                    }
+                }]
+            }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Delay to simulate loading time for skeleton loaders
+        setTimeout(function() {
+            // Hide skeleton loaders and display the actual content
+            document.getElementById('skeletonLoaders').style.display = 'none';
+            document.getElementById('rfqSkeleton').style.display = 'none';
+            document.getElementById('chartsRow').style.display = 'flex';
+            document.getElementById('rfqTable').style.display = 'block';
+
+            // Data for charts
+            initChart('purchaseChart', 'column', 'Purchase Orders', [<?= $purchase_months ?>], 'Purchase (₱)', [{
                 name: 'Total Purchase',
                 data: [<?= $purchase_totals ?>],
                 color: 'rgba(40, 167, 69, 1)'
-            }],
-            responsive: {
-                rules: [{
-                    condition: {
-                        maxWidth: 500
-                    },
-                    chartOptions: {
-                        legend: {
-                            enabled: false
-                        }
-                    }
-                }]
-            }
-        });
-
-        // Line Chart for Purchase Requisitions
-        Highcharts.chart('requisitionsChart', {
-            chart: {
-                type: 'line',
-                backgroundColor: 'transparent'
-            },
-            title: {
-                text: 'Purchase Requisitions'
-            },
-            xAxis: {
-                categories: [<?= $requisitions_months ?>]
-            },
-            yAxis: {
-                title: {
-                    text: 'Quantity'
-                }
-            },
-            series: [{
+            }]);
+            initChart('requisitionsChart', 'line', 'Purchase Requisitions', [<?= $requisitions_months ?>], 'Quantity', [{
                 name: 'Quantity',
                 data: [<?= $requisitions_totals ?>],
                 color: 'rgba(40, 167, 69, 1)',
-                lineWidth: 2,
-                marker: {
-                    enabled: true
-                }
-            }],
-            responsive: {
-                rules: [{
-                    condition: {
-                        maxWidth: 500
-                    },
-                    chartOptions: {
-                        legend: {
-                            enabled: false
-                        }
-                    }
-                }]
-            }
-        });
-
-        // Pie Chart for Vendor Products Availability
-        Highcharts.chart('productChart', {
-            chart: {
-                type: 'pie',
-                backgroundColor: 'transparent'
-            },
-            title: {
-                text: 'Vendor Products'
-            },
-            series: [{
+                lineWidth: 2
+            }]);
+            initChart('productChart', 'pie', 'Vendor Products', [], '', [{
                 name: 'Availability',
                 colorByPoint: true,
                 data: [
                     <?php foreach ($products_data as $row): ?> {
                             name: <?= json_encode($row['product_name']) ?>,
                             y: <?= $row['availability'] ?>,
-                            color: 'rgba(40, 167, 69, 1)' // Set each slice to green
+                            color: 'rgba(40, 167, 69, 1)'
                         },
                     <?php endforeach; ?>
                 ]
-            }],
-            plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    dataLabels: {
-                        enabled: true,
-                        format: '{point.name}: {point.percentage:.1f} %'
-                    }
-                }
-            },
-            responsive: {
-                rules: [{
-                    condition: {
-                        maxWidth: 500
-                    },
-                    chartOptions: {
-                        legend: {
-                            enabled: false
-                        }
-                    }
-                }]
-            }
-        });
+            }]);
+        }, 1500); // 1.5-second delay
     });
 </script>
 
 <style>
-    /* Make charts responsive within their containers */
-    .card .card-body {
-        overflow: hidden;
-        padding: 10px;
+    /* Skeleton loader base styles */
+    .skeleton {
+        background-color: #e0e0e0;
+        animation: pulse 1.5s infinite;
+        border-radius: 5px;
     }
 
-    .highcharts-root {
-        width: 100% !important;
-        height: auto !important;
+    /* Specific skeleton styles */
+    .skeleton-card {
+        height: 300px;
+        border-radius: 10px;
+        margin-bottom: 20px;
     }
 
-    /* Set max height and enable scrolling for Highcharts export menu */
-    .highcharts-contextmenu {
-        max-height: 300px;
-        overflow-y: auto;
+    .skeleton-table {
+        height: 400px;
+        border-radius: 5px;
+        margin-bottom: 20px;
     }
 
-    /*@media (max-width: 500px) {*/
-    /*    .highcharts-contextmenu {*/
-    /*        max-height: 150px;*/
-    /* Further limit height on smaller screens */
-    /*    }*/
-    /*}*/
+    /* Pulse animation for skeleton loaders */
+    @keyframes pulse {
+        0% {
+            background-color: #f0f0f0;
+        }
+
+        50% {
+            background-color: #e0e0e0;
+        }
+
+        100% {
+            background-color: #f0f0f0;
+        }
+    }
 </style>
