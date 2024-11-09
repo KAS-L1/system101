@@ -296,13 +296,10 @@ $products_data = $DB->SELECT('vendor_products', '*', ''); // Adjust based on you
         overflow-y: auto;
     }
 
-    /* 
-    @media (max-width: 500px) {
-        .highcharts-contextmenu {
-            max-height: 150px;
-            /* Further limit height on smaller screens */
-    }
-    }
-
-    */
+    /*@media (max-width: 500px) {*/
+    /*    .highcharts-contextmenu {*/
+    /*        max-height: 150px;*/
+    /* Further limit height on smaller screens */
+    /*    }*/
+    /*}*/
 </style>

@@ -56,7 +56,6 @@
                             <div class="sb-nav-link-icon text-secondary"><i class="fas fa-analytics"></i></div>
                             Predictive Analytics
                         </a>
-
                     </div>
 
 
