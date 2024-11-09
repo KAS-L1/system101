@@ -1,167 +1,181 @@
-<?php include_once('api/middleware/role_access.php'); ?>
+<!DOCTYPE html>
+<html lang="en">
 
-<main>
+<head>
+    <meta charset="UTF-8">
+    <title>Predictive Analytics Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+</head>
+
+<body>
     <div class="container-fluid px-4">
         <h1 class="mt-4">Predictive Analytics Dashboard</h1>
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item active">Dashboard</li>
         </ol>
-
         <div class="row">
-            <!-- Demand Forecasting Line Chart -->
-            <div class="col-lg-4 col-md-12 mb-4">
+            <!-- Procurement Demand Forecasting Chart -->
+            <div class="col-lg-6 col-md-12 mb-4">
                 <div class="card border-0 shadow-sm h-100">
-                    <div class="card-header bg-light text-primary">
-                        <i class="fas fa-chart-line me-1"></i> Demand Forecasting
+                    <div class="card-header bg-light text-success">
+                        <i class="bi bi-graph-up-arrow me-1"></i> Procurement Demand Forecasting
                     </div>
                     <div class="card-body">
-                        <div id="demandChart" style="width: 100%; height: 300px;"></div>
+                        <div id="procurement-chart" style="width: 100%; height: 300px;"></div>
                     </div>
                 </div>
             </div>
-
-            <!-- Non-Compliance Risk Bar Chart -->
-            <div class="col-lg-4 col-md-12 mb-4">
+            <!-- Vendor Performance Prediction Chart -->
+            <div class="col-lg-6 col-md-12 mb-4">
                 <div class="card border-0 shadow-sm h-100">
-                    <div class="card-header bg-light text-danger">
-                        <i class="fas fa-exclamation-circle me-1"></i> Non-Compliance Risk
+                    <div class="card-header bg-light text-success">
+                        <i class="bi bi-shield-exclamation me-1"></i> Vendor Performance Prediction
                     </div>
                     <div class="card-body">
-                        <div id="riskChart" style="width: 100%; height: 300px;"></div>
+                        <div id="vendor-performance-chart" style="width: 100%; height: 300px;"></div>
                     </div>
                 </div>
             </div>
-
-            <!-- Document Processing Time Pie Chart -->
-            <div class="col-lg-4 col-md-12 mb-4">
+            <!-- Audit Compliance Prediction Chart -->
+            <div class="col-lg-6 col-md-12 mb-4">
                 <div class="card border-0 shadow-sm h-100">
-                    <div class="card-header bg-light text-info">
-                        <i class="fas fa-clock me-1"></i> Document Processing Time
+                    <div class="card-header bg-light text-success">
+                        <i class="bi bi-shield-check me-1"></i> Audit Compliance Prediction
                     </div>
                     <div class="card-body">
-                        <div id="docTimeChart" style="width: 100%; height: 300px;"></div>
+                        <div id="audit-chart" style="width: 100%; height: 300px;"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- Document Processing Time Prediction Chart -->
+            <div class="col-lg-6 col-md-12 mb-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-header bg-light text-success">
+                        <i class="bi bi-clock-history me-1"></i> Document Processing Time Prediction
+                    </div>
+                    <div class="card-body">
+                        <div id="document-chart" style="width: 100%; height: 300px;"></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</main>
 
-<!-- Include Highcharts -->
-<script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        function loadHighchartsData(url, containerId, chartType, title, seriesName, labelExtractor, dataExtractor, chartOptions = {}) {
-            $.getJSON(url, function(data) {
-                console.log(`${title} Data:`, data); // Debugging line to check data format
-
-                // Extract categories and values
-                const categories = data.map(labelExtractor);
-                const values = data.map(dataExtractor);
-
-                if (!categories.length || !values.length) {
-                    console.error(`No data available for ${title}`);
-                    return;
-                }
-
-                let seriesData;
-                if (chartType === 'pie') {
-                    // For pie charts, data needs to be in a specific format
-                    seriesData = categories.map((category, i) => ({
-                        name: category,
-                        y: values[i]
-                    }));
-                } else {
-                    seriesData = [{
-                        name: seriesName,
-                        data: values
-                    }];
-                }
-
-                // Configure Highcharts
-                Highcharts.chart(containerId, {
-                    chart: {
-                        type: chartType,
-                        backgroundColor: 'transparent'
-                    },
-                    title: {
-                        text: title
-                    },
-                    xAxis: chartType !== 'pie' ? {
-                        categories: categories
-                    } : undefined,
-                    yAxis: chartType !== 'pie' ? {
-                        title: {
-                            text: seriesName
-                        }
-                    } : undefined,
-                    series: chartType === 'pie' ? [{
-                        name: seriesName,
-                        colorByPoint: true,
-                        data: seriesData
-                    }] : seriesData,
-                    plotOptions: {
-                        line: {
-                            marker: {
-                                enabled: true
-                            }
-                        },
-                        pie: {
-                            allowPointSelect: true,
-                            cursor: 'pointer',
-                            dataLabels: {
-                                enabled: true,
-                                format: '{point.name}: {point.percentage:.1f}%'
-                            }
-                        },
-                        column: {
-                            borderColor: 'rgba(220, 53, 69, 1)'
-                        }
-                    },
-                    colors: chartType === 'pie' ? ['rgba(23, 162, 184, 0.8)', 'rgba(255, 193, 7, 0.8)', 'rgba(40, 167, 69, 0.8)'] : undefined,
-                    credits: {
-                        enabled: false
-                    },
-                    ...chartOptions
-                });
-            }).fail(function(jqXHR, textStatus, errorThrown) {
-                console.error(`Error loading ${title} data:`, textStatus, errorThrown);
+    <script>
+        // Function to fetch data and render chart
+        function fetchDataAndRenderChart(endpoint, renderFunction) {
+            $.getJSON(endpoint, function(data) {
+                renderFunction(data);
+            }).fail(function(jqXHR) {
+                console.error(`Error fetching data from ${endpoint}: ${jqXHR.responseText}`);
             });
         }
 
-        // Load Demand Forecasting Data (Line Chart)
-        loadHighchartsData(
-            '/api/predictive-analytics/get_demand_data.php',
-            'demandChart',
-            'line',
-            'Demand Forecasting',
-            'Average Demand',
-            item => item.month,
-            item => item.avg_demand
-        );
+        // Render Procurement Demand Forecasting Chart
+        function renderProcurementChart(data) {
+            Highcharts.chart('procurement-chart', {
+                chart: {
+                    type: 'line'
+                },
+                title: {
+                    text: 'Procurement Demand Forecasting'
+                },
+                xAxis: {
+                    categories: data.periods,
+                    title: {
+                        text: 'Time Period'
+                    }
+                },
+                yAxis: {
+                    title: {
+                        text: 'Demand'
+                    }
+                },
+                series: [{
+                    name: 'Demand',
+                    data: data.predictions
+                }]
+            });
+        }
 
-        // Load Non-Compliance Risk Data (Column Chart)
-        loadHighchartsData(
-            '/api/predictive-analytics/get_risk_data.php',
-            'riskChart',
-            'column',
-            'Non-Compliance Risk',
-            'Risk Count',
-            item => item.severity,
-            item => item.count
-        );
+        // Render Vendor Performance Prediction Chart
+        function renderVendorPerformanceChart(data) {
+            Highcharts.chart('vendor-performance-chart', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Vendor Performance Prediction'
+                },
+                xAxis: {
+                    categories: data.vendors,
+                    title: {
+                        text: 'Vendor'
+                    }
+                },
+                yAxis: {
+                    title: {
+                        text: 'Performance Score'
+                    }
+                },
+                series: [{
+                    name: 'Performance',
+                    data: data.scores
+                }]
+            });
+        }
 
-        // Load Document Processing Time Data (Pie Chart)
-        loadHighchartsData(
-            '/api/predictive-analytics/get_processing_time_data.php',
-            'docTimeChart',
-            'pie',
-            'Document Processing Time',
-            'Processing Time',
-            item => item.document_type,
-            item => item.avg_time
-        );
-    });
-</script>
+        // Render Audit Compliance Prediction Chart
+        function renderAuditChart(data) {
+            Highcharts.chart('audit-chart', {
+                chart: {
+                    type: 'pie'
+                },
+                title: {
+                    text: 'Audit Compliance Prediction'
+                },
+                series: [{
+                    name: 'Compliance',
+                    colorByPoint: true,
+                    data: data.compliance
+                }]
+            });
+        }
+
+        // Render Document Processing Time Prediction Chart
+        function renderDocumentChart(data) {
+            Highcharts.chart('document-chart', {
+                chart: {
+                    type: 'bar'
+                },
+                title: {
+                    text: 'Document Processing Time Prediction'
+                },
+                xAxis: {
+                    categories: data.documentTypes,
+                    title: {
+                        text: 'Document Type'
+                    }
+                },
+                yAxis: {
+                    title: {
+                        text: 'Processing Time (hours)'
+                    }
+                },
+                series: [{
+                    name: 'Processing Time',
+                    data: data.times
+                }]
+            });
+        }
+
+        // Document ready function
+        $(document).ready(function() {
+            fetchDataAndRenderChart('api/predictive-analytics/predict_procurement.php', renderProcurementChart);
+            fetchDataAndRenderChart('api/predictive-analytics/predict_vendor_performance.php', renderVendorPerformanceChart);
+            fetchDataAndRenderChart('api/predictive-analytics/predict_audit.php', renderAuditChart);
+            fetchDataAndRenderChart('api/predictive-analytics/predict_document.php', renderDocumentChart);
+        });
+    </script>
