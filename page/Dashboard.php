@@ -93,60 +93,56 @@ $products_data = $DB->SELECT('vendor_products', '*', ''); // Adjust based on you
         </div>
 
         <!-- RFQ Management Table Card -->
-        <div class="container mt-4">
-            <div class="card shadow-sm mb-4">
-                <div class="card-header bg-light text-success">
-                    <h5 class="mb-0">RFQ Management and Status</h5>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table id="dataTable3" class="table table-bordered table-hover table-sm mb-0 shadow-sm">
-                            <thead class="table-success">
-                                <tr>
-                                    <th>#</th>
-                                    <th>RFQ ID</th>
-                                    <th>Vendor Name</th>
-                                    <th>Product Name</th>
-                                    <th>Requested Quantity</th>
-                                    <th>Quoted Price</th>
-                                    <th>RFQ Status</th>
-                                    <th>Response Date</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php $i = 1;
-                                foreach ($rfqs as $rfq): ?>
-                                    <?php
-                                    // Selecting vendor name based on vendor_id
-                                    $vendor_name = $DB->SELECT_ONE_WHERE("vendors", "vendor_name", array("vendor_id" => $rfq['vendor_id']));
-                                    $vendorName = $vendor_name ? CHARS($vendor_name['vendor_name']) : 'Unknown Vendor';
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-light text-success">
+                <h5 class="mb-0">RFQ Management and Status</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="dataTable3" class="table table-bordered table-hover table-sm mb-0 shadow-sm">
+                        <thead class="table-success">
+                            <tr>
+                                <th>#</th>
+                                <th>RFQ ID</th>
+                                <th>Vendor Name</th>
+                                <th>Product Name</th>
+                                <th>Requested Quantity</th>
+                                <th>Quoted Price</th>
+                                <th>RFQ Status</th>
+                                <th>Response Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php $i = 1;
+                            foreach ($rfqs as $rfq): ?>
+                                <?php
+                                $vendor_name = $DB->SELECT_ONE_WHERE("vendors", "vendor_name", array("vendor_id" => $rfq['vendor_id']));
+                                $vendorName = $vendor_name ? CHARS($vendor_name['vendor_name']) : 'Unknown Vendor';
 
-                                    // Selecting product name based on product_id
-                                    $product_name = $DB->SELECT_ONE_WHERE("vendor_products", "product_name", array("product_id" => $rfq['product_id']));
-                                    $productName = $product_name ? CHARS($product_name['product_name']) : 'Unknown Product';
-                                    ?>
-                                    <tr>
-                                        <td><?= $i++; ?></td>
-                                        <td><?= $rfq['rfq_id']; ?></td>
-                                        <td><?= $vendorName ?></td>
-                                        <td><?= $productName ?></td>
-                                        <td><?= $rfq['requested_quantity']; ?></td>
-                                        <td><?= NUMBER_PHP_2($rfq['quoted_price']); ?></td>
-                                        <td>
-                                            <?php if ($rfq['rfq_status'] == 'Approved'): ?>
-                                                <span class="badge bg-success"><?= $rfq['rfq_status']; ?></span>
-                                            <?php elseif ($rfq['rfq_status'] == 'Rejected'): ?>
-                                                <span class="badge bg-danger"><?= $rfq['rfq_status']; ?></span>
-                                            <?php else: ?>
-                                                <span class="badge bg-secondary"><?= $rfq['rfq_status']; ?></span>
-                                            <?php endif; ?>
-                                        </td>
-                                        <td><?= $rfq['response_date']; ?></td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    </div>
+                                $product_name = $DB->SELECT_ONE_WHERE("vendor_products", "product_name", array("product_id" => $rfq['product_id']));
+                                $productName = $product_name ? CHARS($product_name['product_name']) : 'Unknown Product';
+                                ?>
+                                <tr>
+                                    <td><?= $i++; ?></td>
+                                    <td><?= $rfq['rfq_id']; ?></td>
+                                    <td><?= $vendorName ?></td>
+                                    <td><?= $productName ?></td>
+                                    <td><?= $rfq['requested_quantity']; ?></td>
+                                    <td><?= NUMBER_PHP_2($rfq['quoted_price']); ?></td>
+                                    <td>
+                                        <?php if ($rfq['rfq_status'] == 'Approved'): ?>
+                                            <span class="badge bg-success"><?= $rfq['rfq_status']; ?></span>
+                                        <?php elseif ($rfq['rfq_status'] == 'Rejected'): ?>
+                                            <span class="badge bg-danger"><?= $rfq['rfq_status']; ?></span>
+                                        <?php else: ?>
+                                            <span class="badge bg-secondary"><?= $rfq['rfq_status']; ?></span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td><?= $rfq['response_date']; ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -180,8 +176,20 @@ $products_data = $DB->SELECT('vendor_products', '*', ''); // Adjust based on you
             series: [{
                 name: 'Total Purchase',
                 data: [<?= $purchase_totals ?>],
-                color: 'rgba(40, 167, 69, 1)',
-            }]
+                color: 'rgba(40, 167, 69, 1)'
+            }],
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        legend: {
+                            enabled: false
+                        }
+                    }
+                }]
+            }
         });
 
         // Line Chart for Purchase Requisitions
@@ -209,7 +217,19 @@ $products_data = $DB->SELECT('vendor_products', '*', ''); // Adjust based on you
                 marker: {
                     enabled: true
                 }
-            }]
+            }],
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        legend: {
+                            enabled: false
+                        }
+                    }
+                }]
+            }
         });
 
         // Pie Chart for Vendor Products Availability
@@ -241,7 +261,48 @@ $products_data = $DB->SELECT('vendor_products', '*', ''); // Adjust based on you
                         format: '{point.name}: {point.percentage:.1f} %'
                     }
                 }
+            },
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        legend: {
+                            enabled: false
+                        }
+                    }
+                }]
             }
         });
     });
 </script>
+
+<style>
+    /* Make charts responsive within their containers */
+    .card .card-body {
+        overflow: hidden;
+        padding: 10px;
+    }
+
+    .highcharts-root {
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    /* Set max height and enable scrolling for Highcharts export menu */
+    .highcharts-contextmenu {
+        max-height: 300px;
+        overflow-y: auto;
+    }
+
+    /* 
+    @media (max-width: 500px) {
+        .highcharts-contextmenu {
+            max-height: 150px;
+            /* Further limit height on smaller screens */
+    }
+    }
+
+    */
+</style>
