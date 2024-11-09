@@ -247,7 +247,8 @@ $products_data = $DB->SELECT('vendor_products', '*', ''); // Adjust based on you
                 data: [
                     <?php foreach ($products_data as $row): ?> {
                             name: <?= json_encode($row['product_name']) ?>,
-                            y: <?= $row['availability'] ?>
+                            y: <?= $row['availability'] ?>,
+                            color: 'rgba(40, 167, 69, 1)' // Set each slice to green
                         },
                     <?php endforeach; ?>
                 ]
