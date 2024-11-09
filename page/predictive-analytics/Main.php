@@ -1,6 +1,4 @@
-<?php
-include_once('api/middleware/role_access.php');
-?>
+<?php include_once('api/middleware/role_access.php'); ?>
 
 <main>
     <div class="container-fluid px-4">
@@ -17,7 +15,7 @@ include_once('api/middleware/role_access.php');
                         <i class="fas fa-chart-line me-1"></i> Demand Forecasting
                     </div>
                     <div class="card-body">
-                        <canvas id="demandChart" style="width: 100%; height: 300px;"></canvas>
+                        <div id="demandChart" style="width: 100%; height: 300px;"></div>
                     </div>
                 </div>
             </div>
@@ -29,7 +27,7 @@ include_once('api/middleware/role_access.php');
                         <i class="fas fa-exclamation-circle me-1"></i> Non-Compliance Risk
                     </div>
                     <div class="card-body">
-                        <canvas id="riskChart" style="width: 100%; height: 300px;"></canvas>
+                        <div id="riskChart" style="width: 100%; height: 300px;"></div>
                     </div>
                 </div>
             </div>
@@ -41,7 +39,7 @@ include_once('api/middleware/role_access.php');
                         <i class="fas fa-clock me-1"></i> Document Processing Time
                     </div>
                     <div class="card-body">
-                        <canvas id="docTimeChart" style="width: 100%; height: 300px;"></canvas>
+                        <div id="docTimeChart" style="width: 100%; height: 300px;"></div>
                     </div>
                 </div>
             </div>
@@ -49,83 +47,121 @@ include_once('api/middleware/role_access.php');
     </div>
 </main>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+<!-- Include Highcharts -->
+<script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        function loadChartData(url, chartId, chartType, label, backgroundColor, borderColor, labelExtractor, dataExtractor, options = {}) {
+        function loadHighchartsData(url, containerId, chartType, title, seriesName, labelExtractor, dataExtractor, chartOptions = {}) {
             $.getJSON(url, function(data) {
-                console.log(label + " Data:", data); // Debugging line
-                const labels = data.map(labelExtractor);
-                const chartData = data.map(dataExtractor);
+                console.log(`${title} Data:`, data); // Debugging line to check data format
 
-                new Chart(document.getElementById(chartId).getContext('2d'), {
-                    type: chartType,
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: label,
-                            data: chartData,
-                            backgroundColor: backgroundColor,
-                            borderColor: borderColor,
-                            fill: chartType === 'line',
-                            tension: chartType === 'line' ? 0.3 : 0
-                        }]
+                // Extract categories and values
+                const categories = data.map(labelExtractor);
+                const values = data.map(dataExtractor);
+
+                if (!categories.length || !values.length) {
+                    console.error(`No data available for ${title}`);
+                    return;
+                }
+
+                let seriesData;
+                if (chartType === 'pie') {
+                    // For pie charts, data needs to be in a specific format
+                    seriesData = categories.map((category, i) => ({
+                        name: category,
+                        y: values[i]
+                    }));
+                } else {
+                    seriesData = [{
+                        name: seriesName,
+                        data: values
+                    }];
+                }
+
+                // Configure Highcharts
+                Highcharts.chart(containerId, {
+                    chart: {
+                        type: chartType,
+                        backgroundColor: 'transparent'
                     },
-                    options: Object.assign({
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        scales: {
-                            y: {
-                                beginAtZero: true
+                    title: {
+                        text: title
+                    },
+                    xAxis: chartType !== 'pie' ? {
+                        categories: categories
+                    } : undefined,
+                    yAxis: chartType !== 'pie' ? {
+                        title: {
+                            text: seriesName
+                        }
+                    } : undefined,
+                    series: chartType === 'pie' ? [{
+                        name: seriesName,
+                        colorByPoint: true,
+                        data: seriesData
+                    }] : seriesData,
+                    plotOptions: {
+                        line: {
+                            marker: {
+                                enabled: true
                             }
                         },
-                        plugins: {
-                            legend: {
-                                position: 'top'
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                format: '{point.name}: {point.percentage:.1f}%'
                             }
+                        },
+                        column: {
+                            borderColor: 'rgba(220, 53, 69, 1)'
                         }
-                    }, options)
+                    },
+                    colors: chartType === 'pie' ? ['rgba(23, 162, 184, 0.8)', 'rgba(255, 193, 7, 0.8)', 'rgba(40, 167, 69, 0.8)'] : undefined,
+                    credits: {
+                        enabled: false
+                    },
+                    ...chartOptions
                 });
             }).fail(function(jqXHR, textStatus, errorThrown) {
-                console.error("Error loading " + label + " data:", textStatus, errorThrown);
+                console.error(`Error loading ${title} data:`, textStatus, errorThrown);
             });
         }
 
-        loadChartData(
+        // Load Demand Forecasting Data (Line Chart)
+        loadHighchartsData(
             '/api/predictive-analytics/get_demand_data.php',
             'demandChart',
             'line',
+            'Demand Forecasting',
             'Average Demand',
-            'rgba(0, 123, 255, 0.2)',
-            'rgba(0, 123, 255, 1)',
             item => item.month,
             item => item.avg_demand
         );
 
-        loadChartData(
+        // Load Non-Compliance Risk Data (Column Chart)
+        loadHighchartsData(
             '/api/predictive-analytics/get_risk_data.php',
             'riskChart',
-            'bar',
+            'column',
+            'Non-Compliance Risk',
             'Risk Count',
-            'rgba(220, 53, 69, 0.2)',
-            'rgba(220, 53, 69, 1)',
             item => item.severity,
             item => item.count
         );
 
-        loadChartData(
+        // Load Document Processing Time Data (Pie Chart)
+        loadHighchartsData(
             '/api/predictive-analytics/get_processing_time_data.php',
             'docTimeChart',
             'pie',
+            'Document Processing Time',
             'Processing Time',
-            ['rgba(23, 162, 184, 0.8)', 'rgba(255, 193, 7, 0.8)', 'rgba(40, 167, 69, 0.8)'],
-            null,
             item => item.document_type,
-            item => item.avg_time, {
-                scales: {}
-            } // Disable scales for pie chart
+            item => item.avg_time
         );
     });
 </script>

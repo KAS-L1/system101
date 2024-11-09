@@ -52,10 +52,11 @@
                         </a>
                     </div>
                     <div>
-                        <a class="nav-link text-dark" href="/predictive-analytics">
-                            <div class="sb-nav-link-icon text-success"><i class="fas fa-analytics"></i></div>
+                        <a class="nav-link text-dark disabled" href="javascript:void(0);" style="pointer-events: none; color: grey; text-decoration: line-through;">
+                            <div class="sb-nav-link-icon text-secondary"><i class="fas fa-analytics"></i></div>
                             Predictive Analytics
                         </a>
+
                     </div>
 
 
