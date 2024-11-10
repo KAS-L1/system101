@@ -24,7 +24,8 @@ $foodCostingItems = $DB->SELECT("food_costing", "*", "ORDER BY id DESC");
                     <div class="mb-3">
                         <input type="text" id="searchBar" placeholder="Search by Menu Item" class="form-control">
                     </div>
-                    <div class="table-responsive overflow-auto">
+                    <!-- Responsive table wrapper -->
+                    <div class="table-responsive">
                         <table id="foodCostTable" class="table table-bordered table-hover table-sm mb-0 shadow-sm">
                             <thead class="table-success">
                                 <tr>
@@ -62,7 +63,7 @@ $foodCostingItems = $DB->SELECT("food_costing", "*", "ORDER BY id DESC");
                                         <td>₱<?= number_format($item['profit_margin'], 2); ?></td>
                                         <td><?= number_format($item['food_cost_percentage'], 2); ?>%</td>
                                         <td>
-                                            <div class="d-flex justify-content-center gap-1">
+                                            <div class="d-flex justify-content-center gap-1 flex-wrap">
                                                 <button class="btn btn-sm btn-light editFoodCostItem" data-id="<?= $item['id']; ?>" title="Edit">
                                                     <i class="fas fa-edit"></i>
                                                 </button>
@@ -98,7 +99,7 @@ $foodCostingItems = $DB->SELECT("food_costing", "*", "ORDER BY id DESC");
         });
 
         // Edit Food Cost Item
-        $('.editFoodCostItem').click(function() {
+        $(document).on('click', '.editFoodCostItem', function() {
             const id = $(this).data('id');
             $.post('api/food-costing/edit_food_cost_item_form.php', {
                 id: id
@@ -109,7 +110,7 @@ $foodCostingItems = $DB->SELECT("food_costing", "*", "ORDER BY id DESC");
         });
 
         // View Food Cost Item
-        $('.viewFoodCostItem').click(function() {
+        $(document).on('click', '.viewFoodCostItem', function() {
             const id = $(this).data('id');
             $.post('api/food-costing/view_food_cost_item_form.php', {
                 id: id
@@ -120,7 +121,7 @@ $foodCostingItems = $DB->SELECT("food_costing", "*", "ORDER BY id DESC");
         });
 
         // Delete Food Cost Item
-        $('.deleteFoodCostItem').click(function() {
+        $(document).on('click', '.deleteFoodCostItem', function() {
             const id = $(this).data('id');
             Swal.fire({
                 title: "Are you sure you want to delete this item?",
