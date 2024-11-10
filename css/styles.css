@@ -11241,3 +11241,28 @@ body {
   font-size: 0.75rem;
   border-radius: 0.375rem !important;
 }
+
+/* Ensure the sidebar wrapper takes full height */
+.sidebar-wrapper {
+    height: 100vh; /* Full viewport height */
+    overflow: hidden; /* Prevents overflow */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Make sidebar content scrollable */
+.sidebar-content {
+    flex: 1; /* Fills the remaining space */
+    overflow-y: auto; /* Enables vertical scrolling */
+    padding-right: 5px; /* Adjust for scrollbar width */
+}
+
+@media (max-width: 768px) {
+    .sidebar-wrapper {
+        height: 100vh;
+    }
+
+    .sidebar-content {
+        overflow-y: auto;
+    }
+}
