@@ -9,9 +9,16 @@ $foodCostPercentages = [];
 $profitMargins = [];
 foreach ($foodCostData as $row) {
     $foodCostItems[] = $row['menu_item'];
-    $foodCostPercentages[] = $row['food_cost_percentage'];
-    $profitMargins[] = $row['profit_margin'];
+    $foodCostPercentages[] = (float) $row['food_cost_percentage']; // Cast to float
+    $profitMargins[] = (float) $row['profit_margin']; // Cast to float
 }
+
+// Debugging: Check if data arrays are populated
+echo '<pre>';
+print_r($foodCostItems);
+print_r($foodCostPercentages);
+print_r($profitMargins);
+echo '</pre>';
 
 $orderData = $DB->SELECT('kitchen_orders', 'order_status, COUNT(*) as count', 'GROUP BY order_status');
 $orderStatusData = [];
