@@ -69,19 +69,19 @@ $stockItems = $DB->SELECT("stock_items", "*", "ORDER BY stock_id DESC");
                                             <td><?= number_format($item['unit_price'], 2); ?></td>
                                             <td><span class="badge <?= $badgeClass; ?>"><?= $status; ?></span></td>
                                             <td>
-                                                <div class="d-flex flex-wrap gap-1 justify-content-center">
-                                                    <button class="btn btn-sm btn-light shadow-sm editStockItem" data-stock_id="<?= $item['stock_id']; ?>">
+                                                <div class="d-flex gap-1 justify-content-center flex-nowrap">
+                                                    <button class="btn btn-sm btn-light shadow-sm editStockItem" data-stock_id="<?= $item['stock_id']; ?>" style="width: 35px; height: 35px;">
                                                         <i class="fas fa-edit"></i>
                                                     </button>
-                                                    <button class="btn btn-sm btn-danger shadow-sm deleteStockItem" data-stock_id="<?= $item['stock_id']; ?>">
+                                                    <button class="btn btn-sm btn-danger shadow-sm deleteStockItem" data-stock_id="<?= $item['stock_id']; ?>" style="width: 35px; height: 35px;">
                                                         <i class="fas fa-trash"></i>
                                                     </button>
-                                                    <button class="btn btn-sm btn-warning shadow-sm restockStockItem" data-stock_id="<?= $item['stock_id']; ?>">
-                                                        <i class="fas fa-plus"></i> Restock
+                                                    <button class="btn btn-sm btn-warning shadow-sm restockStockItem" data-stock_id="<?= $item['stock_id']; ?>" style="width: 35px; height: 35px;">
+                                                        <i class="fas fa-plus"></i>
                                                     </button>
                                                     <?php if ($status === 'Low Stock') : ?>
-                                                        <a href="/purchase-requisition" class="btn btn-sm btn-info shadow-sm">
-                                                            <i class="fas fa-file-alt"></i> Request
+                                                        <a href="/purchase-requisition" class="btn btn-sm btn-info shadow-sm" style="width: 35px; height: 35px;">
+                                                            <i class="fas fa-file-alt"></i>
                                                         </a>
                                                     <?php endif; ?>
                                                 </div>
