@@ -70,7 +70,7 @@ $menuItems = $DB->SELECT("menu_items", "*", "ORDER BY item_id DESC");
                                         <td><?= htmlspecialchars($item['category']); ?></td>
                                         <td><?= htmlspecialchars($item['description']); ?></td>
                                         <td><?= number_format($item['price'], 2); ?></td>
-                                        <td><span class="badge <?= $availability === 'Yes' ? 'bg-success' : 'bg-danger'; ?>"><?= htmlspecialchars($availability); ?></span></td>
+                                        <td><span class="badge badge-availability <?= $availability === 'Yes' ? 'bg-success' : 'bg-danger'; ?>"><?= htmlspecialchars($availability); ?></span></td>
                                         <td><span class="badge <?= $seasonal === 'Yes' ? 'bg-success' : 'bg-danger'; ?>"><?= htmlspecialchars($seasonal); ?></span></td>
                                         <td><span class="badge <?= $eventSpecific === 'Yes' ? 'bg-success' : 'bg-danger'; ?>"><?= htmlspecialchars($eventSpecific); ?></span></td>
                                         <td>
@@ -81,9 +81,9 @@ $menuItems = $DB->SELECT("menu_items", "*", "ORDER BY item_id DESC");
                                                 <button class="btn btn-sm btn-danger shadow-sm deleteItem" data-item_id="<?= $item['item_id']; ?>">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
-                                                <button class="btn btn-sm <?= $availability === 'Yes' ? 'btn-info' : 'btn-secondary'; ?> shadow-sm toggleAvailability" data-item_id="<?= $item['item_id']; ?>" data-availability="<?= $availability; ?>">
+                                                <!-- Toggle Availability Button (Icon Only) -->
+                                                <button class="btn btn-sm <?= $availability === 'Yes' ? 'btn-success' : 'btn-secondary'; ?> shadow-sm toggleAvailability" data-item_id="<?= $item['item_id']; ?>" data-availability="<?= $availability; ?>">
                                                     <i class="fas <?= $availability === 'Yes' ? 'fa-toggle-on' : 'fa-toggle-off'; ?>"></i>
-                                                    <?= $availability; ?>
                                                 </button>
                                             </div>
                                         </td>
@@ -126,7 +126,6 @@ $menuItems = $DB->SELECT("menu_items", "*", "ORDER BY item_id DESC");
         // Delete Menu Item
         $('.deleteItem').click(function() {
             const item_id = $(this).data('item_id');
-
             Swal.fire({
                 title: "Are you sure you want to delete this item?",
                 icon: "question",
@@ -137,7 +136,7 @@ $menuItems = $DB->SELECT("menu_items", "*", "ORDER BY item_id DESC");
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.post('api/menu/delete_menu_item.php', {
-                        item_id: item_id
+                        item_id
                     }, function(response) {
                         $('#responseModal').html(response);
                         $(`#menuItem-${item_id}`).remove();
@@ -149,36 +148,31 @@ $menuItems = $DB->SELECT("menu_items", "*", "ORDER BY item_id DESC");
             });
         });
 
-        $(document).ready(function() {
-            // Toggle Availability
-            $('.toggleAvailability').click(function() {
-                const toggleButton = $(this);
-                const item_id = toggleButton.data('item_id');
-                const currentAvailability = toggleButton.data('availability');
-                const newAvailability = currentAvailability === 'Yes' ? 'No' : 'Yes';
+        // Toggle Availability
+        $('.toggleAvailability').click(function() {
+            const toggleButton = $(this);
+            const item_id = toggleButton.data('item_id');
+            const currentAvailability = toggleButton.data('availability');
+            const newAvailability = currentAvailability === 'Yes' ? 'No' : 'Yes';
 
-                $.post('api/menu/toggle_availability.php', {
-                    item_id: item_id,
-                    availability: newAvailability === 'Yes' ? 1 : 0 // Send 1 for Yes and 0 for No to backend
-                }, function(response) {
-                    // Update the button's data attribute and text based on new availability
-                    toggleButton.data('availability', newAvailability)
-                        .toggleClass('btn-info btn-secondary')
-                        .find('i').toggleClass('fa-toggle-on fa-toggle-off');
+            $.post('api/menu/toggle_availability.php', {
+                item_id: item_id,
+                availability: newAvailability === 'Yes' ? 1 : 0 // Send 1 for Yes and 0 for No to backend
+            }, function(response) {
+                // Update button and icon based on the new availability
+                toggleButton.data('availability', newAvailability)
+                    .toggleClass('btn-success btn-secondary') // Change color based on availability
+                    .find('i').toggleClass('fa-toggle-on fa-toggle-off');
 
-                    toggleButton.text(newAvailability).prepend(toggleButton.find('i'));
-
-                    // Update the availability badge in the row
-                    const availabilityBadge = $(`#menuItem-${item_id} .badge`);
-                    availabilityBadge.removeClass('bg-success bg-danger')
-                        .addClass(newAvailability === 'Yes' ? 'bg-success' : 'bg-danger')
-                        .text(newAvailability);
-                }).fail(function() {
-                    swalAlert('error', 'Failed to update availability. Please try again.');
-                });
+                // Update the availability badge in the row
+                const availabilityBadge = $(`#menuItem-${item_id} .badge-availability`);
+                availabilityBadge.removeClass('bg-success bg-danger')
+                    .addClass(newAvailability === 'Yes' ? 'bg-success' : 'bg-secondary')
+                    .text(newAvailability);
+            }).fail(function() {
+                swalAlert('error', 'Failed to update availability. Please try again.');
             });
         });
-
 
         // Filter by Seasonal and Event-Specific checkboxes
         $('#filterSeasonal, #filterEventSpecific').change(function() {
