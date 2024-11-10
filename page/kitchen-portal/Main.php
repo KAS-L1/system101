@@ -14,11 +14,11 @@ foreach ($foodCostData as $row) {
 }
 
 // Debugging: Check if data arrays are populated
-echo '<pre>';
-print_r($foodCostItems);
-print_r($foodCostPercentages);
-print_r($profitMargins);
-echo '</pre>';
+// echo '<pre>';
+// print_r($foodCostItems);
+// print_r($foodCostPercentages);
+// print_r($profitMargins);
+// echo '</pre>';
 
 $orderData = $DB->SELECT('kitchen_orders', 'order_status, COUNT(*) as count', 'GROUP BY order_status');
 $orderStatusData = [];
@@ -51,7 +51,7 @@ foreach ($stockData as $item) {
 
 <main>
     <div class="container-fluid px-4">
-        <h1 class="mt-4">Hi, <?= AUTH_USER['firstname'] ?></h1>
+        <h1 class="mt-4">Food & Beverage Analytics Dashboard</h1>
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item active">Dashboard</li>
         </ol>
