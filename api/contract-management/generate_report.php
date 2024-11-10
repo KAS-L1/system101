@@ -24,26 +24,24 @@ $pdf->setFooterFont([PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA]);
 $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 
 // Set margins
-$pdf->SetMargins(15, 27, 15);
-$pdf->SetHeaderMargin(5);
+$pdf->SetMargins(10, 20, 10);
+$pdf->SetHeaderMargin(10);
 $pdf->SetFooterMargin(10);
 
 // Set auto page breaks
-$pdf->SetAutoPageBreak(TRUE, 15);
-
-// Set image scale factor
+$pdf->SetAutoPageBreak(true, 10);
 $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 
-// Add a page
+// Add a page and set the font for the title
 $pdf->AddPage();
-
-// Title of the report
 $pdf->SetFont('helvetica', 'B', 16);
-$pdf->Cell(0, 15, 'Contract Report', 0, 1, 'C');
-$pdf->Ln(5); // Add some space after title
+$pdf->Cell(0, 10, 'Contract Report', 0, 1, 'C');
+$pdf->Ln(5); // Add some space after the title
 
-// Set font for content - Use DejaVu Sans for better Unicode support
+// Introduction text
 $pdf->SetFont('dejavusans', '', 10);
+$pdf->Write(0, 'Detailed overview of active and completed contracts.', '', 0, 'C', true);
+$pdf->Ln(5);
 
 // Fetch contract data from the database
 $contracts = $DB->SELECT("contracts", "*", "ORDER BY contract_id DESC");
@@ -51,49 +49,52 @@ $contracts = $DB->SELECT("contracts", "*", "ORDER BY contract_id DESC");
 // Check if there are contracts
 if (!empty($contracts)) {
     // HTML content for the table
-    $html = '<table border="1" cellpadding="5">
-             <thead>
-                 <tr style="background-color:#f2f2f2;">
-                     <th width="5%">#</th>
-                     <th width="15%">Contract ID</th>
-                     <th width="20%">Vendor Name</th>
-                     <th width="25%">Terms</th>
-                     <th width="10%">Start Date</th>
-                     <th width="10%">End Date</th>
-                     <th width="10%">Status</th>
-                     <th width="10%">Renewal Date</th>
-                 </tr>
-             </thead>
-             <tbody>';
+    $html = '<h3 style="text-align:center; color:#198754;">Contract Details</h3>
+             <table border="1" cellpadding="5">
+                <thead>
+                    <tr style="background-color:#198754; color:#ffffff; text-align:center;">
+                        <th>#</th>
+                        <th>Contract ID</th>
+                        <th>Vendor Name</th>
+                        <th>Terms</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Status</th>
+                        <th>Renewal Date</th>
+                    </tr>
+                </thead>
+                <tbody>';
 
-    // Populate the table with data from the database
+    // Populate table with data from the database
     $i = 1;
     foreach ($contracts as $contract) {
         // Fetch vendor information from `users` where role is `VENDOR`
         $vendor = $DB->SELECT_ONE_WHERE("users", "vendor_name", array("user_id" => $contract['vendor_id']));
-        $vendorName = isset($vendor['vendor_name']) ? htmlspecialchars($vendor['vendor_name']) : 'Unknown Vendor';
+        $vendorName = isset($vendor['vendor_name']) ? htmlspecialchars($vendor['vendor_name'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') : 'Unknown Vendor';
 
-        // Add the row to the table, handling null values gracefully
+        // Add each row to the HTML content, handling null values gracefully
         $html .= '<tr>
-                     <td>' . $i++ . '</td>
-                     <td>' . htmlspecialchars($contract['contract_id'] ?? '') . '</td>
+                     <td align="center">' . $i++ . '</td>
+                     <td>' . htmlspecialchars($contract['contract_id'] ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</td>
                      <td>' . $vendorName . '</td>
-                     <td>' . htmlspecialchars($contract['contract_terms'] ?? '') . '</td>
-                     <td>' . htmlspecialchars($contract['start_date'] ?? '') . '</td>
-                     <td>' . htmlspecialchars($contract['end_date'] ?? '') . '</td>
-                     <td>' . htmlspecialchars($contract['status'] ?? '') . '</td>
-                     <td>' . htmlspecialchars($contract['renewal_date'] ?? '') . '</td>
+                     <td>' . htmlspecialchars($contract['contract_terms'] ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</td>
+                     <td align="center">' . htmlspecialchars($contract['start_date'] ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</td>
+                     <td align="center">' . htmlspecialchars($contract['end_date'] ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</td>
+                     <td align="center">' . htmlspecialchars($contract['status'] ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</td>
+                     <td align="center">' . htmlspecialchars($contract['renewal_date'] ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</td>
                  </tr>';
     }
 
     $html .= '</tbody></table>';
 
-    // Print the HTML content to the PDF
+    // Output the HTML content to the PDF
     $pdf->writeHTML($html, true, false, true, false, '');
 } else {
     // If there are no contracts, display a message
-    $pdf->Write(0, 'No contracts available.', '', 0, 'C', true);
+    $pdf->SetFont('helvetica', 'I', 12);
+    $pdf->Cell(0, 10, 'No contracts available.', 0, 1, 'C');
 }
 
 // Output the PDF to the browser
 $pdf->Output('contract_report.pdf', 'I'); // 'I' to display in browser, 'D' to download
+exit;

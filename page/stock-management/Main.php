@@ -66,7 +66,7 @@ $stockItems = $DB->SELECT("stock_items", "*", "ORDER BY stock_id DESC");
                                             <td><?= htmlspecialchars($item['current_stock_level']); ?></td>
                                             <td><?= htmlspecialchars($item['reorder_level']); ?></td>
                                             <td><?= htmlspecialchars($item['supplier']); ?></td>
-                                            <td><?= number_format($item['unit_price'], 2); ?></td>
+                                            <td><?= NUMBER_PHP_2($item['unit_price'], 2); ?></td>
                                             <td><span class="badge <?= $badgeClass; ?>"><?= $status; ?></span></td>
                                             <td>
                                                 <div class="d-flex gap-1 justify-content-center flex-nowrap">

@@ -25,9 +25,9 @@ $pdf->SetFooterMargin(10);
 $pdf->SetAutoPageBreak(TRUE, 10);
 $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 
-// Add a page
+// Add a page and set the font to dejavusans for UTF-8 compatibility
 $pdf->AddPage();
-$pdf->SetFont('helvetica', '', 10);
+$pdf->SetFont('dejavusans', '', 10);
 
 // Report title
 $pdf->Cell(0, 10, 'Menu Items Report', 0, 1, 'C');
@@ -55,12 +55,13 @@ foreach ($menuItems as $item) {
     $seasonal = $item['seasonal'] == 1 ? 'Yes' : 'No';
     $event_specific = $item['event_specific'] == 1 ? 'Yes' : 'No';
 
+    // Ensure UTF-8 encoding and add peso symbol to the price
     $html .= '<tr>
-                <td>' . htmlspecialchars($item['item_id']) . '</td>
-                <td>' . htmlspecialchars($item['item_name']) . '</td>
-                <td>' . htmlspecialchars($item['category']) . '</td>
-                <td>' . htmlspecialchars($item['description']) . '</td>
-                <td>' . number_format($item['price'], 2) . '</td>
+                <td>' . htmlspecialchars($item['item_id'], ENT_QUOTES, 'UTF-8') . '</td>
+                <td>' . htmlspecialchars($item['item_name'], ENT_QUOTES, 'UTF-8') . '</td>
+                <td>' . htmlspecialchars($item['category'], ENT_QUOTES, 'UTF-8') . '</td>
+                <td>' . htmlspecialchars($item['description'], ENT_QUOTES, 'UTF-8') . '</td>
+                <td>₱' . number_format($item['price'], 2) . '</td>
                 <td>' . $availability . '</td>
                 <td>' . $seasonal . '</td>
                 <td>' . $event_specific . '</td>

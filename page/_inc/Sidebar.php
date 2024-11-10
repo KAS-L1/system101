@@ -134,16 +134,10 @@
                             <a class="nav-link text-dark" href="/stock-management">Stock Management</a>
                         </nav>
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link text-dark" href="#">Food Costing</a>
+                            <a class="nav-link text-dark" href="/food-costing">Food Costing</a>
                         </nav>
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link text-dark" href="#">Waste Management</a>
-                        </nav>
-                        <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link text-dark" href="#">Reports & Analytics</a>
-                        </nav>
-                        <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link text-dark" href="#">Settings</a>
+                            <a class="nav-link text-dark" href="#">Report</a>
                         </nav>
                     </div>
 

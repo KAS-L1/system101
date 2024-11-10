@@ -17,10 +17,11 @@ $pdf->SetMargins(10, 20, 10);
 $pdf->SetHeaderMargin(10);
 $pdf->SetFooterMargin(10);
 $pdf->SetAutoPageBreak(true, 10);
+$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 
 // Add a page
 $pdf->AddPage();
-$pdf->SetFont('helvetica', '', 10);
+$pdf->SetFont('dejavusans', '', 10); // Use dejavusans for UTF-8 support
 
 // Report Title
 $pdf->Cell(0, 10, 'Stock Report Summary', 0, 1, 'C');
@@ -52,6 +53,8 @@ function safe_output($value)
 
 foreach ($stockItems as $item) {
     $status = ($item['current_stock_level'] <= $item['reorder_level']) ? 'Low Stock' : 'In Stock';
+    $unit_price = '₱' . number_format($item['unit_price'], 2); // Add peso sign before formatted price
+
     $html .= '<tr>
                 <td>' . safe_output($item['stock_id']) . '</td>
                 <td>' . safe_output($item['item_name']) . '</td>
@@ -59,7 +62,7 @@ foreach ($stockItems as $item) {
                 <td>' . safe_output($item['current_stock_level']) . '</td>
                 <td>' . safe_output($item['reorder_level']) . '</td>
                 <td>' . safe_output($item['supplier']) . '</td>
-                <td>' . number_format($item['unit_price'], 2) . '</td>
+                <td>' . $unit_price . '</td>
                 <td>' . safe_output($item['last_restocked_date']) . '</td>
                 <td>' . safe_output($item['expiration_date']) . '</td>
                 <td>' . safe_output($status) . '</td>
@@ -73,3 +76,4 @@ $pdf->writeHTML($html, true, false, true, false, '');
 
 // Close and output PDF document
 $pdf->Output('stock_report.pdf', 'I'); // Change 'I' to 'D' for direct download
+exit;
