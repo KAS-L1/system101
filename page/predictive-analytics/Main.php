@@ -195,4 +195,28 @@
             background-position: -200% 0;
         }
     }
+
+    /* Make charts responsive within their containers */
+    .card .card-body {
+        overflow: hidden;
+        padding: 10px;
+    }
+
+    .highcharts-root {
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    /* Set max height and enable scrolling for Highcharts export menu */
+    .highcharts-contextmenu {
+        max-height: 300px;
+        overflow-y: auto;
+    }
+
+    /*@media (max-width: 500px) {*/
+    /*    .highcharts-contextmenu {*/
+    /*        max-height: 150px;*/
+    /* Further limit height on smaller screens */
+    /*    }*/
+    /*}*/
 </style>

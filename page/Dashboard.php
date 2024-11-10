@@ -265,4 +265,28 @@ $products_data = $DB->SELECT('vendor_products', '*', '');
             background-color: #f0f0f0;
         }
     }
+
+    /* Make charts responsive within their containers */
+    .card .card-body {
+        overflow: hidden;
+        padding: 10px;
+    }
+
+    .highcharts-root {
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    /* Set max height and enable scrolling for Highcharts export menu */
+    .highcharts-contextmenu {
+        max-height: 300px;
+        overflow-y: auto;
+    }
+
+    /*@media (max-width: 500px) {*/
+    /*    .highcharts-contextmenu {*/
+    /*        max-height: 150px;*/
+    /* Further limit height on smaller screens */
+    /*    }*/
+    /*}*/
 </style>
