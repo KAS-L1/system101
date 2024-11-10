@@ -136,9 +136,6 @@
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link text-dark" href="/food-costing">Food Costing</a>
                         </nav>
-                        <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link text-dark" href="#">Report</a>
-                        </nav>
                     </div>
 
                 </div>

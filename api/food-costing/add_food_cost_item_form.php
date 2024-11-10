@@ -32,7 +32,7 @@
         </div>
     </div>
 </div>
-
+<div class="responseModal"></div>
 <script>
     $('#formAddFoodCostItem').submit(function(e) {
         e.preventDefault();
