@@ -44,19 +44,25 @@ $html = '<h3>Stock Items</h3>
             </thead>
             <tbody>';
 
+// Helper function to safely output values
+function safe_output($value)
+{
+    return htmlspecialchars($value ?? '', ENT_QUOTES, 'UTF-8');
+}
+
 foreach ($stockItems as $item) {
     $status = ($item['current_stock_level'] <= $item['reorder_level']) ? 'Low Stock' : 'In Stock';
     $html .= '<tr>
-                <td>' . htmlspecialchars($item['stock_id']) . '</td>
-                <td>' . htmlspecialchars($item['item_name']) . '</td>
-                <td>' . htmlspecialchars($item['category']) . '</td>
-                <td>' . htmlspecialchars($item['current_stock_level']) . '</td>
-                <td>' . htmlspecialchars($item['reorder_level']) . '</td>
-                <td>' . htmlspecialchars($item['supplier']) . '</td>
+                <td>' . safe_output($item['stock_id']) . '</td>
+                <td>' . safe_output($item['item_name']) . '</td>
+                <td>' . safe_output($item['category']) . '</td>
+                <td>' . safe_output($item['current_stock_level']) . '</td>
+                <td>' . safe_output($item['reorder_level']) . '</td>
+                <td>' . safe_output($item['supplier']) . '</td>
                 <td>' . number_format($item['unit_price'], 2) . '</td>
-                <td>' . htmlspecialchars($item['last_restocked_date']) . '</td>
-                <td>' . htmlspecialchars($item['expiration_date']) . '</td>
-                <td>' . htmlspecialchars($status) . '</td>
+                <td>' . safe_output($item['last_restocked_date']) . '</td>
+                <td>' . safe_output($item['expiration_date']) . '</td>
+                <td>' . safe_output($status) . '</td>
               </tr>';
 }
 
