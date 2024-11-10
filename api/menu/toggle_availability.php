@@ -8,9 +8,10 @@ $availability = $_POST['availability'];
 $data = ["availability" => $availability];
 $where = ["item_id" => $item_id];
 
+// Execute update and check the result
 $update = $DB->UPDATE("menu_items", $data, $where);
 if ($update === "success") {
-    echo json_encode(["status" => "success", "message" => "Availability updated successfully."]);
+    echo json_encode(["success" => true, "message" => "Availability updated successfully."]);
 } else {
-    echo json_encode(["status" => "error", "message" => "Failed to update availability."]);
+    echo json_encode(["success" => false, "message" => "Failed to update availability."]);
 }

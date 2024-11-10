@@ -6,12 +6,12 @@ $stockItems = $DB->SELECT("stock_items", "*", "ORDER BY stock_id DESC");
 ?>
 
 <div class="container mt-5">
-    <div class="row g-4">
-        <div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
             <div class="card shadow-sm mb-4">
-                <div class="card-header bg-light text-success d-flex justify-content-between align-items-center">
+                <div class="card-header bg-light text-success d-flex justify-content-between align-items-center flex-wrap">
                     <h5 class="mb-0">Stock Management</h5>
-                    <div class="d-flex gap-2">
+                    <div class="d-flex gap-2 mt-2 mt-md-0">
                         <button class="btn btn-sm btn-success" id="btnGenerateStockReport">
                             <i class="fas fa-download"></i> Generate Report
                         </button>
@@ -21,13 +21,17 @@ $stockItems = $DB->SELECT("stock_items", "*", "ORDER BY stock_id DESC");
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="mb-3">
-                        <input type="text" id="stockSearchBar" class="form-control" placeholder="Search by item name or category...">
-                        <select id="stockFilterCategory" class="form-select mt-2">
-                            <option value="">All Categories</option>
-                            <option value="Perishable">Perishable</option>
-                            <option value="Non-perishable">Non-perishable</option>
-                        </select>
+                    <div class="row mb-3">
+                        <div class="col-12 col-md-6 mb-2">
+                            <input type="text" id="stockSearchBar" class="form-control" placeholder="Search by item name or category...">
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <select id="stockFilterCategory" class="form-select">
+                                <option value="">All Categories</option>
+                                <option value="Perishable">Perishable</option>
+                                <option value="Non-perishable">Non-perishable</option>
+                            </select>
+                        </div>
                     </div>
 
                     <div class="table-responsive">
@@ -51,7 +55,6 @@ $stockItems = $DB->SELECT("stock_items", "*", "ORDER BY stock_id DESC");
                                 if ($stockItems) {
                                     $i = 1;
                                     foreach ($stockItems as $item) {
-                                        // Determine stock status and badge color based on reorder level
                                         $status = ($item['current_stock_level'] < $item['reorder_level']) ? 'Low Stock' : 'In Stock';
                                         $badgeClass = ($status === 'Low Stock') ? 'bg-danger' : 'bg-success';
                                 ?>
@@ -63,22 +66,21 @@ $stockItems = $DB->SELECT("stock_items", "*", "ORDER BY stock_id DESC");
                                             <td><?= htmlspecialchars($item['current_stock_level']); ?></td>
                                             <td><?= htmlspecialchars($item['reorder_level']); ?></td>
                                             <td><?= htmlspecialchars($item['supplier']); ?></td>
-                                            <td><?= NUMBER_PHP($item['unit_price'], 2); ?></td>
+                                            <td><?= number_format($item['unit_price'], 2); ?></td>
                                             <td><span class="badge <?= $badgeClass; ?>"><?= $status; ?></span></td>
                                             <td>
-                                                <div class="d-flex gap-2">
+                                                <div class="d-flex flex-wrap gap-1 justify-content-center">
                                                     <button class="btn btn-sm btn-light shadow-sm editStockItem" data-stock_id="<?= $item['stock_id']; ?>">
                                                         <i class="fas fa-edit"></i>
                                                     </button>
                                                     <button class="btn btn-sm btn-danger shadow-sm deleteStockItem" data-stock_id="<?= $item['stock_id']; ?>">
                                                         <i class="fas fa-trash"></i>
                                                     </button>
-                                                    <button class="btn btn-sm btn-warning restockStockItem" data-stock_id="<?= $item['stock_id']; ?>">
+                                                    <button class="btn btn-sm btn-warning shadow-sm restockStockItem" data-stock_id="<?= $item['stock_id']; ?>">
                                                         <i class="fas fa-plus"></i> Restock
                                                     </button>
                                                     <?php if ($status === 'Low Stock') : ?>
-                                                        <a href="/purchase-requistion" ;
-                                                            class="btn btn-sm btn-info">
+                                                        <a href="/purchase-requisition" class="btn btn-sm btn-info shadow-sm">
                                                             <i class="fas fa-file-alt"></i> Request
                                                         </a>
                                                     <?php endif; ?>
@@ -116,7 +118,7 @@ $stockItems = $DB->SELECT("stock_items", "*", "ORDER BY stock_id DESC");
         $('.editStockItem').click(function() {
             const stock_id = $(this).data('stock_id');
             $.post('api/stock/edit_stock_item_form.php', {
-                stock_id: stock_id
+                stock_id
             }, function(response) {
                 $('#responseModal').html(response);
                 $('#editStockItemModal').modal('show');
@@ -136,7 +138,7 @@ $stockItems = $DB->SELECT("stock_items", "*", "ORDER BY stock_id DESC");
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.post('api/stock/delete_stock_item.php', {
-                        stock_id: stock_id
+                        stock_id
                     }, function(response) {
                         $('#responseModal').html(response);
                         $(`#stockItem-${stock_id}`).remove();
@@ -152,23 +154,10 @@ $stockItems = $DB->SELECT("stock_items", "*", "ORDER BY stock_id DESC");
         $('.restockStockItem').click(function() {
             const stock_id = $(this).data('stock_id');
             $.post('api/stock/restock_item_form.php', {
-                stock_id: stock_id
+                stock_id
             }, function(response) {
                 $('#responseModal').html(response);
                 $('#restockItemModal').modal('show');
-            });
-        });
-
-        // Create Procurement Request
-        $('.createProcurementRequest').click(function() {
-            const stock_id = $(this).data('stock_id');
-            $.post('api/stock/create_procurement_request.php', {
-                stock_id: stock_id
-            }, function(response) {
-                $('#responseModal').html(response);
-                swalAlert('success', 'Procurement request created successfully!');
-            }).fail(function() {
-                swalAlert('error', 'Failed to create procurement request. Please try again.');
             });
         });
 

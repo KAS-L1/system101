@@ -6,8 +6,8 @@ $menuItems = $DB->SELECT("menu_items", "*", "ORDER BY item_id DESC");
 ?>
 
 <div class="container mt-5">
-    <div class="row g-4">
-        <div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
             <div class="card shadow-sm mb-4">
                 <div class="card-header bg-light text-success d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">Menu Management</h5>
@@ -21,24 +21,32 @@ $menuItems = $DB->SELECT("menu_items", "*", "ORDER BY item_id DESC");
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="mb-3">
-                        <input type="text" id="searchBar" class="form-control" placeholder="Search by item name or category...">
-                        <select id="filterCategory" class="form-select mt-2">
-                            <option value="">All Categories</option>
-                            <option value="Seasonal">Seasonal</option>
-                            <option value="Event Specific">Event Specific</option>
-                        </select>
-                        <div class="form-check form-check-inline mt-2">
-                            <input type="checkbox" class="form-check-input" id="filterSeasonal">
-                            <label class="form-check-label" for="filterSeasonal">Seasonal</label>
+                    <div class="row mb-3">
+                        <div class="col-12 col-md-4 mb-2">
+                            <input type="text" id="searchBar" class="form-control" placeholder="Search by item name or category...">
                         </div>
-                        <div class="form-check form-check-inline mt-2">
-                            <input type="checkbox" class="form-check-input" id="filterEventSpecific">
-                            <label class="form-check-label" for="filterEventSpecific">Event Specific</label>
+                        <div class="col-12 col-md-4 mb-2">
+                            <select id="filterCategory" class="form-select">
+                                <option value="">All Categories</option>
+                                <option value="Seasonal">Seasonal</option>
+                                <option value="Event Specific">Event Specific</option>
+                            </select>
+                        </div>
+                        <div class="col-6 col-md-2 mb-2">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="filterSeasonal">
+                                <label class="form-check-label" for="filterSeasonal">Seasonal</label>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-2 mb-2">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="filterEventSpecific">
+                                <label class="form-check-label" for="filterEventSpecific">Event Specific</label>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="table-responsive">
+                    <div class="table-responsive overflow-auto">
                         <table id="menuTable" class="table table-bordered table-hover table-sm mb-0 shadow-sm">
                             <thead class="table-success">
                                 <tr>
@@ -58,7 +66,6 @@ $menuItems = $DB->SELECT("menu_items", "*", "ORDER BY item_id DESC");
                                 <?php
                                 $i = 1;
                                 foreach ($menuItems as $item) {
-                                    // Convert 1/0 to "Yes"/"No" for better readability on the frontend
                                     $availability = $item['availability'] == 1 ? 'Yes' : 'No';
                                     $seasonal = $item['seasonal'] == 1 ? 'Yes' : 'No';
                                     $eventSpecific = $item['event_specific'] == 1 ? 'Yes' : 'No';
@@ -69,20 +76,19 @@ $menuItems = $DB->SELECT("menu_items", "*", "ORDER BY item_id DESC");
                                         <td><?= htmlspecialchars($item['item_name']); ?></td>
                                         <td><?= htmlspecialchars($item['category']); ?></td>
                                         <td><?= htmlspecialchars($item['description']); ?></td>
-                                        <td><?= NUMBER_PHP($item['price'], 2); ?></td>
-                                        <td><span class="badge badge-availability <?= $availability === 'Yes' ? 'bg-success' : 'bg-danger'; ?>"><?= htmlspecialchars($availability); ?></span></td>
+                                        <td><?= number_format($item['price'], 2); ?></td>
+                                        <td><span class="badge <?= $availability === 'Yes' ? 'bg-success' : 'bg-danger'; ?>"><?= htmlspecialchars($availability); ?></span></td>
                                         <td><span class="badge <?= $seasonal === 'Yes' ? 'bg-success' : 'bg-danger'; ?>"><?= htmlspecialchars($seasonal); ?></span></td>
                                         <td><span class="badge <?= $eventSpecific === 'Yes' ? 'bg-success' : 'bg-danger'; ?>"><?= htmlspecialchars($eventSpecific); ?></span></td>
                                         <td>
-                                            <div class="d-flex gap-2">
-                                                <button class="btn btn-sm btn-light shadow-sm editItem" data-item_id="<?= $item['item_id']; ?>">
+                                            <div class="d-flex justify-content-center gap-1 flex-nowrap">
+                                                <button class="btn btn-sm btn-light editItem" data-item_id="<?= $item['item_id']; ?>" title="Edit">
                                                     <i class="fas fa-edit"></i>
                                                 </button>
-                                                <button class="btn btn-sm btn-danger shadow-sm deleteItem" data-item_id="<?= $item['item_id']; ?>">
+                                                <button class="btn btn-sm btn-danger deleteItem" data-item_id="<?= $item['item_id']; ?>" title="Delete">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
-                                                <!-- Toggle Availability Button (Icon Only) -->
-                                                <button class="btn btn-sm <?= $availability === 'Yes' ? 'btn-success' : 'btn-secondary'; ?> shadow-sm toggleAvailability" data-item_id="<?= $item['item_id']; ?>" data-availability="<?= $availability; ?>">
+                                                <button class="btn btn-sm <?= $availability === 'Yes' ? 'btn-success' : 'btn-secondary'; ?> toggleAvailability" data-item_id="<?= $item['item_id']; ?>" data-availability="<?= $availability; ?>" title="Toggle Availability">
                                                     <i class="fas <?= $availability === 'Yes' ? 'fa-toggle-on' : 'fa-toggle-off'; ?>"></i>
                                                 </button>
                                             </div>
@@ -97,8 +103,6 @@ $menuItems = $DB->SELECT("menu_items", "*", "ORDER BY item_id DESC");
         </div>
     </div>
 </div>
-
-
 
 <div id="responseModal"></div>
 
@@ -155,21 +159,26 @@ $menuItems = $DB->SELECT("menu_items", "*", "ORDER BY item_id DESC");
             const currentAvailability = toggleButton.data('availability');
             const newAvailability = currentAvailability === 'Yes' ? 'No' : 'Yes';
 
+            // Send AJAX request to toggle availability in the backend
             $.post('api/menu/toggle_availability.php', {
                 item_id: item_id,
-                availability: newAvailability === 'Yes' ? 1 : 0 // Send 1 for Yes and 0 for No to backend
+                availability: newAvailability === 'Yes' ? 1 : 0
             }, function(response) {
-                // Update button and icon based on the new availability
-                toggleButton.data('availability', newAvailability)
-                    .toggleClass('btn-success btn-secondary') // Change color based on availability
-                    .find('i').toggleClass('fa-toggle-on fa-toggle-off');
+                if (response.success) { // Confirming the toggle was successful
+                    // Update button's data-availability attribute and class/icon
+                    toggleButton.data('availability', newAvailability)
+                        .toggleClass('btn-success btn-secondary')
+                        .find('i').toggleClass('fa-toggle-on fa-toggle-off');
 
-                // Update the availability badge in the row
-                const availabilityBadge = $(`#menuItem-${item_id} .badge-availability`);
-                availabilityBadge.removeClass('bg-success bg-danger')
-                    .addClass(newAvailability === 'Yes' ? 'bg-success' : 'bg-secondary')
-                    .text(newAvailability);
-            }).fail(function() {
+                    // Update the availability badge in the row
+                    const availabilityBadge = $(`#menuItem-${item_id} td:nth-child(7) .badge`);
+                    availabilityBadge.removeClass('bg-success bg-danger')
+                        .addClass(newAvailability === 'Yes' ? 'bg-success' : 'bg-danger')
+                        .text(newAvailability);
+                } else {
+                    swalAlert('error', 'Failed to update availability. Please try again.');
+                }
+            }, 'json').fail(function() {
                 swalAlert('error', 'Failed to update availability. Please try again.');
             });
         });
@@ -183,8 +192,7 @@ $menuItems = $DB->SELECT("menu_items", "*", "ORDER BY item_id DESC");
                 const isSeasonal = $(this).find('td:eq(7)').text().toLowerCase() === 'yes';
                 const isEventSpecific = $(this).find('td:eq(8)').text().toLowerCase() === 'yes';
 
-                const shouldShow = (!isSeasonalChecked || isSeasonal) && (!isEventSpecificChecked || isEventSpecific);
-                $(this).toggle(shouldShow);
+                $(this).toggle((!isSeasonalChecked || isSeasonal) && (!isEventSpecificChecked || isEventSpecific));
             });
         });
 
