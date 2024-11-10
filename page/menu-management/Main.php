@@ -69,7 +69,7 @@ $menuItems = $DB->SELECT("menu_items", "*", "ORDER BY item_id DESC");
                                         <td><?= htmlspecialchars($item['item_name']); ?></td>
                                         <td><?= htmlspecialchars($item['category']); ?></td>
                                         <td><?= htmlspecialchars($item['description']); ?></td>
-                                        <td><?= number_format($item['price'], 2); ?></td>
+                                        <td><?= NUMBER_PHP($item['price'], 2); ?></td>
                                         <td><span class="badge badge-availability <?= $availability === 'Yes' ? 'bg-success' : 'bg-danger'; ?>"><?= htmlspecialchars($availability); ?></span></td>
                                         <td><span class="badge <?= $seasonal === 'Yes' ? 'bg-success' : 'bg-danger'; ?>"><?= htmlspecialchars($seasonal); ?></span></td>
                                         <td><span class="badge <?= $eventSpecific === 'Yes' ? 'bg-success' : 'bg-danger'; ?>"><?= htmlspecialchars($eventSpecific); ?></span></td>
