@@ -121,13 +121,13 @@ $purchaseOrder = $DB->SELECT_ONE_WHERE("purchaseorder", "*", $where);
 
 <!-- JavaScript for Handling Form Submission -->
 <script>
-$('#formEditPO').submit(function(e) {
-    e.preventDefault(); // Prevent default form submission
-    var formData = $(this).serialize(); // Serialize form data
+    $('#formEditPO').submit(function(e) {
+        e.preventDefault(); // Prevent default form submission
+        var formData = $(this).serialize(); // Serialize form data
 
-    // AJAX request to update Purchase Order data
-    $.post("api/purchase/update.php", formData, function(response) {
-        $('#responseModal').html(response); // Display response in the modal
+        // AJAX request to update Purchase Order data
+        $.post("api/purchase/update.php", formData, function(response) {
+            $('#responseModal').html(response); // Display response in the modal
+        });
     });
-});
 </script>

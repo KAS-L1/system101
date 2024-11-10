@@ -125,13 +125,13 @@
                             <a class="nav-link text-dark" href="/kitchen-portal">Dashboard</a>
                         </nav>
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link text-dark" href="#">Kitchen Order Management</a>
+                            <a class="nav-link text-dark" href="/kitchen-order">Kitchen Order Management</a>
                         </nav>
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link text-dark" href="#">Stock Management</a>
+                            <a class="nav-link text-dark" href="/menu-management">Menu Management</a>
                         </nav>
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link text-dark" href="#">Recipe Management</a>
+                            <a class="nav-link text-dark" href="/stock-management">Stock Management</a>
                         </nav>
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link text-dark" href="#">Food Costing</a>

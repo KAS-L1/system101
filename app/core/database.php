@@ -65,8 +65,33 @@ class Database
     }
 
     // Select a single row from a table
+    // public function SELECT_ONE($table, $fields, $options = '', $params = [])
+    // {
+    //     $query = "SELECT {$fields} FROM {$table} {$options} LIMIT 1";
+    //     $stmt = $this->DB->prepare($query);
+
+    //     if ($params) {
+    //         $types = str_repeat('s', count($params)); // Adjust types as needed
+    //         $stmt->bind_param($types, ...$params);
+    //     }
+
+    //     $stmt->execute();
+    //     $result = $stmt->get_result();
+    //     return $result->fetch_assoc();
+    // }
+
     public function SELECT_ONE($table, $fields, $options = '', $params = [])
     {
+        // Convert associative array to SQL WHERE condition if $options is an array
+        if (is_array($options)) {
+            $conditions = [];
+            foreach ($options as $key => $value) {
+                $conditions[] = "$key = ?";
+                $params[] = $value;
+            }
+            $options = 'WHERE ' . implode(' AND ', $conditions);
+        }
+
         $query = "SELECT {$fields} FROM {$table} {$options} LIMIT 1";
         $stmt = $this->DB->prepare($query);
 
@@ -79,6 +104,9 @@ class Database
         $result = $stmt->get_result();
         return $result->fetch_assoc();
     }
+
+
+
 
     // Select multiple rows from a table based on a condition
     public function SELECT_WHERE($table, $fields, $where, $options = '')
